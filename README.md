@@ -45,6 +45,9 @@ BIN:
 "category": ["String"]
 "publishedDate": "DATE",
 "owner": "ID",
+
+<!-- Do we need renter here??? -->
+
 "renter": "ID",
 "images": ["String"],
 "archived": "BOOLEAN"
@@ -65,7 +68,6 @@ BIN:
 {
 "id": "ID",
 "item": "ItemID",
-"owner": "UserID",
 "renter": "UserID",
 "startDate": "DATE",
 "endDate": "DATE",

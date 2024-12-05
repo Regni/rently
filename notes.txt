@@ -1,1 +1,7 @@
 Notes for the project:
+- Vilka services att skapa - förslag: 3 filer, en för varje bin
+- Kolla routing med hela teamet - är alla ok med upplägget
+- Förslag att vi i huvudsak gör varsin sida (kanske två på de som kräver mer jobb, men att skapa varsin branch då...)
+- Skriva stories
+- Minimera styling i första läget - vi fixar det senare. Fokus på funktionalitet
+- Skriv inte egna fetch i filerna utan använd funktionerna i stores.
