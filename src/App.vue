@@ -1,11 +1,15 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from 'vue-router';
 
+//For testing JSONBin:
+// import { itemsApi } from './services/testJSONBin';
+// const data = itemsApi.fetchItems()
+// console.log(data)
 </script>
 
 <template>
   <header>
-  
+      
 
   
 
