@@ -1,5 +1,6 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Navbar from '@/components/Navbar.vue'
 
 //For testing JSONBin:
 // import { itemsApi } from './services/testJSONBin';
@@ -9,12 +10,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <nav>
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink :to="{ name: 'about' }">About</RouterLink>
-      <RouterLink :to="{ name: 'items' }">Items</RouterLink>
-      <RouterLink :to="{ name: 'login' }">Login</RouterLink>
-    </nav>
+    <Navbar />
   </header>
   <main>
     <RouterView />
