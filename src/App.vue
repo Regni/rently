@@ -22,4 +22,6 @@ import { RouterLink, RouterView } from 'vue-router'
   <footer></footer>
 </template>
 
-<style scoped></style>
+<style>
+@import 'assets/vars.css';
+</style>
