@@ -1,12 +1,18 @@
-<script setup></script>
+<script setup>
+import { useItemsStore } from '@/stores/items.js'
+import { computed } from 'vue'
+
+const itemsStore = useItemsStore()
+const items = computed(() => itemsStore.items)
+</script>
 
 <template>
   <div class="items-container">
-    <h2>Items test</h2>
+    <h2>Items</h2>
     <div class="items-grid">
       <div v-for="item in items" :key="item.id" class="item-card">
         <h3>{{ item.name }}</h3>
-        <img :src="item.img" alt="item.name" />
+        <img :src="item.images[0]" :alt="item.name" />
         <div class="item-details">
           <p><strong>Price:</strong> {{ item.price }}</p>
           <p><strong>Owner:</strong> {{ item.owner }}</p>
