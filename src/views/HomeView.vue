@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '../stores/items.js'
+import Hero from '@/components/Hero.vue'
 
 const storeItems = useItemsStore()
 
@@ -9,6 +10,7 @@ console.log(storeItems.items)
 
 <template>
   <div>
+    <Hero />
     <!-- background img -->
     <RouterLink :to="{ name: 'items' }"><button>renting</button></RouterLink>
 
