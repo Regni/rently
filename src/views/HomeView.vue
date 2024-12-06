@@ -1,10 +1,13 @@
 <script setup>
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '../stores/items.js'
+import { useBookingsStore } from '../stores/bookings.js'
 
 const storeItems = useItemsStore()
+const bookingsStore = useBookingsStore()
 
-console.log(storeItems.items)
+// console.log(storeItems.items)
+console.log(bookingsStore.fetchBookings())
 </script>
 
 <template>
