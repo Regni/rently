@@ -58,7 +58,7 @@ const isActiveLink = (routePath) => {
 /* Navbar */
 
 .navbar {
-  background-color: #fff;
+  background-color: var(--color-primary, #047857);
   border-bottom: 1px solid #059669;
   height: 5rem;
 }
@@ -123,7 +123,7 @@ const isActiveLink = (routePath) => {
 }
 
 .nav-link:hover {
-  background-color: #065f46;
+  background-color: var(--color-btn-hover, #065f46);
   color: #fff;
 }
 
