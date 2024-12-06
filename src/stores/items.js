@@ -13,7 +13,10 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-05-15',
       owner: 'user1',
       renter: 'user2',
-      images: ['https://example.com/bike1.jpg', 'https://example.com/bike2.jpg'],
+      images: [
+        'https://images.unsplash.com/photo-1534150034764-046bf225d3fa?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://example.com/bike2.jpg',
+      ],
       archived: false,
     },
     {
@@ -25,7 +28,9 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-06-10',
       owner: 'user3',
       renter: null,
-      images: ['https://example.com/tent1.jpg'],
+      images: [
+        'https://images.unsplash.com/photo-1698521665923-db05bf9eed26?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+      ],
       archived: false,
     },
     {
@@ -37,7 +42,10 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-07-20',
       owner: 'user4',
       renter: 'user1',
-      images: ['https://example.com/scooter1.jpg', 'https://example.com/scooter2.jpg'],
+      images: [
+        'https://images.unsplash.com/photo-1648204834832-78e68052c04f?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://example.com/scooter2.jpg',
+      ],
       archived: false,
     },
     {
@@ -50,7 +58,7 @@ export const useItemsStore = defineStore('items', () => {
       owner: 'user2',
       renter: null,
       images: [
-        'https://example.com/drone1.jpg',
+        'https://images.unsplash.com/photo-1620926530930-1bfbb8984405?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
         'https://example.com/drone2.jpg',
         'https://example.com/drone3.jpg',
       ],
