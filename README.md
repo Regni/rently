@@ -71,6 +71,7 @@ BIN:
 "renter": "UserID",
 "startDate": "DATE",
 "endDate": "DATE",
+"createdAt": "DATE"
 }
 ]
 }
