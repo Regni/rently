@@ -18,6 +18,10 @@ const isActiveLink = (routePath) => {
             <span class="site-name">Rently</span>
           </RouterLink>
         </div>
+        <div class="search-section">
+          <label for="search">Sök</label>
+          <input id="search" type="text" placeholder="Search" />
+        </div>
         <div class="menu">
           <RouterLink
             :to="{ name: 'home' }"
