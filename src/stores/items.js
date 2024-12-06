@@ -1,9 +1,12 @@
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { defineStore } from 'pinia'
-import { itemsApiCrud } from '@/services/itemsApi'
+import { jsonBinApi } from '@/services/jsonBinApi'
 import { v4 as uuidv4 } from 'uuid'
 
+const itemsURL = import.meta.env.VITE_JSONBIN_BIN_URL_ITEMS_TEST
+
 export const useItemsStore = defineStore('items', () => {
+  // Dummy data for testing purposes:
   // const items = ref([
   //   {
   //     id: 'item1',
@@ -58,25 +61,35 @@ export const useItemsStore = defineStore('items', () => {
   //     archived: true,
   //   },
   // ])
-  const items = ref([])
+  const items = ref(null)
   const isLoading = ref(false)
+  const error = ref(null)
+
+  onMounted(() => {
+    error.value = null
+    fetchItems()
+  })
 
   async function fetchItems() {
     isLoading.value = true
     try {
-      items.value = await itemsApiCrud.fetchItems()
+      items.value = await jsonBinApi.fetchData(itemsURL)
+      error.value = null
     } catch (error) {
       console.error('Error fetching items:', error)
+      error.value = error
     } finally {
       isLoading.value = false
     }
   }
 
   async function addItem(item) {
+    isLoading.value = true
     const newID = 'I' + uuidv4().replace(/-/g, '')
     const newItem = {
       id: newID,
       publishedDate: new Date().toISOString(),
+      //This is a placeholder for the active user and should be replaced with the actual user's ID
       owner: 'active-user',
       renter: null,
       archived: false,
@@ -87,28 +100,51 @@ export const useItemsStore = defineStore('items', () => {
       images: item.images,
     }
 
-    //Add to local state
-
     try {
-      items.value = await itemsApiCrud.createItem(items.value, newItem)
+      const updatedArray = [...items.value, newItem]
+      items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
+      error.value = null
     } catch (error) {
       console.error('Error adding item:', error)
+      error.value = error
+    } finally {
+      isLoading.value = false
     }
   }
 
-  async function updateItem(id, newTitle) {
+  async function updateItem(updatedItem) {
+    isLoading.value = true
     try {
-      items.value = await itemsApiPinia.updateItem(items.value, id, { title: newTitle })
+      const updatedArray = items.value.map((item) =>
+        item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
+      )
+      items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
+      error.value = null
     } catch (error) {
       console.error('Error updating item:', error)
+      error.value = error
+    } finally {
+      isLoading.value = false
     }
   }
 
   async function deleteItem(id) {
+    isLoading.value = true
     try {
-      items.value = await itemsApiPinia.deleteItem(items.value, id)
+      // Check if item with the given ID exists
+      const itemToRemove = items.value.find((item) => item.id === id)
+      if (!itemToRemove) {
+        error.value = `Item with ID ${id} not found`
+        return
+      }
+      const updatedArray = items.value.filter((item) => item.id !== id)
+      items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
+      error.value = null
     } catch (error) {
       console.error('Error deleting item:', error)
+      error.value = error
+    } finally {
+      isLoading.value = false
     }
   }
 
