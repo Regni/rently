@@ -5,5 +5,9 @@
     <!-- img? -->
   </div>
 </template>
-
+<script setup>
+import { useBookingsStore } from '@/stores/bookings'
+const bookingsStore = useBookingsStore()
+console.log(bookingsStore.bookings)
+</script>
 <style></style>
