@@ -11,13 +11,13 @@ const apiClient = axios.create({
 export const itemsApiCrud = {
   async fetchItems() {
     const response = await apiClient.get('/')
-    console.log('Items:', response.data.record.items)
-    return response.data.record.items
+    console.log('Items:', response.data.record)
+    return response.data.record
   },
 
-  // async createItem(items, newItem) {
-  //   return this.updateBin([...items, newItem])
-  // },
+  async createItem(items, newItem) {
+    return this.updateBin([...items, newItem])
+  },
 
   // async updateItem(items, id, updatedItem) {
   //   const updatedItems = items.map((item) => (item.id === id ? { ...item, ...updatedItem } : item))
@@ -29,13 +29,8 @@ export const itemsApiCrud = {
   //   return this.updateBin(filteredItems)
   // },
 
-  // async updateBin(items) {
-  //   const response = await fetch(import.meta.env.VITE_JSONBIN_BIN_URL_ITEMS_TEST, {
-  //     method: 'PUT',
-  //     headers,
-  //     body: JSON.stringify({ items }),
-  //   })
-  //   const data = await response.json()
-  //   return data.record.items
-  // },
+  async updateBin(items) {
+    const response = await apiClient.put('/', { items })
+    return response.data.record
+  },
 }

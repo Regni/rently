@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { itemsApiCrud } from '@/services/itemsApi'
+import { v4 as uuidv4 } from 'uuid'
 
 export const useItemsStore = defineStore('items', () => {
   // const items = ref([
@@ -63,7 +64,6 @@ export const useItemsStore = defineStore('items', () => {
   async function fetchItems() {
     isLoading.value = true
     try {
-      console.log('fetching items...')
       items.value = await itemsApiCrud.fetchItems()
     } catch (error) {
       console.error('Error fetching items:', error)
@@ -73,24 +73,24 @@ export const useItemsStore = defineStore('items', () => {
   }
 
   async function addItem(item) {
+    const newID = 'I' + uuidv4().replace(/-/g, '')
     const newItem = {
-      // id: `I + uuid`,
-      // publishedDate: New Date()
-      // owner: "active user"
-      //renter: ""
-      // archived: false
-      item,
-
-      // properties from add-form:
-      // "name": "String",
-      // "description": "String",
-      // "price": "Number",
-      // "category": ["String"]
-      // "images": ["String"],
+      id: newID,
+      publishedDate: new Date().toISOString(),
+      owner: 'active-user',
+      renter: null,
+      archived: false,
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      category: item.category,
+      images: item.images,
     }
 
+    //Add to local state
+
     try {
-      items.value = await itemsApiPinia.createItem(items.value, newItem)
+      items.value = await itemsApiCrud.createItem(items.value, newItem)
     } catch (error) {
       console.error('Error adding item:', error)
     }

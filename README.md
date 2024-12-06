@@ -52,7 +52,8 @@ BIN:
 "images": ["String"],
 "archived": "BOOLEAN"
 }
-],
+],}
+
 "users": [
 {
 "id": "ID",
@@ -64,6 +65,7 @@ BIN:
 "rentedHistory": ["BookingID"]
 }
 ],
+
 "bookings": [
 {
 "id": "ID",
