@@ -1,6 +1,13 @@
 import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { jsonBinApi } from '@/services/jsonBinApi'
+import { v4 as uuIDv4 } from 'uuid'
+
+const bookingsURL = import.meta.env.VITE_JSONBIN_BIN_URL_BOOKINGS
 
 export const useBookingsStore = defineStore('bookings', () => {
+  // const bookings = ref([])
+  const isLoading = ref(false)
   const bookings = ref([
     {
       id: 'B001',
@@ -49,7 +56,8 @@ export const useBookingsStore = defineStore('bookings', () => {
   async function fetchBookings() {
     isLoading.value = true
     try {
-      bookings.value = await itemsApiPinia.fetchBookings()
+      bookings.value = await jsonBinApi.fetchData(bookingsURL)
+      return bookings.value
     } catch (error) {
       console.error('Error fetching bookings:', error)
     } finally {
@@ -58,17 +66,23 @@ export const useBookingsStore = defineStore('bookings', () => {
   }
 
   async function addBooking(booking) {
-    const newBooking = ref({})
-    // {
-    //     "id": "ID",
-    //     "item": "ItemID",
-    //     "owner": "UserID",
-    //     "renter": "UserID",
-    //     "startDate": "DATE",
-    //     "endDate": "DATE",
-    //     }
+    const newID = 'B' + uuIDv4().replace(/-/g, '')
+    const newBooking = {
+      id: newID,
+      item: booking.item,
+      owner: booking.owner,
+      renter: booking.renter,
+      startDate: booking.startDate,
+      endDate: booking.endDate,
+      createdAt: new Date().toISOString(),
+    }
     try {
-    } catch (error) {}
+      const updateArray = [...bookings.value, newBooking]
+      //updatebin function here
+      bookings.value = await jsonBinApi.updateData(bookingsURL, updateArray)
+    } catch (error) {
+      console.error('Error in adding booking', error)
+    }
   }
 
   async function updateBooking() {
@@ -84,4 +98,6 @@ export const useBookingsStore = defineStore('bookings', () => {
       console.error('Error deleting booking:', error)
     }
   }
+
+  return { bookings, fetchBookings, addBooking }
 })
