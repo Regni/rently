@@ -39,6 +39,11 @@ const isActiveLink = (routePath) => {
             >Items</RouterLink
           >
           <RouterLink
+            :to="{ name: 'contact-us' }"
+            :class="[isActiveLink('/contact-us') ? 'active' : '', 'nav-link']"
+            >Contact Us</RouterLink
+          >
+          <RouterLink
             :to="{ name: 'login' }"
             :class="[isActiveLink('/login') ? 'active' : '', 'nav-link']"
             >Login</RouterLink
