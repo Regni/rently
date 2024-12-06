@@ -5,9 +5,6 @@ import { useBookingsStore } from '../stores/bookings.js'
 
 const storeItems = useItemsStore()
 const bookingsStore = useBookingsStore()
-
-// console.log(storeItems.items)
-console.log(bookingsStore.fetchBookings())
 </script>
 
 <template>
