@@ -2,59 +2,17 @@ import { defineStore } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { jsonBinApi } from '@/services/jsonBinApi'
 import { v4 as uuIDv4 } from 'uuid'
+import dummyData from '@/assets/dummyData.json'
 
 const bookingsURL = import.meta.env.VITE_JSONBIN_BIN_URL_BOOKINGS
 
 export const useBookingsStore = defineStore('bookings', () => {
-  const bookings = ref(null)
+  const bookings = ref(dummyData.bookings)
   const isLoading = ref(false)
+  const error = ref(null)
 
-  onMounted(fetchBookings)
-
-  // const bookings = ref([
-  //   {
-  //     id: 'B001',
-  //     item: 'I001',
-  //     renter: 'U002',
-  //     startDate: '2023-12-10',
-  //     endDate: '2023-12-15',
-  //   },
-  //   {
-  //     id: 'B002',
-  //     item: 'I002',
-  //     renter: 'U004',
-  //     startDate: '2023-12-20',
-  //     endDate: '2023-12-25',
-  //   },
-  //   {
-  //     id: 'B003',
-  //     item: 'I003',
-  //     renter: 'U001',
-  //     startDate: '2023-12-05',
-  //     endDate: '2023-12-10',
-  //   },
-  //   {
-  //     id: 'B004',
-  //     item: 'I004',
-  //     renter: 'U003',
-  //     startDate: '2024-01-01',
-  //     endDate: '2024-01-05',
-  //   },
-  //   {
-  //     id: 'B005',
-  //     item: 'I002',
-  //     renter: 'U004',
-  //     startDate: '2024-01-10',
-  //     endDate: '2024-01-15',
-  //   },
-  //   {
-  //     id: 'B006',
-  //     item: 'I001',
-  //     renter: 'U002',
-  //     startDate: '2024-01-20',
-  //     endDate: '2024-01-25',
-  //   },
-  // ])
+  // if you want to use dummy data just comment this line out
+  // onMounted(fetchBookings)
 
   async function fetchBookings() {
     isLoading.value = true
@@ -62,13 +20,14 @@ export const useBookingsStore = defineStore('bookings', () => {
       bookings.value = await jsonBinApi.fetchData(bookingsURL)
       return bookings.value
     } catch (error) {
-      console.error('Error fetching bookings:', error)
+      error.value = 'Error fetching bookings:' + error
     } finally {
       isLoading.value = false
     }
   }
-
+  //Add new bookings
   async function addBooking(booking) {
+    isLoading = true
     const newID = 'B' + uuIDv4().replace(/-/g, '')
     const newBooking = {
       id: newID,
@@ -81,27 +40,30 @@ export const useBookingsStore = defineStore('bookings', () => {
     }
     try {
       const updateArray = [...bookings.value, newBooking]
-      //updatebin function here
       bookings.value = await jsonBinApi.updateData(bookingsURL, updateArray)
     } catch (error) {
-      console.error('Error in adding booking', error)
+      error.value = 'Error in adding booking: ' + error
     } finally {
       isLoading.value = false
     }
   }
-
+  //update a excisting booking
   async function updateBooking(newBooking) {
+    isLoading = true
     try {
       bookings.value = await jsonBinApi.updateData(
         bookingsURL,
         bookings.value.map((booking) => (booking.id === newBooking.id ? newBooking : booking)),
       )
     } catch (error) {
-      console.error('Error updating booking:', error)
+      error.value = 'Error updating booking:' + error
+    } finally {
+      isLoading = false
     }
   }
-
+  //delete a booking
   async function deleteBooking(id) {
+    isLoading = true
     try {
       const deleteID = bookings.value.find((item) => item.id === id)
       if (!deleteID) {
@@ -112,11 +74,11 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookings.value.filter((booking) => booking.id !== id),
       )
     } catch (error) {
-      console.error('Error deleting booking:', error.message)
+      error.value = 'Error deleting booking:' + error.message
     } finally {
       isLoading.value = false
     }
   }
 
-  return { bookings, fetchBookings, addBooking, deleteBooking, updateBooking, isLoading }
+  return { bookings, fetchBookings, addBooking, deleteBooking, updateBooking, isLoading, error }
 })
