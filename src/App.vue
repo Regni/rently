@@ -18,7 +18,9 @@ import Navbar from '@/components/Navbar.vue'
   <footer></footer>
 </template>
 
-<style scoped>
+<style>
+@import 'assets/vars.css';
+
 header {
   width: 100%;
 }
