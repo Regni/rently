@@ -2,6 +2,8 @@
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '../stores/items.js'
 import Hero from '@/components/Hero.vue'
+import Slider from '@/components/slider/Slider.vue'
+import Categories from '@/components/Categories.vue'
 
 const storeItems = useItemsStore()
 
@@ -10,7 +12,12 @@ console.log(storeItems.items)
 
 <template>
   <div>
+    <!-- HEOR -->
     <Hero />
+    <!-- CATEGORIES -->
+    <Categories />
+    <!-- CAROUSEL -->
+    <Slider />
     <!-- background img -->
     <RouterLink :to="{ name: 'items' }"><button>renting</button></RouterLink>
 
