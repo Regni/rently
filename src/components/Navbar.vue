@@ -13,14 +13,15 @@ const isActiveLink = (routePath) => {
     <div class="container">
       <div class="nav-content">
         <div class="logo-section">
-          <RouterLink :to="{ name: 'home' }">
-            <img class="logo" :src="logo" alt="Rently logo" />
-            <span class="site-name">Rently</span>
+          <RouterLink class="logo-link" :to="{ name: 'home' }">
+            <img class="logo-img" :src="logo" alt="Rently logo" />
+            <span class="logo-text">Rently</span>
           </RouterLink>
         </div>
+        <!-- SEARCH COMPONENT TO BE ADDED -->
         <div class="search-section">
-          <label for="search">Sök</label>
-          <input id="search" type="text" placeholder="Search" />
+          <input class="search-input" id="search" type="text" placeholder="Search" />
+          <button class="search-button">Search</button>
         </div>
         <div class="menu">
           <RouterLink
@@ -59,8 +60,10 @@ const isActiveLink = (routePath) => {
 
 .navbar {
   background-color: var(--color-primary, #047857);
-  border-bottom: 1px solid #059669;
+  border-bottom: 1px solid #fff;
   height: 5rem;
+  margin: auto 0;
+  max-height: 50px;
 }
 /* Container */
 .container {
@@ -87,23 +90,57 @@ const isActiveLink = (routePath) => {
 
 .logo-link {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  text-decoration: none;
-  color: #fff;
   margin-right: 1rem;
+  text-decoration: none;
 }
-
-.logo {
+.logo-img {
   height: 2.5rem;
   width: auto;
+  margin-top: 5px;
 }
-
-.site-name {
-  /* display: none; */
-  color: #000;
+.logo-text {
+  display: none;
+  color: white;
   font-size: 1.5rem;
   font-weight: bold;
   margin-left: 0.5rem;
+}
+
+/* Search Section */
+.search-section {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.search-input {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  height: 10px;
+  width: 500px;
+  font-size: 1rem;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+.search-input:focus {
+  border-color: #047857;
+  outline: none;
+}
+
+.search-button {
+  padding: 0.5rem 1rem;
+  background-color: #047857;
+  height: auto;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 /* Menu Section */
@@ -133,5 +170,10 @@ const isActiveLink = (routePath) => {
 }
 a:-webkit-any-link {
   text-decoration: none;
+}
+@media (min-width: 768px) {
+  .logo-text {
+    display: block; /* Show text on medium screens and above */
+  }
 }
 </style>

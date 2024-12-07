@@ -36,8 +36,11 @@ const carouselImages = [
     <!-- CATEGORIES -->
     <Categories />
     <!-- CAROUSEL -->
+    <!-- this is going to be filled with card components with carousel images -->
     <Slider :carouselImages="carouselImages" />
     <!-- background img -->
+
+    <!-- button component for renting and renting out items -->
     <RouterLink :to="{ name: 'items' }"><button>renting</button></RouterLink>
 
     <RouterLink :to="{ name: 'create-item' }"><button>rentals</button></RouterLink>
