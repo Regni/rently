@@ -59,6 +59,9 @@ import { RouterLink } from 'vue-router'
   font-size: 1.5rem;
   color: white;
 }
+a:-webkit-any-link {
+  text-decoration: none;
+}
 
 @media (max-width: 768px) {
   .footer {

@@ -131,4 +131,7 @@ const isActiveLink = (routePath) => {
   background-color: #065f46;
   color: #fff;
 }
+a:-webkit-any-link {
+  text-decoration: none;
+}
 </style>
