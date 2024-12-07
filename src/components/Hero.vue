@@ -41,6 +41,16 @@ defineProps({
   padding: 0 1rem; /* Equivalent to px-4 */
 }
 
+.hero-title {
+  font-family: var(--font-headings);
+  margin-top: 10px;
+  margin-bottom: 0;
+}
+
+.hero-subtitle {
+  font-family: var(--font-basic);
+}
+
 @media (min-width: 640px) {
   .hero-container {
     padding: 0 1.5rem; /* Equivalent to sm:px-6 */
