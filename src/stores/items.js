@@ -13,7 +13,10 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-05-15',
       owner: 'user1',
       renter: 'user2',
-      images: ['https://example.com/bike1.jpg', 'https://example.com/bike2.jpg'],
+      images: {
+        urls: ['https://example.com/bike1.jpg', 'https://example.com/bike2.jpg'],
+        alt: ['Mountain Bike 1', 'Mountain Bike 2'],
+      },
       archived: false,
     },
     {
@@ -25,7 +28,10 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-06-10',
       owner: 'user3',
       renter: null,
-      images: ['https://example.com/tent1.jpg'],
+      images: {
+        urls: ['https://example.com/tent1.jpg'],
+        alt: ['Camping Tent'],
+      },
       archived: false,
     },
     {
@@ -37,7 +43,10 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-07-20',
       owner: 'user4',
       renter: 'user1',
-      images: ['https://example.com/scooter1.jpg', 'https://example.com/scooter2.jpg'],
+      images: {
+        urls: ['https://example.com/scooter1.jpg', 'https://example.com/scooter2.jpg'],
+        alt: ['Electric Scooter 1', 'Electric Scooter 2'],
+      },
       archived: false,
     },
     {
@@ -49,11 +58,14 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: '2023-08-05',
       owner: 'user2',
       renter: null,
-      images: [
-        'https://example.com/drone1.jpg',
-        'https://example.com/drone2.jpg',
-        'https://example.com/drone3.jpg',
-      ],
+      images: {
+        urls: [
+          'https://example.com/drone1.jpg',
+          'https://example.com/drone2.jpg',
+          'https://example.com/drone3.jpg',
+        ],
+        alt: ['DJI Drone 1', 'DJI Drone 2', 'DJI Drone 3'],
+      },
       archived: true,
     },
   ])
