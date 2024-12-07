@@ -2,7 +2,7 @@
 import { defineProps, ref } from 'vue'
 
 const props = defineProps({
-  carouselImages: Array, // Expecting an array of image objects { src: '', alt: '' }
+  carouselImages: Array,
 })
 
 const carouselContainer = ref(null)
