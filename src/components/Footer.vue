@@ -8,10 +8,10 @@ import { RouterLink } from 'vue-router'
       <p>&copy; 2024 Rently. All rights reserved.</p>
     </div>
     <div class="more-information">
-      <RouterLink to="/about">General rules</RouterLink>
-      <RouterLink to="/contact">Privacy</RouterLink>
-      <RouterLink to="/contact">Terms and Compatibility</RouterLink>
-      <RouterLink to="/contact">|</RouterLink>
+      <RouterLink to="/general-rules">General rules</RouterLink>
+      <RouterLink to="/privacy">Privacy</RouterLink>
+      <RouterLink to="/terms-and-compatibility">Terms and Compatibility</RouterLink>
+      <span>|</span>
       <RouterLink to="/contact-us">Contact us</RouterLink>
     </div>
     <div class="socialMedia-icons">
@@ -61,6 +61,7 @@ import { RouterLink } from 'vue-router'
 }
 a:-webkit-any-link {
   text-decoration: none;
+  color: #fff;
 }
 
 @media (max-width: 768px) {
