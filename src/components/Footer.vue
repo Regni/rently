@@ -7,6 +7,13 @@ import { RouterLink } from 'vue-router'
     <div class="copyright">
       <p>&copy; 2024 Rently. All rights reserved.</p>
     </div>
+    <div class="more-information">
+      <RouterLink to="/about">General rules</RouterLink>
+      <RouterLink to="/contact">Privacy</RouterLink>
+      <RouterLink to="/contact">Terms and Compatibility</RouterLink>
+      <RouterLink to="/contact">|</RouterLink>
+      <RouterLink to="/contact-us">Contact us</RouterLink>
+    </div>
     <div class="socialMedia-icons">
       <i class="pi pi-at icon"></i>
       <i class="pi pi-twitter icon"></i>
@@ -34,6 +41,12 @@ import { RouterLink } from 'vue-router'
   align-items: center;
   padding-left: 2rem;
   padding-right: 2rem;
+}
+
+.more-information {
+  display: flex;
+  gap: 1rem;
+  text-decoration: none;
 }
 
 .socialMedia-icons {
