@@ -7,6 +7,7 @@ const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
 
 const selectedCategories = ref([])
+const isDropdownOpen = ref(false)
 
 // Extracting unique categories from items
 const uniqueCategories = computed(() => {
@@ -37,11 +38,14 @@ const toggleCategory = (category) => {
     <h2 class="itemPage-title">Items</h2>
 
     <!-- Category Filter -->
-    <div class="category-filters">
-      <label v-for="category in uniqueCategories" :key="category" class="category-checkbox">
-        <input type="checkbox" :value="category" @change="toggleCategory(category)" />
-        {{ category }}
-      </label>
+    <div class="dropdown">
+      <button class="dropdown-button" @click="isDropdownOpen = !isDropdownOpen">Categories</button>
+      <div v-if="isDropdownOpen" class="dropdown-menu">
+        <label v-for="category in uniqueCategories" :key="category" class="dropdown-item">
+          <input type="checkbox" :value="category" @change="toggleCategory(category)" />
+          {{ category }}
+        </label>
+      </div>
     </div>
 
     <div class="items-grid">
@@ -161,6 +165,57 @@ p {
 
 .item-details p {
   margin: 0.5rem 0;
+}
+
+/* Category Dropdown */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.dropdown-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #69985f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-button:hover {
+  background-color: #a2af9f;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+  border: 1px solid #868686;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  width: 200px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: var(--font-basic);
+}
+
+.dropdown-item input {
+  margin-right: 0.5rem;
+  cursor: pointer;
 }
 
 @media (max-width: 600px) {
