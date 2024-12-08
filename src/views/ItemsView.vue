@@ -11,27 +11,39 @@ const items = computed(() => itemsStore.items)
     <h2 class="itemPage-title">Items</h2>
     <div class="items-grid">
       <div v-for="item in items" :key="item.id" class="item-card">
-        <h3 class="item-title">{{ item.name }}</h3>
-        <img class="item-image" :src="item.images[0]" :alt="item.name" />
-        <div class="item-details">
-          <p><strong>Price:</strong> {{ item.price }}</p>
-          <p><strong>Owner:</strong> {{ item.owner }}</p>
+        <div class="image-container">
+          <img class="item-image" :src="item.images[0]" :alt="item.name" />
+          <img
+            class="item-image-hover"
+            v-if="item.images[1]"
+            :src="item.images[1]"
+            :alt="`${item.name} (hover)`"
+          />
+          <div class="item-details">
+            <h3 class="item-title">{{ item.name }}</h3>
+            <p><strong>Price:</strong> {{ item.price }}</p>
+            <p><strong>Owner:</strong> {{ item.owner }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<!-- Global styles -->
-<style></style>
-
 <style scoped>
+p,
+h2,
+h3 {
+  text-align: left;
+}
+
 .items-container {
-  padding: 1.5rem;
+  padding: 1rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  border: 1px solid red;
 }
 
 .itemPage-title {
@@ -41,36 +53,21 @@ const items = computed(() => itemsStore.items)
 
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   justify-items: center;
-}
-
-/* Mobile */
-@media (max-width: 600px) {
-  .items-grid {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-/* Tablet */
-@media (max-width: 1000px) {
-  .items-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  border: 1px solid green;
 }
 
 .item-card {
-  justify-self: center;
-  /* width: 400px; */
-  max-width: 500px;
-  border: 1.5px solid rgb(31, 31, 31);
   border-radius: 10px;
-  padding: 1rem;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .item-card:hover {
@@ -79,21 +76,58 @@ const items = computed(() => itemsStore.items)
 
 .item-title {
   font-size: 1.5rem;
-  padding: 1rem;
+}
+
+.image-container {
+  position: relative;
 }
 
 .item-image {
   width: 100%;
-  height: 300px;
+  max-width: 300px;
+  height: 450px;
   object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.item-image-hover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.item-card:hover .item-image {
+  opacity: 0;
+}
+
+.item-card:hover .item-image-hover {
+  opacity: 1;
 }
 
 .item-details {
-  margin: 1rem 0;
+  margin: 0 auto;
+  border: 1px solid blue;
 }
 
 .item-details p {
   margin: 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+  .items-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 601px) and (max-width: 900px) {
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 </style>
 
