@@ -14,10 +14,6 @@ const dummyData = {
       'https://picsum.photos/300/300',
       'https://picsum.photos/300/200',
       'https://picsum.photos/400/300',
-      'https://picsum.photos/600/600',
-      'https://picsum.photos/300/300',
-      'https://picsum.photos/300/200',
-      'https://picsum.photos/400/300',
     ],
     archived: false,
   },
@@ -63,7 +59,7 @@ const handleHeroImgChange = () => {
         <img class="hero-picture" :src="heroImg" />
         <div class="secondary-img-container">
           <div
-            class="secondary-img-wrapper"
+            :class="['secondary-img-wrapper', { 'hero-active': heroImg === img }]"
             v-for="(img, index) in item.images"
             :key="index"
             @click="heroImg = img"
@@ -100,8 +96,8 @@ const handleHeroImgChange = () => {
 <style scoped>
 .big-picture-container {
   width: clamp(150px, 80vw, 1000px);
-  height: clamp(100px, 50vh, 600px);
-  border: 2px solid red;
+  height: clamp(100px, 80vh, 600px);
+  border-radius: 10px;
   margin: 1rem;
   position: relative;
   display: flex;
@@ -131,16 +127,39 @@ const handleHeroImgChange = () => {
   margin: 5px;
   height: 4rem;
   width: 4rem;
-
+  position: relative;
   border: 2px solid orange;
   border-radius: 10px;
   z-index: 10;
   overflow: hidden;
 }
 
+.secondary-img-wrapper::before {
+  content: '🔎︎';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.4);
+  transition: opacity 0.2s ease;
+  z-index: 11;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.secondary-img-wrapper:hover::before {
+  opacity: 0;
+}
+
+.secondary-img-wrapper:hover {
+  cursor: pointer;
+  scale: 1.1;
+}
 .secondary-img {
   height: 100%;
   width: 100%;
   object-fit: cover;
+}
+.hero-active::before {
+  content: none;
 }
 </style>
