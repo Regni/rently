@@ -43,9 +43,9 @@ import Footer from '@/components/Footer.vue'
   text-align: center;
   padding: 1rem 0;
   width: 100%;
-  position: absolute;
+  /* position: absolute;
   bottom: 0;
-  left: 0;
+  left: 0; */
 }
 header {
   width: 100%;

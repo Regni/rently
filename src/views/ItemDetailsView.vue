@@ -50,8 +50,6 @@ const handleHeroImgChange = () => {
 
 <template>
   <section>
-    <h2>{{ item.name }}</h2>
-
     <div>
       <!-- title -->
       <!-- img -->
@@ -64,18 +62,18 @@ const handleHeroImgChange = () => {
             :key="index"
             @click="heroImg = img"
           >
-            <img class="secondary-img" :src="img" />
+            <img loading="lazy" class="secondary-img" :src="img" />
           </div>
         </div>
       </div>
-
+      <h2>{{ item.name }}</h2>
       <!-- description -->
-      <h4>Description</h4>
+      <h3>Description:</h3>
       <p>
         {{ item.description }}
       </p>
       <!--owner  -->
-      <p><strong>owner:</strong> {{ owner.firstname }} {{ owner.lastname }}</p>
+      <p><strong>Owner:</strong> {{ owner.firstname }} {{ owner.lastname }}</p>
       <!-- availble -->
       <div><input type="date" /></div>
       <!--rent now button creates a Modal with a calender which the user can pick how long they want to rent it-->
@@ -84,7 +82,16 @@ const handleHeroImgChange = () => {
     <button>rent now!</button>
 
     <div>
-      <div>more adverts of the user</div>
+      <h3>More of {{ owner.firstname }} adverts</h3>
+      <div class="advert-card-collection-container">
+        <div class="advert-card-container" v-for="(item, index) in owner.ownedItems" :key="index">
+          <div class="advert-card-img-wrapper">
+            <img class="advert-card-img" src="https://picsum.photos/400/300" />
+          </div>
+          <h4>test item</h4>
+          <p>price: 99 kr</p>
+        </div>
+      </div>
     </div>
 
     <div>
@@ -162,5 +169,31 @@ const handleHeroImgChange = () => {
 }
 .hero-active::before {
   content: none;
+}
+
+.advert-card-collection-container {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 20rem;
+}
+
+.advert-card-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  border: 2px solid black;
+  width: 10rem;
+  height: 90%;
+}
+
+.advert-card-img-wrapper {
+  width: 100%;
+  height: 60%;
+}
+.advert-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
