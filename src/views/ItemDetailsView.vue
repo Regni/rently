@@ -97,6 +97,7 @@ const handleHeroImgChange = () => {
 .big-picture-container {
   width: clamp(150px, 80vw, 1000px);
   height: clamp(100px, 80vh, 600px);
+  border: 2px solid var(--color-secondary);
   border-radius: 10px;
   margin: 1rem;
   position: relative;
@@ -128,7 +129,7 @@ const handleHeroImgChange = () => {
   height: 4rem;
   width: 4rem;
   position: relative;
-  border: 2px solid orange;
+  border: 2px solid var(--color-primary);
   border-radius: 10px;
   z-index: 10;
   overflow: hidden;
