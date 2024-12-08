@@ -99,10 +99,8 @@ const handleHeroImgChange = () => {
 
 <style scoped>
 .big-picture-container {
-  min-height: 100px;
-  max-height: 600px;
-  min-width: 150px;
-  max-width: 1000px;
+  width: clamp(150px, 80vw, 1000px);
+  height: clamp(100px, 50vh, 600px);
   border: 2px solid red;
   margin: 1rem;
   position: relative;
