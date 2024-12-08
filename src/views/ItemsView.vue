@@ -31,10 +31,21 @@ const items = computed(() => itemsStore.items)
 </template>
 
 <style scoped>
-p,
 h2,
-h3 {
+h3,
+p {
+  font-family: var(--font-headings);
   text-align: left;
+  color: var(--color-h2);
+}
+
+h3 {
+  color: var(--color-h3);
+}
+
+p {
+  font-family: var(--font-basic);
+  color: var(--color-basic-text);
 }
 
 .items-container {
@@ -43,7 +54,6 @@ h3 {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  border: 1px solid red;
 }
 
 .itemPage-title {
@@ -56,7 +66,6 @@ h3 {
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   justify-items: center;
-  border: 1px solid green;
 }
 
 .item-card {
@@ -86,6 +95,7 @@ h3 {
   width: 100%;
   max-width: 300px;
   height: 450px;
+  border-radius: 8px;
   object-fit: cover;
   transition: opacity 0.3s ease;
 }
@@ -98,6 +108,7 @@ h3 {
   height: 450px;
   object-fit: cover;
   opacity: 0;
+  border-radius: 8px;
   transition: opacity 0.3s ease;
 }
 
@@ -111,7 +122,6 @@ h3 {
 
 .item-details {
   margin: 0 auto;
-  border: 1px solid blue;
 }
 
 .item-details p {
