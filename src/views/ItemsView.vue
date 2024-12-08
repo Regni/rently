@@ -1,16 +1,51 @@
 <script setup>
 import { useItemsStore } from '@/stores/items.js'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
+// Items Store
 const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
+
+const selectedCategories = ref([])
+
+// Extracting unique categories from items
+const uniqueCategories = computed(() => {
+  const categories = items.value.flatMap((item) => item.category)
+  return [...new Set(categories)]
+})
+
+// Filter items based on selected categories
+const filteredItems = computed(() => {
+  if (selectedCategories.value.length === 0) return items.value
+  return items.value.filter((item) =>
+    item.category.some((cat) => selectedCategories.value.includes(cat)),
+  )
+})
+
+// Toggles selected category
+const toggleCategory = (category) => {
+  if (selectedCategories.value.includes(category)) {
+    selectedCategories.value = selectedCategories.value.filter((cat) => cat !== category)
+  } else {
+    selectedCategories.value.push(category)
+  }
+}
 </script>
 
 <template>
   <div class="items-container">
     <h2 class="itemPage-title">Items</h2>
+
+    <!-- Category Filter -->
+    <div class="category-filters">
+      <label v-for="category in uniqueCategories" :key="category" class="category-checkbox">
+        <input type="checkbox" :value="category" @change="toggleCategory(category)" />
+        {{ category }}
+      </label>
+    </div>
+
     <div class="items-grid">
-      <div v-for="item in items" :key="item.id" class="item-card">
+      <div v-for="item in filteredItems" :key="item.id" class="item-card">
         <div class="image-container">
           <img class="item-image" :src="item.images[0]" :alt="item.name" />
           <img
