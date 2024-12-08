@@ -10,7 +10,11 @@ const dummyData = {
     owner: 'U101',
     renter: 'U201',
     images: [
-      'https://picsum.photos/200/300',
+      'https://picsum.photos/600/600',
+      'https://picsum.photos/300/300',
+      'https://picsum.photos/300/200',
+      'https://picsum.photos/400/300',
+      'https://picsum.photos/600/600',
       'https://picsum.photos/300/300',
       'https://picsum.photos/300/200',
       'https://picsum.photos/400/300',
@@ -40,8 +44,12 @@ const dummyData = {
 import { ref } from 'vue'
 const item = ref(dummyData.item)
 const owner = ref(dummyData.owner)
-
+const heroImg = ref(dummyData.item.images[0])
 const loggedInUser = ref(dummyData.loggedInUser)
+
+const handleHeroImgChange = () => {
+  // heroImg.value =
+}
 </script>
 
 <template>
@@ -51,14 +59,20 @@ const loggedInUser = ref(dummyData.loggedInUser)
     <div>
       <!-- title -->
       <!-- img -->
-      <div>
-        <img
-          v-for="(img, index) in item.images"
-          :key="index"
-          :src="img"
-          :alt="'image of a ' + item.name"
-        />
+      <div class="big-picture-container">
+        <img class="hero-picture" :src="heroImg" />
+        <div class="secondary-img-container">
+          <div
+            class="secondary-img-wrapper"
+            v-for="(img, index) in item.images"
+            :key="index"
+            @click="heroImg = img"
+          >
+            <img class="secondary-img" :src="img" />
+          </div>
+        </div>
       </div>
+
       <!-- description -->
       <h4>Description</h4>
       <p>
@@ -83,4 +97,52 @@ const loggedInUser = ref(dummyData.loggedInUser)
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.big-picture-container {
+  min-height: 100px;
+  max-height: 600px;
+  min-width: 150px;
+  max-width: 1000px;
+  border: 2px solid red;
+  margin: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-picture {
+  min-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.secondary-img-container {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+
+.secondary-img-wrapper {
+  margin: 5px;
+  height: 4rem;
+  width: 4rem;
+
+  border: 2px solid orange;
+  border-radius: 10px;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.secondary-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+</style>
