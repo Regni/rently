@@ -1,0 +1,46 @@
+{
+  "bookings": [
+    {
+      "id": "B001",
+      "item": "I001",
+      "renter": "U002",
+      "startDate": "2023-12-10",
+      "endDate": "2023-12-15"
+    },
+    {
+      "id": "B002",
+      "item": "I002",
+      "renter": "U004",
+      "startDate": "2023-12-20",
+      "endDate": "2023-12-25"
+    },
+    {
+      "id": "B003",
+      "item": "I003",
+      "renter": "U001",
+      "startDate": "2023-12-05",
+      "endDate": "2023-12-10"
+    },
+    {
+      "id": "B004",
+      "item": "I004",
+      "renter": "U003",
+      "startDate": "2024-01-01",
+      "endDate": "2024-01-05"
+    },
+    {
+      "id": "B005",
+      "item": "I002",
+      "renter": "U004",
+      "startDate": "2024-01-10",
+      "endDate": "2024-01-15"
+    },
+    {
+      "id": "B007",
+      "item": "I001",
+      "renter": "U002",
+      "startDate": "2024-01-20",
+      "endDate": "2024-01-25"
+    }
+  ]
+}
