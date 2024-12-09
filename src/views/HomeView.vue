@@ -5,6 +5,8 @@ import { useBookingsStore } from '../stores/bookings.js'
 
 const storeItems = useItemsStore()
 const bookingsStore = useBookingsStore()
+
+// console.log(storeItems.items)
 </script>
 
 <template>
@@ -13,6 +15,7 @@ const bookingsStore = useBookingsStore()
     <RouterLink :to="{ name: 'items' }"><button>renting</button></RouterLink>
 
     <RouterLink :to="{ name: 'create-item' }"><button>rentals</button></RouterLink>
+
     <!-- search bar which links to itemsview -->
 
     <!-- latest rent outs carousel-->
