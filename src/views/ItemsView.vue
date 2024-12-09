@@ -65,6 +65,14 @@ const filteredItems = computed(() => {
 </template>
 
 <style scoped>
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 h2,
 h3,
 p {
@@ -83,7 +91,6 @@ p {
 }
 
 .items-container {
-  padding: 1rem;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -246,14 +253,30 @@ p {
 }
 
 @media (max-width: 600px) {
+  .items-container {
+    align-items: center;
+  }
+
   .items-grid {
     grid-template-columns: repeat(1, 1fr);
+  }
+
+  .item-image {
+    max-width: 400px;
   }
 }
 
 @media (min-width: 601px) and (max-width: 900px) {
+  .items-container {
+    align-items: center;
+  }
+
   .items-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .item-image {
+    max-width: 350px;
   }
 }
 </style>
