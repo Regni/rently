@@ -23,15 +23,6 @@ const filteredItems = computed(() => {
   )
 })
 
-// Toggles selected category
-const toggleCategory = (category) => {
-  if (selectedCategories.value.includes(category)) {
-    selectedCategories.value = selectedCategories.value.filter((cat) => cat !== category)
-  } else {
-    selectedCategories.value.push(category)
-  }
-}
-
 // Close dropdown when click outside
 const handleClickOutside = (event) => {
   const dropdownMenu = document.querySelector('.dropdown-menu')
@@ -63,7 +54,12 @@ onBeforeUnmount(() => {
       <button class="dropdown-button" @click="isDropdownOpen = !isDropdownOpen">Categories</button>
       <div v-if="isDropdownOpen" class="dropdown-menu">
         <label v-for="category in uniqueCategories" :key="category" class="dropdown-item">
-          <input type="checkbox" :value="category" @change="toggleCategory(category)" />
+          <input
+            type="checkbox"
+            :value="category"
+            v-model="selectedCategories"
+            @change="toggleCategory(category)"
+          />
           {{ category }}
         </label>
       </div>
