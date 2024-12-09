@@ -75,7 +75,9 @@ const handleHeroImgChange = () => {
       <!--owner  -->
       <p><strong>Owner:</strong> {{ owner.firstname }} {{ owner.lastname }}</p>
       <!-- availble -->
-      <div><input type="date" /></div>
+      <div class="date-container">
+        <span>Start date:<input type="date" /></span><span>End date: <input type="date" /></span>
+      </div>
       <!--rent now button creates a Modal with a calender which the user can pick how long they want to rent it-->
     </div>
     <h1>{{ item.price }} kr per day!!</h1>
@@ -86,7 +88,7 @@ const handleHeroImgChange = () => {
       <div class="advert-card-collection-container">
         <div class="advert-card-container" v-for="(item, index) in owner.ownedItems" :key="index">
           <div class="advert-card-img-wrapper">
-            <img class="advert-card-img" src="https://picsum.photos/400/300" />
+            <img class="advert-card-img" src="https://picsum.photos/400/300" loading="lazy" />
           </div>
           <h4>test item</h4>
           <p>price: 99 kr</p>
@@ -195,5 +197,9 @@ const handleHeroImgChange = () => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+.date-container {
+  display: flex;
+  flex-direction: column;
 }
 </style>
