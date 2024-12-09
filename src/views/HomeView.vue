@@ -41,9 +41,9 @@ const carouselImages = [
     <!-- background img -->
 
     <!-- button component for renting and renting out items -->
-    <RouterLink :to="{ name: 'items' }"><button>renting</button></RouterLink>
+    <!-- <RouterLink :to="{ name: 'items' }"><button>renting</button></RouterLink> -->
 
-    <RouterLink :to="{ name: 'create-item' }"><button>rentals</button></RouterLink>
+    <!-- <RouterLink :to="{ name: 'create-item' }"><button>rentals</button></RouterLink> -->
     <!-- search bar which links to itemsview -->
 
     <!-- latest rent outs carousel-->
