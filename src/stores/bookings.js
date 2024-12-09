@@ -16,6 +16,7 @@ export const useBookingsStore = defineStore('bookings', () => {
 
   async function fetchBookings() {
     isLoading.value = true
+    error.value = null
     try {
       bookings.value = await jsonBinApi.fetchData(bookingsURL)
       return bookings.value
@@ -27,7 +28,8 @@ export const useBookingsStore = defineStore('bookings', () => {
   }
   //Add new bookings
   async function addBooking(booking) {
-    isLoading = true
+    isLoading.value = true
+    error.value = null
     const newID = 'B' + uuIDv4().replace(/-/g, '')
     const newBooking = {
       id: newID,
@@ -49,7 +51,8 @@ export const useBookingsStore = defineStore('bookings', () => {
   }
   //update a excisting booking
   async function updateBooking(newBooking) {
-    isLoading = true
+    isLoading.value = true
+    error.value = null
     try {
       bookings.value = await jsonBinApi.updateData(
         bookingsURL,
@@ -58,12 +61,13 @@ export const useBookingsStore = defineStore('bookings', () => {
     } catch (error) {
       error.value = 'Error updating booking:' + error
     } finally {
-      isLoading = false
+      isLoading.value = false
     }
   }
   //delete a booking
   async function deleteBooking(id) {
-    isLoading = true
+    isLoading.value = true
+    error.value = null
     try {
       const deleteID = bookings.value.find((item) => item.id === id)
       if (!deleteID) {
