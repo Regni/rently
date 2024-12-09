@@ -1,6 +1,6 @@
 <script setup>
 import { useItemsStore } from '@/stores/items.js'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
 
 // Items Store
 const itemsStore = useItemsStore()
@@ -31,13 +31,34 @@ const toggleCategory = (category) => {
     selectedCategories.value.push(category)
   }
 }
+
+// Close dropdown when click outside
+const handleClickOutside = (event) => {
+  const dropdownMenu = document.querySelector('.dropdown-menu')
+  const dropdownButton = document.querySelector('.dropdown-button')
+  if (
+    dropdownMenu &&
+    !dropdownMenu.contains(event.target) &&
+    !dropdownButton.contains(event.target)
+  ) {
+    isDropdownOpen.value = false
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('mousedown', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('mousedown', handleClickOutside)
+})
 </script>
 
 <template>
   <div class="items-container">
     <h2 class="itemPage-title">Items</h2>
 
-    <!-- Category Filter -->
+    <!-- Category Filter Dropdown -->
     <div class="dropdown">
       <button class="dropdown-button" @click="isDropdownOpen = !isDropdownOpen">Categories</button>
       <div v-if="isDropdownOpen" class="dropdown-menu">
