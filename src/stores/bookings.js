@@ -2,17 +2,16 @@ import { defineStore } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { jsonBinApi } from '@/services/jsonBinApi'
 import { v4 as uuIDv4 } from 'uuid'
-import dummyData from '@/assets/dummyData.json'
 
 const bookingsURL = import.meta.env.VITE_JSONBIN_BIN_URL_BOOKINGS
 
 export const useBookingsStore = defineStore('bookings', () => {
-  const bookings = ref(dummyData.bookings)
+  const bookings = ref([])
   const isLoading = ref(false)
   const error = ref(null)
 
-  // if you want to use dummy data just comment this line out
-  // onMounted(fetchBookings)
+  // if you want to use dummy data just comment this line out and add dummydata
+  onMounted(fetchBookings)
 
   async function fetchBookings() {
     isLoading.value = true
