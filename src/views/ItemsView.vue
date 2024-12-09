@@ -54,13 +54,15 @@ onBeforeUnmount(() => {
       <button class="dropdown-button" @click="isDropdownOpen = !isDropdownOpen">Categories</button>
       <div v-if="isDropdownOpen" class="dropdown-menu">
         <label v-for="category in uniqueCategories" :key="category" class="dropdown-item">
+          <span :class="{ 'selected-category': selectedCategories.includes(category) }">{{
+            category
+          }}</span>
           <input
             type="checkbox"
             :value="category"
             v-model="selectedCategories"
             @change="toggleCategory(category)"
           />
-          {{ category }}
         </label>
       </div>
     </div>
@@ -109,12 +111,94 @@ p {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .itemPage-title {
   padding: 1rem;
   font-size: 2rem;
+  align-self: center;
+}
+
+/* Category Dropdown Menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.dropdown-button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #69985f;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dropdown-button:hover {
+  background-color: #a2af9f;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-height: 250px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  width: 200px;
+}
+
+.dropdown-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: var(--font-basic);
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 0.5rem;
+}
+
+.dropdown-item input {
+  margin-left: 0.5rem;
+  cursor: pointer;
+  order: 2;
+}
+
+.dropdown-item span {
+  order: 1;
+}
+
+.dropdown-item input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 1.3rem;
+  height: 1.3rem;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.dropdown-item input[type='checkbox']:checked:after {
+  content: '✓';
+  color: black;
+  font-size: 1.3rem;
+  font-weight: bold;
+  display: block;
+}
+
+.selected-category {
+  font-weight: bold;
 }
 
 .items-grid {
@@ -182,57 +266,6 @@ p {
 
 .item-details p {
   margin: 0.5rem 0;
-}
-
-/* Category Dropdown */
-.dropdown {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1rem;
-}
-
-.dropdown-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background-color: #69985f;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.dropdown-button:hover {
-  background-color: #a2af9f;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 999;
-  background-color: #fff;
-  border: 1px solid #868686;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-height: 250px;
-  overflow-y: auto;
-  padding: 0.5rem;
-  width: 200px;
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  font-size: 1.1rem;
-  font-family: var(--font-basic);
-}
-
-.dropdown-item input {
-  margin-right: 0.5rem;
-  cursor: pointer;
 }
 
 @media (max-width: 600px) {
