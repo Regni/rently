@@ -1,11 +1,11 @@
 <script setup>
 import { useItemsStore } from '@/stores/items.js'
-import { computed, ref, onMounted, onBeforeUnmount } from 'vue'
+import { computed, ref } from 'vue'
 
-// Items Store
 const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
 
+// Reactive states
 const selectedCategories = ref([])
 const isDropdownOpen = ref(false)
 
@@ -181,6 +181,7 @@ p {
 .selected-category {
   font-weight: bold;
 }
+/* -------------------- */
 
 .items-grid {
   display: grid;
