@@ -12,7 +12,7 @@ const isDropdownOpen = ref(false)
 // Extracting unique categories from items
 const uniqueCategories = computed(() => {
   const categories = items.value.flatMap((item) => item.category)
-  return [...new Set(categories)]
+  return [...new Set(categories)].sort()
 })
 
 // Filter items based on selected categories
