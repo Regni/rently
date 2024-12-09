@@ -38,12 +38,7 @@ const filteredItems = computed(() => {
           <span :class="{ 'selected-category': selectedCategories.includes(category) }">
             {{ category }}
           </span>
-          <input
-            type="checkbox"
-            :value="category"
-            v-model="selectedCategories"
-            @change="toggleCategory(category)"
-          />
+          <input type="checkbox" :value="category" v-model="selectedCategories" />
         </label>
       </div>
     </div>
