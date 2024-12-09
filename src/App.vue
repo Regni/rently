@@ -1,5 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+import Navbar from '@/components/Navbar.vue'
+import Footer from '@/components/Footer.vue'
 
 //For testing JSONBin:
 // import { itemsApi } from './services/testJSONBin';
@@ -8,18 +10,41 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink :to="{ name: 'about' }">About</RouterLink>
-      <RouterLink :to="{ name: 'items' }">Items</RouterLink>
-      <RouterLink :to="{ name: 'login' }">Login</RouterLink>
-    </nav>
-  </header>
-  <main>
-    <RouterView />
-  </main>
-  <footer></footer>
+  <div class="layout">
+    <header>
+      <Navbar />
+    </header>
+    <main class="content">
+      <RouterView />
+    </main>
+    <footer class="footer">
+      <Footer />
+    </footer>
+  </div>
 </template>
 
-<style scoped></style>
+<style>
+@import 'assets/vars.css';
+
+/* Flexbox Layout */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+
+.footer {
+  background-color: var(--color-primary, #047857);
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  width: 100%;
+}
+header {
+  width: 100%;
+}
+</style>

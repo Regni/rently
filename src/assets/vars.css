@@ -1,0 +1,22 @@
+:root {
+  /* colors */
+  --color-primary: #c1856d;
+  --color-secondary: #c4afa7;
+  --color-third: #fbf8f7;
+
+  /* buttons */
+  --color-btn: #69985f;
+  --color-btn-hover: #a2af9f;
+  --color-btn-text: #fff;
+
+  /* fonts */
+  --font-headings: 'Montserrat Underline';
+  --font-links: 'Poppins';
+  --font-basic: 'Arial', 'sans-serif';
+
+  /* font colors */
+  --color-basic-text: #616060;
+  --color-h1: #3d3d3d;
+  --color-h2: #3d3d3d;
+  --color-h3: #3d3d3d;
+}
