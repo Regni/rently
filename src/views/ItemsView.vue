@@ -262,7 +262,7 @@ p {
   }
 
   .item-image {
-    max-width: 400px;
+    max-width: 350px;
   }
 }
 
