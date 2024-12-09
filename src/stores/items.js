@@ -11,16 +11,15 @@ export const useItemsStore = defineStore('items', () => {
   const error = ref(null)
 
   onMounted(() => {
-    error.value = null
     fetchItems()
   })
 
   // Get items from jsonbin
   async function fetchItems() {
     isLoading.value = true
+    error.value = null
     try {
       items.value = await jsonBinApi.fetchData(itemsURL)
-      error.value = null
     } catch (error) {
       console.error('Error fetching items:', error)
       error.value = 'Error fetching items:' + error
@@ -32,6 +31,7 @@ export const useItemsStore = defineStore('items', () => {
   // Add item to jsonbin
   async function addItem(item) {
     isLoading.value = true
+    error.value = null
     const newID = 'I' + uuidv4().replace(/-/g, '')
     const newItem = {
       id: newID,
@@ -50,7 +50,6 @@ export const useItemsStore = defineStore('items', () => {
     try {
       const updatedArray = [...items.value, newItem]
       items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
-      error.value = null
     } catch (error) {
       console.error('Error adding item:', error)
       error.value = 'Error adding item:' + error
@@ -62,12 +61,12 @@ export const useItemsStore = defineStore('items', () => {
   // Update item in jsonbin
   async function updateItem(updatedItem) {
     isLoading.value = true
+    error.value = null
     try {
       const updatedArray = items.value.map((item) =>
         item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
       )
       items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
-      error.value = null
     } catch (error) {
       console.error('Error updating item:', error)
       error.value = 'Error updating item:' + error
@@ -79,6 +78,7 @@ export const useItemsStore = defineStore('items', () => {
   //Delete item from jsonbin
   async function deleteItem(id) {
     isLoading.value = true
+    error.value = null
     try {
       // Check if item with the given ID exists
       const itemToRemove = items.value.find((item) => item.id === id)
@@ -88,7 +88,6 @@ export const useItemsStore = defineStore('items', () => {
       }
       const updatedArray = items.value.filter((item) => item.id !== id)
       items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
-      error.value = null
     } catch (error) {
       console.error('Error deleting item:', error)
       error.value = 'Error deleting item:' + error
