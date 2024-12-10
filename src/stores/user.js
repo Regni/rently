@@ -1,46 +1,11 @@
 import { defineStore } from 'pinia'
-
+import { ref } from 'vue'
+import dummyData from '@/assets/dummyData.json'
 export const useUserStore = defineStore('user', () => {
-  const users = ref([
-    {
-      id: 'U001',
-      firstname: 'John',
-      lastname: 'Doe',
-      email: 'john.doe@example.com',
-      password: 'password123',
-      ownedItems: ['I001', 'I002'],
-      rentedHistory: ['B003'],
-    },
-    {
-      id: 'U002',
-      firstname: 'Jane',
-      lastname: 'Smith',
-      email: 'jane.smith@example.com',
-      password: 'securepass456',
-      ownedItems: ['I004'],
-      rentedHistory: ['B001', 'B006'],
-    },
-    {
-      id: 'U003',
-      firstname: 'Mike',
-      lastname: 'Johnson',
-      email: 'mike.johnson@example.com',
-      password: 'mypassword789',
-      ownedItems: [''],
-      rentedHistory: ['B004'],
-    },
-    {
-      id: 'U004',
-      firstname: 'Emily',
-      lastname: 'Davis',
-      email: 'emily.davis@example.com',
-      password: 'emily123!',
-      ownedItems: ['I003'],
-      rentedHistory: ['B002', 'B005'],
-    },
-  ])
-
-  async function fetchUsers() {
+  const users = ref(dummyData.users)
+  const error = ref(null)
+  const isLoading = ref(false)
+  async function fetchUser() {
     isLoading.value = true
     try {
       users.value = await itemsApiPinia.fetchUsers()
@@ -82,4 +47,6 @@ export const useUserStore = defineStore('user', () => {
       console.error('Error deleting user:', error)
     }
   }
+
+  return { users, fetchUser, addUser, deleteUser, updateUser, isLoading, error }
 })
