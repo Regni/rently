@@ -55,7 +55,7 @@ const filteredItems = computed(() => {
           />
           <div class="item-details">
             <h3 class="item-title">{{ item.name }}</h3>
-            <p><strong>Price:</strong> ${{ item.price }}</p>
+            <p><strong>Price:</strong> {{ item.price }} kr</p>
             <p><strong>Owner:</strong> {{ item.owner }}</p>
           </div>
         </div>
