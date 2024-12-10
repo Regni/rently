@@ -46,6 +46,7 @@ const router = createRouter({
       name: 'item-details',
       component: ItemDetailsView,
     },
+    // CreateItemView should be a child of the user's profile page???
     {
       path: '/create',
       name: 'create-item',
