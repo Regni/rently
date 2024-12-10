@@ -50,10 +50,10 @@ const filteredItems = computed(() => {
             <img class="item-image" :src="item.images[0]" :alt="item.name" />
             <img
               class="item-image-hover"
-              v-if="item.images[1]"
-              :src="item.images[1]"
-              :alt="`${item.name} (hover)`"
+              :src="item.images[1] || item.images[0]"
+              alt="item.images[1] ? `${item.name} (hover)` : `${item.name} (default)`"
             />
+            <!-- If no second image, display default on hover -->
             <div class="item-details">
               <h3 class="item-title">{{ item.name }}</h3>
               <p><strong>Price:</strong> {{ item.price }} kr</p>
