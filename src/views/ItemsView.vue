@@ -48,12 +48,12 @@ const filteredItems = computed(() => {
         <div v-for="item in filteredItems" :key="item.id" class="item-card">
           <div class="image-container">
             <img class="item-image" :src="item.images[0]" :alt="item.name" />
+            <!-- Fallback to default image if hover image is not provided -->
             <img
               class="item-image-hover"
               :src="item.images[1] || item.images[0]"
               alt="item.images[1] ? `${item.name} (hover)` : `${item.name} (default)`"
             />
-            <!-- If no second image, display default on hover -->
             <div class="item-details">
               <h3 class="item-title">{{ item.name }}</h3>
               <p><strong>Price:</strong> {{ item.price }} kr</p>
