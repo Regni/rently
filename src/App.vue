@@ -1,25 +1,31 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-
-//For testing JSONBin:
-// import { itemsApi } from './services/testJSONBin';
-// const data = itemsApi.fetchItems()
-// console.log(data)
+import { RouterView } from 'vue-router'
+import FooterComponent from '@/components/FooterComponent.vue'
+import HeaderComponent from './components/HeaderComponent.vue'
 </script>
 
 <template>
-  <header>
-    <nav>
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink :to="{ name: 'about' }">About</RouterLink>
-      <RouterLink :to="{ name: 'items' }">Items</RouterLink>
-      <RouterLink :to="{ name: 'login' }">Login</RouterLink>
-    </nav>
-  </header>
-  <main>
-    <RouterView />
-  </main>
-  <footer></footer>
+  <div class="layout">
+    <HeaderComponent />
+
+    <main class="content">
+      <RouterView />
+    </main>
+
+    <FooterComponent />
+  </div>
 </template>
 
-<style scoped></style>
+<style>
+/* Flexbox Layout */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.content {
+  flex: 1;
+}
+</style>

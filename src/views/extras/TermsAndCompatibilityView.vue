@@ -2,9 +2,9 @@
 import { RouterLink } from 'vue-router'
 </script>
 <template>
-  <section class="about">
-    <h1 class="title">About Us</h1>
-    <p class="message">We are a company that provides a platform for renting items.</p>
+  <section class="terms-and-compatibility">
+    <h1 class="title">Terms and Compatibility</h1>
+    <p class="message">Terms and Compatibility Rules are:</p>
     <RouterLink to="/" class="back-button">Back To Home</RouterLink>
   </section>
 </template>
