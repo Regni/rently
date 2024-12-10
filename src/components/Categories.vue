@@ -20,6 +20,7 @@
 }
 
 .category-card {
+  font-family: var(--font-links);
   height: 75px;
   width: 75px;
   border: 1px solid #ddd;

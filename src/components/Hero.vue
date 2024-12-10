@@ -74,7 +74,7 @@ defineProps({
 /* Title Styling */
 .hero-title {
   font-size: 2.25rem; /* Equivalent to text-4xl */
-  font-weight: 800; /* Equivalent to font-extrabold */
+  font-weight: 500;
   color: white;
 
   /* Responsive Font Sizes */
