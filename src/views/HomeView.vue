@@ -8,8 +8,8 @@ import { useBookingsStore } from '../stores/bookings.js'
 
 const storeItems = useItemsStore()
 const bookingsStore = useBookingsStore()
-
-// console.log(storeItems.items)
+console.log(bookingsStore.bookings)
+console.log(storeItems.items)
 //dummydata
 const carouselImages = [
   {
