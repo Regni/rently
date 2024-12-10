@@ -25,38 +25,40 @@ const filteredItems = computed(() => {
 </script>
 
 <template>
-  <div class="items-container" @click="isDropdownOpen = false">
-    <h2 class="itemPage-title">Items</h2>
+  <div class="itemPage-container" @click="isDropdownOpen = false">
+    <div class="items-container">
+      <h2 class="itemPage-title">Items</h2>
 
-    <!-- Category Filter Dropdown -->
-    <div class="dropdown">
-      <button class="dropdown-button" @click.stop="isDropdownOpen = !isDropdownOpen">
-        Categories
-      </button>
-      <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
-        <label v-for="category in uniqueCategories" :key="category" class="dropdown-item">
-          <span :class="{ 'selected-category': selectedCategories.includes(category) }">
-            {{ category }}
-          </span>
-          <input type="checkbox" :value="category" v-model="selectedCategories" />
-        </label>
+      <!-- Category Filter Dropdown -->
+      <div class="dropdown">
+        <button class="dropdown-button" @click.stop="isDropdownOpen = !isDropdownOpen">
+          Categories
+        </button>
+        <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
+          <label v-for="category in uniqueCategories" :key="category" class="dropdown-item">
+            <span :class="{ 'selected-category': selectedCategories.includes(category) }">
+              {{ category }}
+            </span>
+            <input type="checkbox" :value="category" v-model="selectedCategories" />
+          </label>
+        </div>
       </div>
-    </div>
 
-    <div class="items-grid">
-      <div v-for="item in filteredItems" :key="item.id" class="item-card">
-        <div class="image-container">
-          <img class="item-image" :src="item.images[0]" :alt="item.name" />
-          <img
-            class="item-image-hover"
-            v-if="item.images[1]"
-            :src="item.images[1]"
-            :alt="`${item.name} (hover)`"
-          />
-          <div class="item-details">
-            <h3 class="item-title">{{ item.name }}</h3>
-            <p><strong>Price:</strong> {{ item.price }} kr</p>
-            <p><strong>Owner:</strong> {{ item.owner }}</p>
+      <div class="items-grid">
+        <div v-for="item in filteredItems" :key="item.id" class="item-card">
+          <div class="image-container">
+            <img class="item-image" :src="item.images[0]" :alt="item.name" />
+            <!-- Fallback to default image if hover image is not provided -->
+            <img
+              class="item-image-hover"
+              :src="item.images[1] || item.images[0]"
+              alt="item.images[1] ? `${item.name} (hover)` : `${item.name} (default)`"
+            />
+            <div class="item-details">
+              <h3 class="item-title">{{ item.name }}</h3>
+              <p><strong>Price:</strong> {{ item.price }} kr</p>
+              <p><strong>Owner:</strong> {{ item.owner }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -90,6 +92,12 @@ p {
   color: var(--color-basic-text);
 }
 
+.itemPage-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .items-container {
   display: flex;
   justify-content: center;
@@ -113,8 +121,8 @@ p {
 .dropdown-button {
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  background-color: #69985f;
-  color: #fff;
+  background-color: var(--color-btn);
+  color: var(--color-third);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -122,7 +130,7 @@ p {
 }
 
 .dropdown-button:hover {
-  background-color: #a2af9f;
+  background-color: var(--color-btn-hover);
 }
 
 .dropdown-menu {
@@ -130,7 +138,7 @@ p {
   top: 100%;
   left: 0;
   z-index: 999;
-  background-color: #fff;
+  background-color: var(--color-third);
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
