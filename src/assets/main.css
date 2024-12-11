@@ -21,6 +21,7 @@
   cursor: pointer;
   background-color: var(--color-btn);
   color: var(--color-btn-text);
+  font-family: var(--font-links);
 }
 
 .btn:hover {

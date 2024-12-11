@@ -30,7 +30,9 @@ const truncatedDescription = computed(() => {
       <p class="card-description">{{ truncatedDescription }}</p>
       <div class="card-price-moreInfo">
         <p class="card-price">{{ item.price }} kr</p>
-        <RouterLink :to="{ name: 'item-details', params: { id: item.id } }">More</RouterLink>
+        <RouterLink :to="{ name: 'item-details', params: { id: item.id } }" class="btn"
+          >More</RouterLink
+        >
       </div>
     </div>
   </div>
@@ -77,23 +79,5 @@ p {
   align-items: center;
   gap: 5em;
   margin-top: 10px;
-}
-
-.card-price-moreInfo a {
-  color: var(--color-secondary);
-  font-family: var(--font-links);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  text-decoration: none;
-  background-color: var(--color-btn);
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-}
-
-.card-price-moreInfo a:hover {
-  background-color: var(--color-btn-hover);
-  color: #fff;
-  opacity: 1;
 }
 </style>

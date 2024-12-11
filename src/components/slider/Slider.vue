@@ -55,7 +55,7 @@ const scrollCarousel = (direction) => {
 }
 
 h2 {
-  font-family: var(--font-headings);
+  font-family: var(--color-h2);
 }
 /* Carousel Container */
 .carousel {
