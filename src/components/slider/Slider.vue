@@ -77,6 +77,7 @@ const scrollCarousel = (direction) => {
   overflow: hidden;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 /* Carousel Container */

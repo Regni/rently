@@ -38,25 +38,43 @@ const truncatedDescription = computed(() => {
 
 <style scoped>
 .card-container {
+  background-color: var(--color-third);
+  border: 1px solid #ddd;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  border: 1px solid #ddd;
+  justify-content: center;
+  align-items: space-between;
   border-radius: 8px;
   padding: 1.5rem;
+  width: auto;
+  height: auto;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease-in-out;
-  cursor: pointer;
-  background-color: #fff;
-  width: 20rem;
-  height: 20rem;
+  gap: 1em;
 }
 
+.card-container:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
 .card-image {
   width: 100%;
   height: 100%;
   overflow: auto;
   border-radius: 8px;
+}
+h4 {
+  font-family: var(--font-links);
+  color: var(--color-secondary);
+}
+
+p {
+  font-family: var(--font-basic);
+  color: var(--color-basic-text);
+}
+
+.card-price-moreInfo {
+  display: flex;
+  flex-direction: row;
+  gap: 5em;
 }
 </style>
