@@ -1,15 +1,30 @@
 <script setup>
+import { computed, defineProps, reactive, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { useItemsStore } from '../stores/items.js'
 import Hero from '@/components/Hero.vue'
 import Slider from '@/components/slider/Slider.vue'
 import Categories from '@/components/Categories.vue'
+import HomeItem from '@/components/HomeItem.vue'
 import { useBookingsStore } from '../stores/bookings.js'
 
 const storeItems = useItemsStore()
 const bookingsStore = useBookingsStore()
 console.log(bookingsStore.bookings)
 console.log(storeItems.items)
+
+const items = computed(() => storeItems.items)
+
+defineProps({
+  limit: {
+    type: Number,
+    default: 10,
+  },
+})
+
+const homeItems = ref([])
+
+console.log(items.value)
 //dummydata
 const carouselImages = [
   {
@@ -33,7 +48,11 @@ const carouselImages = [
 
 <template>
   <!-- HEOR -->
-  <Hero />
+  <Hero
+    title="Rently, Simply rent and live"
+    subtitle="Search and find whatever you need to rent or rent out. Find what you are looking for quickly and easily."
+  />
+
   <div>
     <div class="buttons">
       <!-- Cards Section -->
@@ -58,7 +77,9 @@ const carouselImages = [
     <Categories />
     <!-- CAROUSEL -->
     <!-- this is going to be filled with card components with carousel images -->
-    <Slider :carouselImages="carouselImages" />
+    <Slider :carouselItems="items" :limit="limit" />
+
+    <!-- <HomeItem v-for="item in items.slice(0, limit)" :key="item.id" :item="item" /> -->
     <!-- background img -->
 
     <!-- button component for renting and renting out items -->

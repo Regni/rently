@@ -1,8 +1,29 @@
 <script setup>
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, computed } from 'vue'
+import HomeItem from '@/components/HomeItem.vue'
+import { useItemsStore } from '@/stores/items.js'
+
+const storeItems = useItemsStore()
+
+const items = computed(() => storeItems.items)
+
+// defineProps({
+//   limit: {
+//     type: Number,
+//     default: 10,
+//   },
+// })
 
 const props = defineProps({
-  carouselImages: Array,
+  //carouselImages: Array,
+  carouselItems: {
+    type: Object,
+    required: true,
+  },
+  limit: {
+    type: Number,
+    default: 10,
+  },
 })
 
 const carouselContainer = ref(null)
@@ -16,18 +37,31 @@ const scrollCarousel = (direction) => {
 </script>
 
 <template>
-  <div class="carousel-wrapper">
-    <!-- Navigation Buttons -->
-    <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button>
+  <!-- <div class="carousel-wrapper"> -->
+  <!-- Navigation Buttons -->
+  <!-- <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button> -->
 
-    <!-- Carousel -->
-    <div class="carousel" ref="carouselContainer">
+  <!-- Carousel -->
+  <!-- <div class="carousel" ref="carouselContainer">
       <div class="carousel-item" v-for="image in carouselImages" :key="image.src">
         <div class="image-container">
           <img :src="image.src" :alt="image.alt" />
           <button class="rent-btn">Rent</button>
         </div>
       </div>
+    </div> -->
+
+  <!-- Navigation Buttons -->
+  <!-- <button class="carousel-btn right" @click="scrollCarousel('right')">&gt;</button>
+  </div> -->
+
+  <div class="carousel-wrapper">
+    <!-- Navigation Buttons -->
+    <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button>
+
+    <!-- Carousel -->
+    <div class="carousel" ref="carouselContainer">
+      <HomeItem v-for="item in carouselItems.slice(0, props.limit)" :key="item.id" :item="item" />
     </div>
 
     <!-- Navigation Buttons -->
