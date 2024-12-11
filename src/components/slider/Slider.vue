@@ -30,7 +30,7 @@ const scrollCarousel = (direction) => {
   <div class="carousel-wrapper">
     <!-- Navigation Buttons -->
     <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button>
-
+    <h2>Latest Items</h2>
     <!-- Carousel -->
     <div class="carousel" ref="carouselContainer">
       <HomeItem v-for="item in carouselItems.slice(0, props.limit)" :key="item.id" :item="item" />
@@ -50,8 +50,13 @@ const scrollCarousel = (direction) => {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  margin-top: 30px;
 }
 
+h2 {
+  font-family: var(--font-headings);
+}
 /* Carousel Container */
 .carousel {
   display: flex;
@@ -106,11 +111,11 @@ img {
 }
 
 .carousel-btn.left {
-  left: 1rem;
+  left: 3rem;
 }
 
 .carousel-btn.right {
-  right: 1rem;
+  right: 3rem;
 }
 
 .carousel-btn:hover {

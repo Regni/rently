@@ -28,7 +28,6 @@ defineProps({
   <ItemSearchListComponent />
 
   <!-- CATEGORIES -->
-
   <Categories />
   <!-- CAROUSEL -->
   <Slider :carouselItems="items" :limit="limit" />
