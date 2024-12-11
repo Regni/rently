@@ -11,8 +11,8 @@ export const useBookingsStore = defineStore('bookings', () => {
   const isLoading = ref(false)
   const error = ref(null)
 
-  // if you want to use dummy data just comment this line out and add dummydata
-  // onMounted(fetchBookings)
+  // if you want to use dummy data just comment this line out.
+  onMounted(fetchBookings)
 
   async function fetchBookings() {
     isLoading.value = true

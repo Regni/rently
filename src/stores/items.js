@@ -11,7 +11,8 @@ export const useItemsStore = defineStore('items', () => {
   const isLoading = ref(false)
   const error = ref(null)
 
-  // onMounted(fetchItems)
+  // if you want to use dummy data just comment this line out.
+  onMounted(fetchItems)
 
   // Get items from jsonbin
   async function fetchItems() {

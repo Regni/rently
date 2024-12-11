@@ -11,7 +11,7 @@ export const useUsersStore = defineStore('users', () => {
   const error = ref(null)
   const isLoading = ref(false)
   const activeUser = ref({})
-
+  // if you want to use dummy data just comment this line out.
   onMounted(fetchUsers)
 
   async function fetchUsers() {
