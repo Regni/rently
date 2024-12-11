@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch } from 'vue'
+import { RouterLink } from 'vue-router'
 import { useItemsStore } from '@/stores/items.js'
 import { debounce } from 'lodash'
 
@@ -60,9 +61,14 @@ watch(searchQuery, handleSearch)
       <template v-if="hasSearched">
         <template v-if="searchResults.length > 0">
           <ul>
-            <li v-for="item in searchResults" :key="item.id">
-              {{ item.name }} - {{ item.description }}
-            </li>
+            <RouterLink
+              v-for="item in searchResults"
+              :key="item.id"
+              :to="`/items/${item.id}`"
+              class="search-result-item"
+            >
+              <li>{{ item.name }} - {{ item.description }}</li>
+            </RouterLink>
           </ul>
         </template>
         <p v-else v-if="showNoResult">No results found for "{{ searchQuery }}"</p>
@@ -72,6 +78,10 @@ watch(searchQuery, handleSearch)
 </template>
 
 <style scoped>
+a {
+  color: var(--color-basic-text);
+}
+
 .search-section {
   position: relative;
   display: flex;
@@ -152,6 +162,6 @@ watch(searchQuery, handleSearch)
 }
 
 .search-results li:hover {
-  background-color: var(--color-btn-hover);
+  background-color: #ececec;
 }
 </style>
