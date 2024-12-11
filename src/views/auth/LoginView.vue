@@ -31,6 +31,7 @@ const handleLogin = async () => {
     return
   }
   //await usersStore.loginUser(userEmail.value, userPassword.value)
+  //if activeUser then redirect
   console.log(userEmail.value, userPassword.value)
   alert('Login successful!')
 

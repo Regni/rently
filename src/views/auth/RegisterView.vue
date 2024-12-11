@@ -64,7 +64,7 @@ const handleRegister = async () => {
   }
   repeatedPassword.value = ''
 
-  // redirect to login page:
+  // redirect to dashboard page:
   router.push({ name: 'login' })
 }
 </script>
@@ -118,7 +118,6 @@ const handleRegister = async () => {
             placeholder=" "
           />
           <label for="password" class="label">Password</label>
-          <small class="password-hint">Minimum 8 characters</small>
         </div>
         <div class="form-group">
           <input
@@ -239,13 +238,6 @@ p {
   outline: none;
   border: 1px solid var(--color-primary);
   box-shadow: 0 0 4px var(--color-primary);
-}
-
-.password-hint {
-  font-size: 0.8rem;
-  color: var(--color-primary);
-  margin-top: 0.5rem;
-  display: block;
 }
 
 .show-password-text {
