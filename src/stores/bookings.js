@@ -11,8 +11,8 @@ export const useBookingsStore = defineStore('bookings', () => {
   const isLoading = ref(false)
   const error = ref(null)
 
-  // if you want to use dummy data just comment this line out and add dummydata
-  // onMounted(fetchBookings)
+  // if you want to use dummy data just comment this line out.
+  onMounted(fetchBookings)
 
   async function fetchBookings() {
     isLoading.value = true
@@ -20,8 +20,9 @@ export const useBookingsStore = defineStore('bookings', () => {
     try {
       bookings.value = await jsonBinApi.fetchData(bookingsURL)
       return bookings.value
-    } catch (error) {
-      error.value = 'Error fetching bookings:' + error
+    } catch (err) {
+      console.error('Error fetching bookings:', err)
+      error.value = 'Error fetching bookings:' + err
     } finally {
       isLoading.value = false
     }
@@ -43,8 +44,9 @@ export const useBookingsStore = defineStore('bookings', () => {
     try {
       const updateArray = [...bookings.value, newBooking]
       bookings.value = await jsonBinApi.updateData(bookingsURL, updateArray)
-    } catch (error) {
-      error.value = 'Error in adding booking: ' + error
+    } catch (err) {
+      console.error('Error in adding booking:', err)
+      error.value = 'Error in adding booking: ' + err
     } finally {
       isLoading.value = false
     }
@@ -58,8 +60,9 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookingsURL,
         bookings.value.map((booking) => (booking.id === newBooking.id ? newBooking : booking)),
       )
-    } catch (error) {
-      error.value = 'Error updating booking:' + error
+    } catch (err) {
+      console.error('Error updating booking:', err)
+      error.value = 'Error updating booking:' + err
     } finally {
       isLoading.value = false
     }
@@ -77,8 +80,9 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookingsURL,
         bookings.value.filter((booking) => booking.id !== id),
       )
-    } catch (error) {
-      error.value = 'Error deleting booking:' + error.message
+    } catch (err) {
+      console.error('Error deleting booking:', err)
+      error.value = 'Error deleting booking:' + err
     } finally {
       isLoading.value = false
     }

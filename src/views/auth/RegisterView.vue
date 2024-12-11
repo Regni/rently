@@ -1,14 +1,10 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-// import { useUsersStore } from '@/stores/users'
+import { useUsersStore } from '@/stores/users'
 
 const router = useRouter()
-// const usersStore = useUsersStore()
-
-// REMOVE WHEN USER STORE IS WORKING:
-const isLoading = ref(false)
-// const errors = ['error1', 'error2', 'error3']
+const usersStore = useUsersStore()
 
 // ----- REACTIVE DATA -----
 const newUser = ref({
@@ -22,10 +18,9 @@ const repeatedPassword = ref('')
 const showPassword = ref(false)
 
 // ----- COMPUTED PROPERTIES -----
-// const errors = computed(() => {
-//   usersStore.errors
-// })
-// const isLoading = computed(() => {usersStore.isLoading})
+const error = computed(() => usersStore.error)
+const isLoading = computed(() => usersStore.isLoading)
+
 // Check if passwords match
 const passwordsMatch = computed(() => newUser.value.password === repeatedPassword.value)
 
@@ -41,6 +36,20 @@ const formValid = computed(() => {
 })
 
 // ----- METHODS -----
+//clear error message when user navigates away
+onUnmounted(() => {
+  usersStore.error = null
+})
+
+//clear error message when user updates input fields
+watch(
+  [newUser, repeatedPassword],
+  () => {
+    usersStore.error = null
+  },
+  { deep: true },
+)
+
 const handleRegister = async () => {
   //validate form and passwords before registering
   if (!formValid.value) {
@@ -52,20 +61,22 @@ const handleRegister = async () => {
     alert('Passwords do not match')
     return
   }
-  // await usersStore.registerUser({newUser.value})
-  alert('Account created successfully!')
+  const registeredUser = await usersStore.registerUser(newUser.value)
+  if (registeredUser) {
+    alert('Account created successfully!')
 
-  // clear form after successful registration:
-  newUser.value = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    // clear form after successful registration:
+    newUser.value = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    }
+    repeatedPassword.value = ''
+
+    //CHANGE THIS TO USE REDIRECT-COMPOSABLE
+    router.push({ name: 'login' })
   }
-  repeatedPassword.value = ''
-
-  // redirect to dashboard page:
-  router.push({ name: 'login' })
 }
 </script>
 
@@ -78,8 +89,8 @@ const handleRegister = async () => {
         <p>All fields are required.</p>
       </div>
 
-      <div v-if="errors" class="error-container">
-        <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
+      <div v-if="error" class="error-container">
+        <p class="error-message">{{ error }}</p>
       </div>
       <form class="register-form" @submit.prevent="handleRegister">
         <div class="form-group">
