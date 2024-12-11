@@ -1,9 +1,10 @@
+<script setup>
+import { RouterLink } from 'vue-router'
+</script>
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-    <!-- simple with just some writing about us and sell our product -->
-    <!-- img? -->
-  </div>
+  <section class="about">
+    <h1 class="title">About Us</h1>
+    <p class="message">We are a company that provides a platform for renting items.</p>
+    <RouterLink to="/" class="back-button">Back To Home</RouterLink>
+  </section>
 </template>
-
-<style></style>

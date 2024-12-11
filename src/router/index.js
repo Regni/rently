@@ -9,6 +9,9 @@ import RegisterView from '@/views/auth/RegisterView.vue'
 import CreateItemView from '@/views/user/CreateItemView.vue'
 import Test from '@/views/Test.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
+import GeneralRulesView from '@/views/extras/GeneralRulesView.vue'
+import PrivacyView from '@/views/extras/PrivacyView.vue'
+import TermsAndCompatibilityView from '@/views/extras/TermsAndCompatibilityView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,11 +21,11 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Test,
-    // },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test,
+    },
     {
       path: '/about',
       name: 'about',
@@ -53,6 +56,21 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView,
+    },
+    {
+      path: '/general-rules',
+      name: 'general-rules',
+      component: GeneralRulesView,
+    },
+    {
+      path: '/privacy',
+      name: 'privacy',
+      component: PrivacyView,
+    },
+    {
+      path: '/terms-and-compatibility',
+      name: 'terms-and-compatibility',
+      component: TermsAndCompatibilityView,
     },
     {
       path: '/:pathMatch(.*)*',

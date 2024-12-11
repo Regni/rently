@@ -34,9 +34,21 @@ npm run build
 npm run lint
 ```
 
-BIN:
-{
-"items": [
+## Bin data
+
+### .env variables
+
+```
+VITE_JSONBIN_API_KEY=
+VITE_JSONBIN_BIN_URL_BOOKINGS=
+VITE_JSONBIN_BIN_URL_USERS=
+VITE_JSONBIN_BIN_URL_ITEMS=
+```
+
+### Items
+
+```json
+[
 {
 "id": "ID",
 "name": "String",
@@ -46,14 +58,18 @@ BIN:
 "publishedDate": "DATE",
 "owner": "ID",
 
-<!-- Do we need renter here??? -->
+// Do we need renter here???
 
 "renter": "ID",
 "images": ["String"],
 "archived": "BOOLEAN"
-}
-],
-"users": [
+}]
+```
+
+### users
+
+```json
+[
 {
 "id": "ID",
 "firstname": "String",
@@ -64,18 +80,26 @@ BIN:
 "rentedHistory": ["BookingID"]
 }
 ],
-"bookings": [
-{
-"id": "ID",
-"item": "ItemID",
-"renter": "UserID",
-"startDate": "DATE",
-"endDate": "DATE",
-}
-]
-}
+```
 
-ROUTING
+### Bookings
+
+```json
+[
+  {
+    "id": "ID",
+    "item": "ItemID",
+    "renter": "UserID",
+    "startDate": "DATE",
+    "endDate": "DATE",
+    "createdAt": "DATE"
+  }
+]
+```
+
+### ROUTING
+
+```bash
 ├── HomeView.vue # Landing page med featured items
 │
 ├── ItemsView.vue # Bläddra/sök bland items
@@ -95,5 +119,6 @@ ROUTING
 │ └── RegisterView.vue # Registrering
 │
 └── NotFoundView.vue # 404-sida
+```
 
 user pages(renter and owner) requires login
