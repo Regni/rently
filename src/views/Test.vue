@@ -1,4 +1,8 @@
-<script setup></script>
+<script setup>
+import { useUsersStore } from '@/stores/users.js'
+
+const usersStore = useUsersStore()
+</script>
 
 <template>
   <div id="app">
@@ -13,7 +17,7 @@
         </ul>
       </nav>
     </header>
-
+    <button @click="handleClick">test</button>
     <!-- Main Content Section -->
     <main class="content">
       <div class="buttons">
