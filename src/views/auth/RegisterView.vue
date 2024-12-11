@@ -2,9 +2,17 @@
 import { computed, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/stores/users'
+import { useRoutingRedirect } from '@/services/routingRedirectComposable'
+import { useToast } from 'vue-toastification'
 
 const router = useRouter()
 const usersStore = useUsersStore()
+
+// Vue toastification package for toast notifications
+const toast = useToast()
+
+//composable used to determine where to redirect the user after registration
+const { determineRedirectPath } = useRoutingRedirect()
 
 // ----- REACTIVE DATA -----
 const newUser = ref({
@@ -30,8 +38,7 @@ const formValid = computed(() => {
     newUser.value.firstName.trim() !== '' &&
     newUser.value.lastName.trim() !== '' &&
     newUser.value.email.includes('@') &&
-    newUser.value.password.length >= 8 &&
-    passwordsMatch.value
+    newUser.value.password.length >= 8
   )
 })
 
@@ -53,18 +60,22 @@ watch(
 const handleRegister = async () => {
   //validate form and passwords before registering
   if (!formValid.value) {
-    alert('Please fill in all fields')
+    toast.error('Please fill in all fields', {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
     return
   }
 
   if (newUser.value.password !== repeatedPassword.value) {
-    alert('Passwords do not match')
+    toast.error("Passwords don't match", {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
     return
   }
   const registeredUser = await usersStore.registerUser(newUser.value)
   if (registeredUser) {
-    alert('Account created successfully!')
-
     // clear form after successful registration:
     newUser.value = {
       firstName: '',
@@ -74,8 +85,13 @@ const handleRegister = async () => {
     }
     repeatedPassword.value = ''
 
-    //CHANGE THIS TO USE REDIRECT-COMPOSABLE
-    router.push({ name: 'login' })
+    // alert('Account created successfully!')
+    toast.success('You now have a Rently account! Welcome!', {
+      toastClassName: 'success-toast',
+      timeout: 3000,
+    })
+    const redirectPath = determineRedirectPath()
+    router.push(redirectPath)
   }
 }
 </script>

@@ -3,10 +3,15 @@ import { ref, computed, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/stores/users'
 import { useRoutingRedirect } from '@/services/routingRedirectComposable'
+import { useToast } from 'vue-toastification'
 
 const usersStore = useUsersStore()
 const router = useRouter()
 
+// Vue toastification package for toast notifications
+const toast = useToast()
+
+//composable used to determine where to redirect the user after login
 const { determineRedirectPath } = useRoutingRedirect()
 
 // ----- REACTIVE DATA -----
@@ -47,12 +52,13 @@ const handleLogin = async () => {
     userEmail.value = ''
     userPassword.value = ''
 
-    alert('Login successful!')
+    // alert('Login successful!')
+    toast.success('Login successful!', {
+      toastClassName: 'success-toast',
+      timeout: 2000,
+    })
     const redirectPath = determineRedirectPath()
     router.push(redirectPath)
-
-    //CHANGE THIS TO USE REDIRECT-COMPOSABLE
-    router.push({ name: 'test' })
   }
 }
 </script>

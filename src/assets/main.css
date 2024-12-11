@@ -30,3 +30,13 @@
 a:-webkit-any-link {
   text-decoration: none;
 }
+
+.Vue-Toastification__toast.success-toast {
+  background-color: var(--color-btn);
+  color: var(--color-btn-text);
+}
+
+.Vue-Toastification__toast.error-toast {
+  background-color: #c93522;
+  color: var(--color-btn-text);
+}
