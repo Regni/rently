@@ -52,9 +52,8 @@ const truncatedDescription = computed(() => {
   gap: 1em;
 }
 
-.card-container:hover {
+.card-image:hover {
   opacity: 0.8;
-  cursor: pointer;
 }
 .card-image {
   width: 100%;
@@ -75,6 +74,26 @@ p {
 .card-price-moreInfo {
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 5em;
+  margin-top: 10px;
+}
+
+.card-price-moreInfo a {
+  color: var(--color-secondary);
+  font-family: var(--font-links);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  background-color: var(--color-btn);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.card-price-moreInfo a:hover {
+  background-color: var(--color-btn-hover);
+  color: #fff;
+  opacity: 1;
 }
 </style>

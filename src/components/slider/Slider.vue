@@ -5,17 +5,7 @@ import { useItemsStore } from '@/stores/items.js'
 
 const storeItems = useItemsStore()
 
-const items = computed(() => storeItems.items)
-
-// defineProps({
-//   limit: {
-//     type: Number,
-//     default: 10,
-//   },
-// })
-
 const props = defineProps({
-  //carouselImages: Array,
   carouselItems: {
     type: Object,
     required: true,
@@ -37,24 +27,6 @@ const scrollCarousel = (direction) => {
 </script>
 
 <template>
-  <!-- <div class="carousel-wrapper"> -->
-  <!-- Navigation Buttons -->
-  <!-- <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button> -->
-
-  <!-- Carousel -->
-  <!-- <div class="carousel" ref="carouselContainer">
-      <div class="carousel-item" v-for="image in carouselImages" :key="image.src">
-        <div class="image-container">
-          <img :src="image.src" :alt="image.alt" />
-          <button class="rent-btn">Rent</button>
-        </div>
-      </div>
-    </div> -->
-
-  <!-- Navigation Buttons -->
-  <!-- <button class="carousel-btn right" @click="scrollCarousel('right')">&gt;</button>
-  </div> -->
-
   <div class="carousel-wrapper">
     <!-- Navigation Buttons -->
     <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button>
@@ -83,20 +55,20 @@ const scrollCarousel = (direction) => {
 /* Carousel Container */
 .carousel {
   display: flex;
-  overflow-x: auto; /* Enables horizontal scrolling */
-  scroll-behavior: smooth; /* Smooth scrolling */
-  gap: 1rem; /* Spacing between items */
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 1rem;
   padding: 1rem 0;
-  scrollbar-width: none; /* Hides scrollbar in Firefox */
+  scrollbar-width: none;
 }
 
 .carousel::-webkit-scrollbar {
-  display: none; /* Hides scrollbar in Chrome, Safari, etc. */
+  display: none;
 }
 
 /* Individual Carousel Items */
 .carousel-item {
-  flex: 0 0 auto; /* Prevent items from shrinking or stretching */
+  flex: 0 0 auto;
   position: relative;
   text-align: center;
 }
@@ -104,40 +76,15 @@ const scrollCarousel = (direction) => {
 /* Image Container */
 .image-container {
   position: relative;
-  width: 20rem; /* Set fixed width for images */
-  height: 20rem; /* Set fixed height for images */
+  width: 20rem;
+  height: 20rem;
 }
 
 img {
-  width: 100%; /* Match the container's width */
-  height: 100%; /* Match the container's height */
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 8px;
-}
-
-/* Rent Button */
-.rent-btn {
-  position: absolute;
-  bottom: 10%; /* Position near the bottom of the image */
-  left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
-  background-color: #047857; /* Green background */
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  opacity: 0; /* Hidden by default */
-  transition: opacity 0.3s;
-}
-
-.rent-btn:hover {
-  background-color: #065f46; /* Darker green on hover */
-}
-
-/* Show Button on Hover */
-.image-container:hover .rent-btn {
-  opacity: 1; /* Make button visible when hovering over the image */
 }
 
 /* Navigation Buttons */
