@@ -1,5 +1,7 @@
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 <template>
   <nav class="nav">
@@ -7,7 +9,7 @@ import { RouterLink } from 'vue-router'
     <RouterLink :to="{ name: 'about' }">About</RouterLink>
     <RouterLink :to="{ name: 'items' }">Items</RouterLink>
     <RouterLink :to="{ name: 'contact-us' }">Contact Us</RouterLink>
-    <RouterLink :to="{ name: 'login' }">Login</RouterLink>
+    <RouterLink :to="{ name: 'login', query: { from: route.fullPath } }">Login</RouterLink>
   </nav>
 </template>
 

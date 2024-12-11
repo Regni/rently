@@ -1,11 +1,14 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+import { useRoutingRedirect } from '@/services/routingRedirectComposable'
 
 // import { useUsersStore } from '@/stores/users'
 // const usersStore = useUsersStore()
 
 const router = useRouter()
+
+const { determineRedirectPath } = useRoutingRedirect()
 
 // REMOVE WHEN USER STORE IS WORKING:
 const isLoading = ref(false)
@@ -34,10 +37,12 @@ const handleLogin = async () => {
   //if activeUser then redirect
   console.log(userEmail.value, userPassword.value)
   alert('Login successful!')
+  const redirectPath = determineRedirectPath()
+  router.push(redirectPath)
 
   //CHANGE THIS TO REDIRECT TO USER PROFILE PAGE
   //What will we call the userProfile page?
-  router.push({ name: 'test' })
+  // router.push({ name: 'test' })
 }
 </script>
 
