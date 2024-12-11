@@ -1,7 +1,19 @@
 <script setup>
-import { useUserStore } from '@/stores/user'
+import { useUsersStore } from '@/stores/users.js'
 
-const userStore = useUserStore()
+const usersStore = useUsersStore()
+const handleClick = async () => {
+  // console.log(
+  //   await usersStore.registerUser({
+  //     firstName: 'jack',
+  //     lastName: 'Doe',
+  //     email: 'jack.doe@example.com',
+  //     password: 'password123',
+  //   }),
+  // )
+
+  console.log(await usersStore.deleteUser('B7954cf991a4a49b3b1f91f490ca10013'))
+}
 </script>
 
 <template>
@@ -17,7 +29,7 @@ const userStore = useUserStore()
         </ul>
       </nav>
     </header>
-
+    <button @click="handleClick">test</button>
     <!-- Main Content Section -->
     <main class="content">
       <div class="buttons">
