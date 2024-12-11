@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/stores/users'
 
@@ -36,6 +36,20 @@ const formValid = computed(() => {
 })
 
 // ----- METHODS -----
+//clear error message when user navigates away
+onUnmounted(() => {
+  usersStore.error = null
+})
+
+//clear error message when user updates input fields
+watch(
+  [newUser, repeatedPassword],
+  () => {
+    usersStore.error = null
+  },
+  { deep: true },
+)
+
 const handleRegister = async () => {
   //validate form and passwords before registering
   if (!formValid.value) {
@@ -49,7 +63,6 @@ const handleRegister = async () => {
   }
   const registeredUser = await usersStore.registerUser(newUser.value)
   if (registeredUser) {
-    console.log(registeredUser)
     alert('Account created successfully!')
 
     // clear form after successful registration:
@@ -61,7 +74,7 @@ const handleRegister = async () => {
     }
     repeatedPassword.value = ''
 
-    // THIS SHOULD BE CHANGED:
+    //CHANGE THIS TO USE REDIRECT-COMPOSABLE
     router.push({ name: 'login' })
   }
 }

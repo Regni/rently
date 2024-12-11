@@ -18,6 +18,7 @@ const isLoading = computed(() => usersStore.isLoading)
 const formValid = computed(() => userEmail.value && userPassword.value)
 
 // ----- METHODS -----
+//clear error message when user navigates away
 onUnmounted(() => {
   usersStore.error = null
 })
