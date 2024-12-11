@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
+
 // import { useUsersStore } from '@/stores/users'
 // const usersStore = useUsersStore()
 
@@ -11,10 +12,8 @@ const isLoading = ref(false)
 // const errors = ['error1', 'error2', 'error3']
 
 // ----- REACTIVE DATA -----
-const userCredentials = ref({
-  email: '',
-  password: '',
-})
+const userEmail = ref('')
+const userPassword = ref('')
 const showPassword = ref(false)
 
 // ----- COMPUTED PROPERTIES -----
@@ -23,12 +22,19 @@ const showPassword = ref(false)
 // })
 // const isLoading = computed(() => {usersStore.isLoading})
 
-const formValid = computed(() => userCredentials.value.email && userCredentials.value.password)
+const formValid = computed(() => userEmail.value && userPassword.value)
 
 // ----- METHODS -----
 const handleLogin = async () => {
-  //await usersStore.loginUser(userCredentials.value)
+  if (!formValid.value) {
+    alert('Please fill in all fields')
+    return
+  }
+  //await usersStore.loginUser(userEmail.value, userPassword.value)
+  console.log(userEmail.value, userPassword.value)
   alert('Login successful!')
+
+  //CHANGE THIS TO REDIRECT TO USER PROFILE PAGE
   //What will we call the userProfile page?
   router.push({ name: 'test' })
 }
@@ -47,13 +53,7 @@ const handleLogin = async () => {
       </div>
       <form class="login-form" @submit.prevent="handleLogin">
         <div class="form-group">
-          <input
-            class="input"
-            type="email"
-            required
-            v-model="userCredentials.email"
-            placeholder=" "
-          />
+          <input class="input" type="email" required v-model="userEmail" placeholder=" " />
           <label for="email" class="label">Email</label>
         </div>
         <div class="form-group">
@@ -61,7 +61,7 @@ const handleLogin = async () => {
             class="input"
             :type="showPassword ? 'text' : 'password'"
             required
-            v-model="userCredentials.password"
+            v-model="userPassword"
             placeholder=" "
           />
           <label for="password" class="label">Password</label>
@@ -76,9 +76,7 @@ const handleLogin = async () => {
           </p>
         </div>
 
-        <button class="btn" type="submit" :disabled="isLoading">
-          {{ isLoading ? 'Logging in...' : 'Log in' }}
-        </button>
+        <button class="btn" type="submit" :disabled="isLoading">Log in</button>
       </form>
       <p class="register-redirect">
         Don't have an account? <router-link :to="{ name: 'register' }">Register</router-link>
@@ -186,7 +184,7 @@ p {
 .btn:disabled {
   background-color: #c1bfbf;
   color: rgb(72, 72, 72);
-  cursor: not-allowed;
+  cursor: arrow;
 }
 
 .register-redirect {

@@ -141,9 +141,7 @@ const handleRegister = async () => {
           </p>
         </div>
 
-        <button class="btn" type="submit" :disabled="isLoading">
-          {{ isLoading ? 'Regestering...' : 'Register' }}
-        </button>
+        <button class="btn" type="submit" :disabled="isLoading">Register</button>
       </form>
       <p class="login-redirect">
         Already have an account? <router-link :to="{ name: 'login' }">Login</router-link>
@@ -258,7 +256,7 @@ p {
 .btn:disabled {
   background-color: #c1bfbf;
   color: rgb(72, 72, 72);
-  cursor: not-allowed;
+  cursor: arrow;
 }
 
 .login-redirect {
