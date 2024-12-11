@@ -36,6 +36,15 @@ npm run lint
 
 ## Bin data
 
+### .env variables
+
+```
+VITE_JSONBIN_API_KEY=
+VITE_JSONBIN_BIN_URL_BOOKINGS=
+VITE_JSONBIN_BIN_URL_USERS=
+VITE_JSONBIN_BIN_URL_ITEMS=
+```
+
 ### Items
 
 ```json
