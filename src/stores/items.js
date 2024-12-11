@@ -11,9 +11,7 @@ export const useItemsStore = defineStore('items', () => {
   const isLoading = ref(false)
   const error = ref(null)
 
-  // onMounted(() => {
-  //   fetchItems()
-  // })
+  // onMounted(fetchItems)
 
   // Get items from jsonbin
   async function fetchItems() {

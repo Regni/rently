@@ -21,6 +21,7 @@ export const useBookingsStore = defineStore('bookings', () => {
       bookings.value = await jsonBinApi.fetchData(bookingsURL)
       return bookings.value
     } catch (error) {
+      console.error('Error fetching bookings:', error)
       error.value = 'Error fetching bookings:' + error
     } finally {
       isLoading.value = false
@@ -44,6 +45,7 @@ export const useBookingsStore = defineStore('bookings', () => {
       const updateArray = [...bookings.value, newBooking]
       bookings.value = await jsonBinApi.updateData(bookingsURL, updateArray)
     } catch (error) {
+      console.error('Error in adding booking:', error)
       error.value = 'Error in adding booking: ' + error
     } finally {
       isLoading.value = false
@@ -59,6 +61,7 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookings.value.map((booking) => (booking.id === newBooking.id ? newBooking : booking)),
       )
     } catch (error) {
+      console.error('Error updating booking:', error)
       error.value = 'Error updating booking:' + error
     } finally {
       isLoading.value = false
@@ -78,6 +81,7 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookings.value.filter((booking) => booking.id !== id),
       )
     } catch (error) {
+      console.error('Error deleting booking:', error)
       error.value = 'Error deleting booking:' + error.message
     } finally {
       isLoading.value = false
