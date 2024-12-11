@@ -1,15 +1,10 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUsersStore } from '@/stores/users'
 
-// import { useUsersStore } from '@/stores/users'
-// const usersStore = useUsersStore()
-
+const usersStore = useUsersStore()
 const router = useRouter()
-
-// REMOVE WHEN USER STORE IS WORKING:
-const isLoading = ref(false)
-// const errors = ['error1', 'error2', 'error3']
 
 // ----- REACTIVE DATA -----
 const userEmail = ref('')
@@ -17,27 +12,42 @@ const userPassword = ref('')
 const showPassword = ref(false)
 
 // ----- COMPUTED PROPERTIES -----
-// const errors = computed(() => {
-//   usersStore.errors
-// })
-// const isLoading = computed(() => {usersStore.isLoading})
+const error = computed(() => usersStore.error)
+const isLoading = computed(() => usersStore.isLoading)
 
 const formValid = computed(() => userEmail.value && userPassword.value)
 
 // ----- METHODS -----
+onUnmounted(() => {
+  usersStore.error = null
+})
+
+//clear error message when user updates email or password
+watch(userEmail, () => {
+  usersStore.error = null
+})
+
+watch(userPassword, () => {
+  usersStore.error = null
+})
+
 const handleLogin = async () => {
   if (!formValid.value) {
     alert('Please fill in all fields')
     return
   }
-  //await usersStore.loginUser(userEmail.value, userPassword.value)
-  //if activeUser then redirect
-  console.log(userEmail.value, userPassword.value)
-  alert('Login successful!')
 
-  //CHANGE THIS TO REDIRECT TO USER PROFILE PAGE
-  //What will we call the userProfile page?
-  router.push({ name: 'test' })
+  const loggedInUser = await usersStore.loginUser(userEmail.value, userPassword.value)
+  if (loggedInUser) {
+    // clear form after successful login:
+    userEmail.value = ''
+    userPassword.value = ''
+
+    alert('Login successful!')
+
+    //CHANGE THIS TO USE REDIRECT-COMPOSABLE
+    router.push({ name: 'test' })
+  }
 }
 </script>
 
@@ -49,8 +59,8 @@ const handleLogin = async () => {
         <p>Login to access all of Rently's features and services.</p>
       </div>
 
-      <div v-if="errors" class="error-container">
-        <p v-for="error in errors" :key="error" class="error-message">{{ error }}</p>
+      <div v-if="error" class="error-container">
+        <p class="error-message">{{ error }}</p>
       </div>
       <form class="login-form" @submit.prevent="handleLogin">
         <div class="form-group">
