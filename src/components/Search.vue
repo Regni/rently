@@ -15,6 +15,8 @@ const searchQuery = ref('')
 const searchResults = ref([])
 const hasSearched = ref(false)
 const showNoResult = ref(false)
+const isSearchResultOpen = ref(false)
+const selectedResult = ref(null)
 
 // Search function
 const handleSearch = debounce(() => {
@@ -27,7 +29,6 @@ const handleSearch = debounce(() => {
   }
 
   const query = searchQuery.value.toLowerCase()
-
   console.log('Items for search:', items.value)
 
   // Filter items
@@ -40,10 +41,42 @@ const handleSearch = debounce(() => {
 
   // Show no results message only if there are no results and query is long enough
   showNoResult.value = searchResults.value.length === 0 && searchQuery.value.length > 1
+
+  // Selects the first result
+  if (searchResults.value.length > 0) {
+    selectedResult.value = searchResults.value[0]
+  } else {
+    selectedResult.value = null
+  }
 }, 300)
 
 // Watch the search query and update the results
 watch(searchQuery, handleSearch)
+
+// Handle Enter key press
+const handleKeydown = (event) => {
+  if (event.key === 'Enter') {
+    handleSearch()
+    if (selectedResult.value) {
+      navigateToFirstResult()
+    }
+  }
+}
+
+// Navigate to the first search result
+const navigateToFirstResult = () => {
+  if (selectedResult.value) {
+    window.location.href = `/items/${selectedResult.value.id}`
+  }
+}
+
+// Search button click handler
+const handleButtonClick = () => {
+  handleSearch()
+  if (selectedResult.value) {
+    navigateToFirstResult()
+  }
+}
 </script>
 
 <template>
@@ -54,10 +87,16 @@ watch(searchQuery, handleSearch)
       id="search"
       type="text"
       placeholder="Search"
+      @focus="isSearchResultOpen = true"
+      @keydown="handleKeydown"
     />
-    <button class="search-button" @click="handleSearch">Search</button>
+    <button class="search-button" @click.stop.prevent="handleButtonClick">Search</button>
 
-    <div class="search-results" :class="{ show: searchResults.length > 0 }">
+    <div
+      class="search-results"
+      :class="{ show: searchResults.length > 0 && isSearchResultOpen }"
+      @click.stop
+    >
       <template v-if="hasSearched">
         <template v-if="searchResults.length > 0">
           <ul>
@@ -66,6 +105,7 @@ watch(searchQuery, handleSearch)
               :key="item.id"
               :to="`/items/${item.id}`"
               class="search-result-item"
+              @click="isSearchResultOpen = false"
             >
               <li>{{ item.name }} - {{ item.description }}</li>
             </RouterLink>
