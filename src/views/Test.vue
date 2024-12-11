@@ -2,18 +2,6 @@
 import { useUsersStore } from '@/stores/users.js'
 
 const usersStore = useUsersStore()
-const handleClick = async () => {
-  // console.log(
-  //   await usersStore.registerUser({
-  //     firstName: 'jack',
-  //     lastName: 'Doe',
-  //     email: 'jack.doe@example.com',
-  //     password: 'password123',
-  //   }),
-  // )
-
-  console.log(await usersStore.deleteUser('B7954cf991a4a49b3b1f91f490ca10013'))
-}
 </script>
 
 <template>

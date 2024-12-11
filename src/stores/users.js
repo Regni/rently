@@ -21,6 +21,7 @@ export const useUsersStore = defineStore('users', () => {
       users.value = await jsonBinApi.fetchData(usersURL)
       return users.value
     } catch (error) {
+      console.error('Error fetching Users', error)
       error.value = 'Error fetching Users:' + error
     } finally {
       isLoading.value = false
@@ -42,34 +43,53 @@ export const useUsersStore = defineStore('users', () => {
         id: newID,
         firstname: user.firstName,
         lastname: user.lastName,
-        email: user.email,
+        email: user.email.toLowerCase(),
         password: user.password,
         ownedItems: [],
         rentedHistory: [],
       }
       const updateArray = [...users.value, newUser]
       users.value = await jsonBinApi.updateData(usersURL, updateArray)
-      return newUser
+      //deconstructing the object to remove the password to hide it.
+      const { password, ...newActiveUser } = newUser
+      activeUser.value = newActiveUser
+      return activeUser.value
     } catch (error) {
-      error.value = 'Error in adding user: ' + error
-      return error
+      console.error('Error registering User', error)
+      error.value = 'Error registering User: ' + error
     } finally {
       isLoading.value = false
     }
   }
 
-  async function updateUser() {
+  async function updateUser(updateUser) {
     isLoading.value = true
     error.value = null
+    let updateArray = []
     try {
+      //if password is updated then a new array with new password is made, otherwise the old password is added.
+      if (updateUser.password) {
+        updateArray = users.value.map((user) => (user.id === updateUser.id ? updateUser : user))
+      } else {
+        updateArray = users.value.map((user) =>
+          user.id === updateUser.id ? { ...updateUser, password: user.password } : user,
+        )
+      }
+
+      users.value = await jsonBinApi.updateData(usersURL, updateArray)
+      //remove the password field.
+      const { password, ...newActiveUser } = updateUser
+      activeUser.value = newActiveUser
+      return activeUser.value
     } catch (error) {
-      console.error('Error updating user:', error)
+      console.error('Error updating User', error)
+      error.value = 'Error updating User: ' + error
     } finally {
       isLoading.value = false
     }
   }
 
-  async function deleteUser(id) {
+  async function deleteUser(id = activeUser.value.id) {
     isLoading.value = true
     error.value = null
 
@@ -81,19 +101,33 @@ export const useUsersStore = defineStore('users', () => {
         usersURL,
         users.value.filter((user) => user.id !== id),
       )
-      return 'succes'
+      return 'user removed'
     } catch (error) {
-      console.error('Error deleting user:', error)
+      console.error('Error deleting User:', error)
+      error.value = 'Error deleting User: ' + error
     } finally {
       isLoading.value = false
     }
   }
 
-  async function loginUser(email, password) {
+  async function loginUser(email, checkPassword) {
     isLoading.value = true
     error.value = null
     try {
+      const newLoginUser = users.value.find(
+        (excistingUser) => excistingUser.email === email.toLowerCase(),
+      )
+
+      if (!newLoginUser || newLoginUser.password !== checkPassword) {
+        throw new Error('Your email or password is wrong')
+      }
+      //deconstructing the object to remove the password to hide it.
+      const { password, ...newActiveUser } = newLoginUser
+      activeUser.value = newActiveUser
+      return activeUser.value
     } catch (error) {
+      error.value = 'Error in login: ' + error
+      console.error('Login failed: ', error)
     } finally {
       isLoading.value = false
     }
@@ -103,7 +137,13 @@ export const useUsersStore = defineStore('users', () => {
     isLoading.value = true
     error.value = null
     try {
+      if (!activeUser) {
+        throw new Error('You need to be logged in to perform this action')
+      }
+      activeUser.value = null
     } catch (error) {
+      error.value = 'Error in logout: ' + error
+      console.error('Logout failed: ', error)
     } finally {
       isLoading.value = false
     }
