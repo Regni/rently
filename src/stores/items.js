@@ -20,9 +20,9 @@ export const useItemsStore = defineStore('items', () => {
     error.value = null
     try {
       items.value = await jsonBinApi.fetchData(itemsURL)
-    } catch (error) {
-      console.error('Error fetching items:', error)
-      error.value = 'Error fetching items:' + error
+    } catch (err) {
+      console.error('Error fetching items:', err)
+      error.value = 'Error fetching items:' + err
     } finally {
       isLoading.value = false
     }
@@ -50,9 +50,9 @@ export const useItemsStore = defineStore('items', () => {
     try {
       const updatedArray = [...items.value, newItem]
       items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
-    } catch (error) {
-      console.error('Error adding item:', error)
-      error.value = 'Error adding item:' + error
+    } catch (err) {
+      console.error('Error adding item:', err)
+      error.value = 'Error adding item:' + err
     } finally {
       isLoading.value = false
     }
@@ -67,9 +67,9 @@ export const useItemsStore = defineStore('items', () => {
         item.id === updatedItem.id ? { ...item, ...updatedItem } : item,
       )
       items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
-    } catch (error) {
-      console.error('Error updating item:', error)
-      error.value = 'Error updating item:' + error
+    } catch (err) {
+      console.error('Error updating item:', err)
+      error.value = 'Error updating item:' + err
     } finally {
       isLoading.value = false
     }
@@ -88,9 +88,9 @@ export const useItemsStore = defineStore('items', () => {
       }
       const updatedArray = items.value.filter((item) => item.id !== id)
       items.value = await jsonBinApi.updateData(itemsURL, updatedArray)
-    } catch (error) {
-      console.error('Error deleting item:', error)
-      error.value = 'Error deleting item:' + error
+    } catch (err) {
+      console.error('Error deleting item:', err)
+      error.value = 'Error deleting item:' + err
     } finally {
       isLoading.value = false
     }
