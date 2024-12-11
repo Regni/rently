@@ -9,10 +9,11 @@ console.log('Items in Store:', itemsStore.items)
 
 const items = computed(() => itemsStore.items)
 
-// Reactive states for search field/array
+// Reactive states
 const searchQuery = ref('')
 const searchResults = ref([])
 const hasSearched = ref(false)
+const showNoResult = ref(false)
 
 // Search function
 const handleSearch = debounce(() => {
@@ -20,6 +21,7 @@ const handleSearch = debounce(() => {
 
   if (!searchQuery.value.trim()) {
     searchResults.value = [] // If input is empty, clear the results array
+    showNoResult.value = false // Hide no result message when input is empty
     return
   }
 
@@ -34,6 +36,9 @@ const handleSearch = debounce(() => {
       (item.description && item.description.toLowerCase().includes(query))
     )
   })
+
+  // Show no results message only if there are no results and query is long enough
+  showNoResult.value = searchResults.value.length === 0 && searchQuery.value.length > 1
 }, 300)
 
 // Watch the search query and update the results
@@ -60,7 +65,7 @@ watch(searchQuery, handleSearch)
             </li>
           </ul>
         </template>
-        <p v-else>No results found for "{{ searchQuery }}"</p>
+        <p v-else v-if="showNoResult">No results found for "{{ searchQuery }}"</p>
       </template>
     </div>
   </div>
