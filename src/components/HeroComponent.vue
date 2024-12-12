@@ -27,18 +27,16 @@ defineProps({
 </template>
 
 <style scoped>
-/* Section Styling */
 .hero-section {
-  background-color: var(--color-primary, #047857); /* Tailwind's bg-green-700 */
-  padding: 1rem 0; /* Equivalent to py-20 */
-  margin-bottom: 1rem; /* Equivalent to mb-4 */
+  background-color: var(--color-primary, #047857);
+  padding: 1rem 0;
+  margin-bottom: 1rem;
 }
 
-/* Container Styling */
 .hero-container {
-  max-width: 1280px; /* Equivalent to max-w-7xl */
-  margin: 0 auto; /* Equivalent to mx-auto */
-  padding: 0 1rem; /* Equivalent to px-4 */
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .hero-title {
@@ -53,17 +51,16 @@ defineProps({
 
 @media (min-width: 640px) {
   .hero-container {
-    padding: 0 1.5rem; /* Equivalent to sm:px-6 */
+    padding: 0 1.5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-container {
-    padding: 0 2rem; /* Equivalent to lg:px-8 */
+    padding: 0 2rem;
   }
 }
 
-/* Text Centering */
 .text-center {
   text-align: center;
   display: flex;
@@ -71,26 +68,23 @@ defineProps({
   align-items: center;
 }
 
-/* Title Styling */
 .hero-title {
-  font-size: 2.25rem; /* Equivalent to text-4xl */
+  font-size: 2.25rem;
   font-weight: 500;
   color: white;
 
-  /* Responsive Font Sizes */
   @media (min-width: 640px) {
-    font-size: 3rem; /* Equivalent to sm:text-5xl */
+    font-size: 3rem;
   }
 
   @media (min-width: 768px) {
-    font-size: 3.75rem; /* Equivalent to md:text-6xl */
+    font-size: 3.75rem;
   }
 }
 
-/* Subtitle Styling */
 .hero-subtitle {
-  margin: 1rem 0; /* Equivalent to my-4 */
-  font-size: 1.25rem; /* Equivalent to text-xl */
+  margin: 1rem 0;
+  font-size: 1.25rem;
   color: white;
 }
 </style>

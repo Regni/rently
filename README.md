@@ -57,10 +57,6 @@ VITE_JSONBIN_BIN_URL_ITEMS=
 "category": ["String"]
 "publishedDate": "DATE",
 "owner": "ID",
-
-// Do we need renter here???
-
-"renter": "ID",
 "images": ["String"],
 "archived": "BOOLEAN"
 }]
