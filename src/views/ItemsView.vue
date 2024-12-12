@@ -1,12 +1,16 @@
 <script setup>
 import { useItemsStore } from '@/stores/items.js'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
 
+const route = useRoute()
+const router = useRouter()
+
 // Reactive states
-const selectedCategories = ref([])
+const selectedCategories = ref(route.query.category ? route.query.category.split(',') : [])
 const isDropdownOpen = ref(false)
 
 // Extracting unique categories from items
@@ -22,6 +26,12 @@ const filteredItems = computed(() => {
     item.category.some((cat) => selectedCategories.value.includes(cat)),
   )
 })
+
+// Update query string whenever `selectedCategories` changes
+watch(selectedCategories, (newCategories) => {
+  const query = newCategories.length > 0 ? { category: newCategories.join(',') } : {}
+  router.push({ query })
+})
 </script>
 
 <template>
@@ -36,10 +46,10 @@ const filteredItems = computed(() => {
         </button>
         <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
           <label v-for="category in uniqueCategories" :key="category" class="dropdown-item">
+            <input type="checkbox" :value="category" v-model="selectedCategories" />
             <span :class="{ 'selected-category': selectedCategories.includes(category) }">
               {{ category }}
             </span>
-            <input type="checkbox" :value="category" v-model="selectedCategories" />
           </label>
         </div>
       </div>
