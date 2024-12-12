@@ -42,7 +42,10 @@ watch(userPassword, () => {
 
 const handleLogin = async () => {
   if (!formValid.value) {
-    alert('Please fill in all fields')
+    toast.error('Please fill in all fields', {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
     return
   }
 
