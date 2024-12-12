@@ -2,15 +2,16 @@ import { defineStore } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { jsonBinApi } from '@/services/jsonBinApi'
 import { v4 as uuIDv4 } from 'uuid'
+import dummyData from '@/assets/dummyData.json'
 
 const bookingsURL = import.meta.env.VITE_JSONBIN_BIN_URL_BOOKINGS
 
 export const useBookingsStore = defineStore('bookings', () => {
-  const bookings = ref([])
+  const bookings = ref(dummyData.bookings)
   const isLoading = ref(false)
   const error = ref(null)
 
-  // if you want to use dummy data just comment this line out and add dummydata
+  // if you want to use dummy data just comment this line out.
   onMounted(fetchBookings)
 
   async function fetchBookings() {
@@ -20,6 +21,7 @@ export const useBookingsStore = defineStore('bookings', () => {
       bookings.value = await jsonBinApi.fetchData(bookingsURL)
       return bookings.value
     } catch (error) {
+      console.error('Error fetching bookings:', error)
       error.value = 'Error fetching bookings:' + error
     } finally {
       isLoading.value = false
@@ -43,6 +45,7 @@ export const useBookingsStore = defineStore('bookings', () => {
       const updateArray = [...bookings.value, newBooking]
       bookings.value = await jsonBinApi.updateData(bookingsURL, updateArray)
     } catch (error) {
+      console.error('Error in adding booking:', error)
       error.value = 'Error in adding booking: ' + error
     } finally {
       isLoading.value = false
@@ -58,6 +61,7 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookings.value.map((booking) => (booking.id === newBooking.id ? newBooking : booking)),
       )
     } catch (error) {
+      console.error('Error updating booking:', error)
       error.value = 'Error updating booking:' + error
     } finally {
       isLoading.value = false
@@ -77,6 +81,7 @@ export const useBookingsStore = defineStore('bookings', () => {
         bookings.value.filter((booking) => booking.id !== id),
       )
     } catch (error) {
+      console.error('Error deleting booking:', error)
       error.value = 'Error deleting booking:' + error.message
     } finally {
       isLoading.value = false

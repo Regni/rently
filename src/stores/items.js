@@ -2,17 +2,17 @@ import { onMounted, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { jsonBinApi } from '@/services/jsonBinApi'
 import { v4 as uuidv4 } from 'uuid'
+import dummydata from '@/assets/dummyData.json'
 
 const itemsURL = import.meta.env.VITE_JSONBIN_BIN_URL_ITEMS
 
 export const useItemsStore = defineStore('items', () => {
-  const items = ref(null)
+  const items = ref(dummydata.items)
   const isLoading = ref(false)
   const error = ref(null)
 
-  onMounted(() => {
-    fetchItems()
-  })
+  // if you want to use dummy data just comment this line out.
+  onMounted(fetchItems)
 
   // Get items from jsonbin
   async function fetchItems() {
