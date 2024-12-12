@@ -28,6 +28,7 @@ const showPassword = ref(false)
 // ----- COMPUTED PROPERTIES -----
 const error = computed(() => usersStore.error)
 const isLoading = computed(() => usersStore.isLoading)
+const activeUserEmail = computed(() => usersStore.activeUser?.email || null)
 
 // Check if passwords match
 const passwordsMatch = computed(() => newUser.value.password === repeatedPassword.value)
@@ -98,7 +99,14 @@ const handleRegister = async () => {
 
 <template>
   <section>
-    <div class="form-container">
+    <div v-if="activeUserEmail" class="form-container">
+      <p>
+        You are already logged in with email <strong>{{ activeUserEmail }}</strong>
+      </p>
+      <!-- UNCOMMENT AND ADD RIGHT ROUTE WHEN DASHBOARD IS DONE -->
+      <p>Click <router-link :to="{ name: 'home' }">here</router-link> to go to your profile page</p>
+    </div>
+    <div v-else class="form-container">
       <div class="form-header">
         <h1>Create Account</h1>
         <p>Get access to all of Rently's features and services with a free account.</p>
