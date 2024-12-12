@@ -1,9 +1,47 @@
 <script setup>
+import { useBookingsStore } from '@/stores/bookings'
 import { useItemsStore } from '@/stores/items'
+import { useUsersStore } from '@/stores/users'
 import { computed } from 'vue'
 
+const usersStore = useUsersStore()
 const itemsStore = useItemsStore()
-const items = computed(() => itemsStore.items)
+const bookingsStore = useBookingsStore()
+
+// Hardcode a specific user for testing
+usersStore.activeUser = {
+  id: 'U001',
+}
+
+// Active bookings (bookings for items the user is currently renting)
+const activeItems = computed(() => {
+  const activeUserId = usersStore.activeUser?.id
+
+  // Filter bookings where the current user is the renter
+  const userActiveBookings = bookingsStore.bookings.filter(
+    (booking) => booking.renter === activeUserId && new Date(booking.endDate) >= new Date(),
+  ) // Only future/current bookings
+
+  // Map bookings to full item details
+  return userActiveBookings.map((booking) =>
+    itemsStore.items.find((item) => item.id === booking.item),
+  )
+})
+
+// Booking history (past bookings for items the user has rented)
+const historyItems = computed(() => {
+  const activeUserId = usersStore.activeUser?.id
+
+  // Filter bookings where the current user was the renter
+  const userPastBookings = bookingsStore.bookings.filter(
+    (booking) => booking.renter === activeUserId && new Date(booking.endDate) < new Date(),
+  ) // Only past bookings
+
+  // Map bookings to full item details
+  return userPastBookings.map((booking) =>
+    itemsStore.items.find((item) => item.id === booking.item),
+  )
+})
 </script>
 
 <template>
@@ -11,7 +49,8 @@ const items = computed(() => itemsStore.items)
     <section class="active-bookings bookings">
       <h2>Active Bookings</h2>
       <div class="item-container">
-        <div v-for="item in items" key="item.id">
+        <p v-if="activeItems.length === 0">You have no active bookings.</p>
+        <div v-for="item in activeItems" key="item.id">
           <router-link :to="{ name: 'item-details', params: { id: item.id } }">
             <div class="item-card">
               <img class="item-image" :src="item.images[0]" :alt="item.name" />
@@ -27,7 +66,8 @@ const items = computed(() => itemsStore.items)
     <section class="bookings">
       <h2>Booking History</h2>
       <div class="item-container">
-        <div v-for="item in items" key="item.id">
+        <p v-if="historyItems.length === 0">You have no booking history.</p>
+        <div v-for="item in historyItems" key="item.id">
           <router-link :to="{ name: 'item-details', params: { id: item.id } }">
             <div class="booking-history item-card">
               <img class="item-image" :src="item.images[0]" :alt="item.name" />
@@ -44,8 +84,9 @@ const items = computed(() => itemsStore.items)
 
 <style scoped>
 .container {
-  max-width: 75%;
+  width: 75%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   flex-wrap: wrap;
   margin: 0;
