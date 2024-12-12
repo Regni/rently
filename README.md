@@ -48,10 +48,6 @@ npm run lint
 "category": ["String"]
 "publishedDate": "DATE",
 "owner": "ID",
-
-// Do we need renter here???
-
-"renter": "ID",
 "images": ["String"],
 "archived": "BOOLEAN"
 }]

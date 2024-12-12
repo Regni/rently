@@ -38,7 +38,6 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: new Date().toISOString(),
       //This is a placeholder for the active user and should be replaced with the actual user's ID
       owner: 'active-user',
-      renter: null,
       archived: false,
       name: item.name,
       description: item.description,
@@ -96,5 +95,5 @@ export const useItemsStore = defineStore('items', () => {
     }
   }
 
-  return { items, isLoading, fetchItems, addItem, deleteItem, updateItem }
+  return { items, error, isLoading, fetchItems, addItem, deleteItem, updateItem }
 })
