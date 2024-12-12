@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineProps } from 'vue'
+import { computed, ref } from 'vue'
 import { useItemsStore } from '../stores/items.js'
 import HeroComponent from '@/components/HeroComponent.vue'
 import Slider from '@/components/slider/Slider.vue'
@@ -10,12 +10,7 @@ const storeItems = useItemsStore()
 
 const items = computed(() => storeItems.items)
 
-defineProps({
-  limit: {
-    type: Number,
-    default: 10,
-  },
-})
+const limit = ref(10)
 </script>
 
 <template>
