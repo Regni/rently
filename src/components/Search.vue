@@ -18,6 +18,17 @@ const showNoResult = ref(false)
 const isSearchResultOpen = ref(false)
 const selectedResult = ref(null)
 
+// Truncate Length
+const truncateLength = 60
+
+// Truncate description
+const truncateDescription = (description) => {
+  if (description && description.length > truncateLength) {
+    return description.substring(0, truncateLength) + '...'
+  }
+  return description
+}
+
 // Search function
 const handleSearch = debounce(() => {
   hasSearched.value = true
@@ -115,7 +126,10 @@ const clearSearch = () => {
               class="search-result-item"
               @click="isSearchResultOpen = false"
             >
-              <li>{{ item.name }} - {{ item.description }}</li>
+              <li>
+                <span class="name"> {{ item.name }} </span> -
+                <span class="description"> {{ truncateDescription(item.description) }} </span>
+              </li>
             </RouterLink>
           </ul>
         </template>
@@ -133,9 +147,12 @@ a {
 }
 
 .search-section {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .search-input {
@@ -227,6 +244,14 @@ a {
 
 .search-results li:hover {
   background-color: #ececec;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.description {
+  font-style: italic;
 }
 
 .no-results {
