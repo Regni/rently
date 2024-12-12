@@ -26,7 +26,6 @@ const toggleView = () => {
       <h2>User's Profile</h2>
       <button class="btn" @click="toggleView">{{ buttonText }}</button>
     </div>
-
     <div class="vl"></div>
     <RouterView />
   </section>

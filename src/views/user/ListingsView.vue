@@ -1,8 +1,9 @@
 <script setup>
 import { useItemsStore } from '@/stores/items'
+import { computed } from 'vue'
 
 const itemsStore = useItemsStore()
-const items = itemsStore.items
+const items = computed(() => itemsStore.items)
 </script>
 
 <template>
@@ -10,13 +11,15 @@ const items = itemsStore.items
     <h2>My Listings</h2>
     <div class="container">
       <div v-for="item in items" key="item.id">
-        <div class="item-card">
-          <img class="item-image" :src="item.images[0]" :alt="item.name" />
-          <div class="item-details">
-            <h3 class="item-title">{{ item.name }}</h3>
-            <p><strong>Price:</strong> {{ item.price }} kr</p>
-          </div>
-        </div>
+        <router-link :to="{ name: 'item-details', params: { id: item.id } }">
+          <div class="item-card">
+            <img class="item-image" :src="item.images[0]" :alt="item.name" />
+            <div class="item-details">
+              <h3 class="item-title">{{ item.name }}</h3>
+              <p><strong>Price:</strong> {{ item.price }} kr</p>
+            </div>
+          </div></router-link
+        >
       </div>
     </div>
     <button class="btn">+ Add New Listing</button>
@@ -44,7 +47,7 @@ const items = itemsStore.items
 h2 {
   font-family: var(--font-headings);
   margin: 1em;
-  color: var(--color-secondary);
+  color: var(--color-h2);
 }
 
 .item-card {

@@ -14,7 +14,7 @@ import PrivacyView from '@/views/extras/PrivacyView.vue'
 import TermsAndCompatibilityView from '@/views/extras/TermsAndCompatibilityView.vue'
 import DashboardView from '@/views/user/DashboardView.vue'
 import BookingsView from '@/views/user/BookingsView.vue'
-import ListingsView from '@/components/dashboard/ListingsView.vue'
+import ListingsView from '@/views/user/ListingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
