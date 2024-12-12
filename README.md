@@ -36,6 +36,15 @@ npm run lint
 
 ## Bin data
 
+### .env variables
+
+```
+VITE_JSONBIN_API_KEY=
+VITE_JSONBIN_BIN_URL_BOOKINGS=
+VITE_JSONBIN_BIN_URL_USERS=
+VITE_JSONBIN_BIN_URL_ITEMS=
+```
+
 ### Items
 
 ```json
@@ -48,10 +57,6 @@ npm run lint
 "category": ["String"]
 "publishedDate": "DATE",
 "owner": "ID",
-
-// Do we need renter here???
-
-"renter": "ID",
 "images": ["String"],
 "archived": "BOOLEAN"
 }]

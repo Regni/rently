@@ -43,6 +43,9 @@ const router = createRouter({
       path: '/items',
       name: 'items',
       component: ItemsView,
+      props: (route) => ({
+        query: route.query.query,
+      }),
     },
     {
       path: '/items/:id',

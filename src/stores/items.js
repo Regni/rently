@@ -11,9 +11,8 @@ export const useItemsStore = defineStore('items', () => {
   const isLoading = ref(false)
   const error = ref(null)
 
-  // onMounted(() => {
-  //   fetchItems()
-  // })
+  // if you want to use dummy data just comment this line out.
+  onMounted(fetchItems)
 
   // Get items from jsonbin
   async function fetchItems() {
@@ -39,7 +38,6 @@ export const useItemsStore = defineStore('items', () => {
       publishedDate: new Date().toISOString(),
       //This is a placeholder for the active user and should be replaced with the actual user's ID
       owner: 'active-user',
-      renter: null,
       archived: false,
       name: item.name,
       description: item.description,
@@ -97,5 +95,5 @@ export const useItemsStore = defineStore('items', () => {
     }
   }
 
-  return { items, isLoading, fetchItems, addItem, deleteItem, updateItem }
+  return { items, error, isLoading, fetchItems, addItem, deleteItem, updateItem }
 })
