@@ -39,15 +39,11 @@ const handleSearch = debounce(() => {
     )
   })
 
-  // Show no results message only if there are no results and query is long enough
-  showNoResult.value = searchResults.value.length === 0 && searchQuery.value.length > 1
+  // Show no results message
+  showNoResult.value = searchResults.value.length === 0 && searchQuery.value.length > 0
 
-  // Selects the first result
-  if (searchResults.value.length > 0) {
-    selectedResult.value = searchResults.value[0]
-  } else {
-    selectedResult.value = null
-  }
+  // Select the first result if found
+  selectedResult.value = searchResults.value.length > 0 ? searchResults.value[0] : null
 }, 300)
 
 // Watch the search query and update the results
@@ -106,7 +102,7 @@ const clearSearch = () => {
 
     <div
       class="search-results"
-      :class="{ show: searchResults.length > 0 && isSearchResultOpen }"
+      :class="{ show: searchResults.length > 0 || showNoResult }"
       @click.stop
     >
       <template v-if="hasSearched">
@@ -123,7 +119,9 @@ const clearSearch = () => {
             </RouterLink>
           </ul>
         </template>
-        <p v-else v-if="showNoResult">No results found for "{{ searchQuery }}"</p>
+        <p v-else v-if="showNoResult" class="no-results">
+          No results found for "{{ searchQuery }}" 😢
+        </p>
       </template>
     </div>
   </div>
@@ -217,7 +215,8 @@ a {
   padding: 0;
 }
 
-.search-results li {
+.search-results li,
+.no-results {
   padding: 0.8rem 1rem;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
@@ -228,5 +227,9 @@ a {
 
 .search-results li:hover {
   background-color: #ececec;
+}
+
+.no-results {
+  cursor: auto;
 }
 </style>
