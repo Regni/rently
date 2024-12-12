@@ -77,19 +77,31 @@ const handleButtonClick = () => {
     navigateToFirstResult()
   }
 }
+
+// Clear the search query
+const clearSearch = () => {
+  searchQuery.value = ''
+  searchResults.value = []
+  hasSearched.value = false
+  showNoResult.value = false
+  isSearchResultOpen.value = false
+}
 </script>
 
 <template>
   <div class="search-section">
-    <input
-      v-model="searchQuery"
-      class="search-input"
-      id="search"
-      type="text"
-      placeholder="Search"
-      @focus="isSearchResultOpen = true"
-      @keydown="handleKeydown"
-    />
+    <div class="input-container">
+      <input
+        v-model="searchQuery"
+        class="search-input"
+        id="search"
+        type="text"
+        placeholder="Search"
+        @focus="isSearchResultOpen = true"
+        @keydown="handleKeydown"
+      />
+      <button v-if="searchQuery" class="clear-button" @click="clearSearch">X</button>
+    </div>
     <button class="search-button" @click.stop.prevent="handleButtonClick">Search</button>
 
     <div
@@ -142,6 +154,19 @@ a {
 .search-input:focus {
   border-color: var(--color-btn);
   outline: none;
+}
+
+.clear-button {
+  position: absolute;
+  right: 6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-basic-text);
 }
 
 .search-button {
