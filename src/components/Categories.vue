@@ -1,9 +1,13 @@
 <script setup>
 import { useItemsStore } from '@/stores/items.js'
 import { computed, ref } from 'vue'
+import { RouterLink, useRoute } from 'vue-router'
 
 const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
+
+const route = useRoute()
+const query = ref(route.query.category)
 
 // Extracting unique categories from items
 const uniqueCategories = computed(() => {
@@ -15,9 +19,11 @@ const uniqueCategories = computed(() => {
 <template>
   <section class="categories-container">
     <div v-for="category in uniqueCategories" :key="category" class="category-container">
-      <div class="category-card">
-        <h3>{{ category }}</h3>
-      </div>
+      <RouterLink :to="{ path: '/items', query: { category: category } }">
+        <div class="category-card">
+          <h3>{{ category }}</h3>
+        </div>
+      </RouterLink>
     </div>
   </section>
 </template>

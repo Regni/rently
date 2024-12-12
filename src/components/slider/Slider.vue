@@ -3,8 +3,6 @@ import { defineProps, ref, computed } from 'vue'
 import HomeItem from '@/components/HomeItem.vue'
 import { useItemsStore } from '@/stores/items.js'
 
-const storeItems = useItemsStore()
-
 const props = defineProps({
   carouselItems: {
     type: Object,
@@ -55,7 +53,10 @@ const scrollCarousel = (direction) => {
 }
 
 h2 {
-  font-family: var(--color-h2);
+  font-family: var(--font-headings);
+  color: var(--color-h2);
+  font-size: 2.5em;
+  font-weight: 500;
 }
 /* Carousel Container */
 .carousel {
