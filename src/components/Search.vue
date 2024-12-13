@@ -5,9 +5,6 @@ import { useItemsStore } from '@/stores/items.js'
 import { debounce } from 'lodash'
 
 const itemsStore = useItemsStore()
-console.log('Items Store:', itemsStore)
-console.log('Items in Store:', itemsStore.items)
-
 const items = computed(() => itemsStore.items)
 
 // Reactive states
@@ -40,14 +37,10 @@ const handleSearch = debounce(() => {
   }
 
   const query = searchQuery.value.toLowerCase()
-  console.log('Items for search:', items.value)
 
   // Filter items
   searchResults.value = items.value.filter((item) => {
-    return (
-      item.name.toLowerCase().includes(query) ||
-      (item.description && item.description.toLowerCase().includes(query))
-    )
+    return item.name.toLowerCase().includes(query)
   })
 
   // Show no results message
