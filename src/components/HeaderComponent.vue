@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import logo from '@/assets/img/logo.jpg'
+import logo from '@/assets/img/logo-green.png'
 import Navbar from './Navbar.vue'
 </script>
 
@@ -131,7 +131,7 @@ a:-webkit-any-link {
 }
 @media (min-width: 768px) {
   .logo-text {
-    display: block; /* Show text on medium screens and above */
+    display: block;
   }
 }
 </style>
