@@ -38,6 +38,7 @@ import { RouterLink } from 'vue-router'
   width: 100%;
   margin-top: auto;
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding-left: 2rem;
@@ -75,6 +76,10 @@ a:-webkit-any-link {
   .footer {
     padding: 0.5rem 0;
     font-size: 0.875rem;
+  }
+  .footer-container {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 </style>

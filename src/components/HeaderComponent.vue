@@ -22,7 +22,7 @@ import Navbar from './Navbar.vue'
   </header>
 </template>
 
-<style>
+<style scoped>
 header {
   background-color: var(--color-primary, #047857);
   border-bottom: 1px solid #fff;
@@ -32,6 +32,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+  /* z-index: 1000; */
 }
 
 /* Logo */
@@ -132,6 +133,11 @@ a:-webkit-any-link {
 @media (min-width: 768px) {
   .logo-text {
     display: block;
+  }
+}
+@media (max-width: 768px) {
+  .search-section {
+    display: none;
   }
 }
 </style>
