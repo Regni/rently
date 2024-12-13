@@ -4,9 +4,11 @@
 <script setup>
 import { computed, ref } from 'vue'
 import { useUsersStore } from '@/stores/users'
+import { useItemsStore } from '@/stores/items'
 import itemCategories from '@/assets/itemCategories'
 
 const usersStore = useUsersStore()
+const itemsStore = useItemsStore()
 
 // ----- REACTIVE VARIABLES -----
 const isDropdownOpen = ref(false)
@@ -14,33 +16,86 @@ const isDropdownOpen = ref(false)
 const newItem = ref({
   name: '',
   description: '',
+  images: [],
   price: '',
   category: [],
-  images: [],
 })
 
-// ----- COMPUTED PROPERTIES -----
-const activeUser = computed(() => usersStore.activeUser || null)
+// variable to hanlde image upload
+const imageUrl = ref('')
 
-const handleCreateItem = () => {
-  console.log('handleCreateItem')
+// ----- COMPUTED PROPERTIES -----
+// const activeUser = computed(() => usersStore.activeUser || null)
+const activeUser = ref({ id: 'testUser' })
+
+const handleCreateItem = (event) => {
+  console.log(newItem.value)
+
+  newItem.value.owner = activeUser.value.id
+
+  itemsStore.addItem(newItem.value)
+
+  //clear the form
+  newItem.value = {
+    name: '',
+    description: '',
+    price: '',
+    category: [],
+    images: [],
+  }
+}
+
+// ----- METHODS -----
+// function to handle image upload
+const addImageUrl = () => {
+  if (imageUrl.value) {
+    newItem.value.images.push(imageUrl.value)
+    imageUrl.value = ''
+  }
+}
+
+const removeImage = (index) => {
+  newItem.value.images.splice(index, 1)
 }
 </script>
 <template>
-  <section>
+  <section @click="isDropdownOpen = false">
     <div class="create-item-container">
-      <h2>Create Item</h2>
+      <h1>Create Item</h1>
       <form class="create-item-form" @submit.prevent="handleCreateItem">
         <label for="title">Title</label>
         <input name="title" type="text" v-model="newItem.name" />
+
         <label for="description">Description</label>
         <textarea name="description" rows="4" cols="50" v-model="newItem.description"></textarea>
+
         <label for="images">Images</label>
-        <input type="url" v-model="newItem.images" />
+        <div class="add-image-container">
+          <input type="url" v-model="imageUrl" placeholder="Add image URL" />
+          <button type="button" @click="addImageUrl" class="btn add-image-btn">Add</button>
+        </div>
+
+        <div v-if="newItem.images.length > 0">
+          <h2>Added Images:</h2>
+          <div class="image-preview-container">
+            <div v-for="(addedImage, index) in newItem.images" :key="index" class="image-preview">
+              <img :src="addedImage" alt="Image Preview" class="image-thumbnail" />
+              <button type="button" class="btn remove-btn" @click.stop="removeImage(index)">
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+
         <label for="price">Price</label>
         <input name="price" type="number" v-model="newItem.price" />
+
         <div class="dropdown">
-          <button class="dropdown-button" @click.stop="isDropdownOpen = !isDropdownOpen">
+          <button
+            type="button"
+            class="dropdown-button"
+            @click.stop="isDropdownOpen = !isDropdownOpen"
+          >
             Categories
           </button>
           <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
@@ -52,21 +107,19 @@ const handleCreateItem = () => {
             </label>
           </div>
         </div>
-        <button name="submit" class="btn" type="submit">Create Listing</button>
+        <button name="submit" class="btn create-item-btn" type="submit">Create Listing</button>
       </form>
     </div>
   </section>
 </template>
 
-<!-- { "name": "String", "description": "String", "price": "Number", "category": ["String"] "images":
-["String"], "archived": "BOOLEAN" } //"active-user????" -->
-
 <style scoped>
 section {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   width: 100%;
+  height: 100%;
 }
 .create-item-container {
   display: flex;
@@ -79,6 +132,7 @@ section {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 4em;
   padding: 4em;
+  position: relative;
 }
 
 .create-item-form {
@@ -86,9 +140,17 @@ section {
   flex-direction: column;
 }
 
+h1 {
+  font-family: var(--font-headings);
+  color: var(--color-h1);
+  font-size: 3rem;
+  font-weight: 500;
+}
+
 h2 {
   font-family: var(--font-headings);
   color: var(--color-h2);
+  font-weight: 500;
 }
 
 label {
@@ -96,18 +158,73 @@ label {
   color: var(--color-basic-text);
 }
 
+form input,
+form textarea {
+  margin-bottom: 2em;
+  font-size: 1rem;
+  font-family: var(--font-basic);
+  padding: 0.4rem;
+}
+
+.add-image-container {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.add-image-container input {
+  flex-grow: 1;
+}
+
+.add-image-btn {
+  display: inline-block;
+}
+
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1em 0;
+}
+
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.image-thumbnail {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 0.5em;
+}
+
+.remove-btn {
+  padding: 0.2em 0.5em;
+  background-color: #c94022;
+  font-family: var(--font-links);
+}
+
 /* Category Dropdown Menu */
 .dropdown {
   position: relative;
   display: inline-block;
   margin-bottom: 1rem;
+  width: 60%;
 }
 
 .dropdown-button {
+  width: 100%;
   padding: 0.5rem 1rem;
   font-size: 1rem;
-  background-color: var(--color-btn);
-  color: var(--color-third);
+  background-color: #ccc;
+  color: var(--color-basic-text);
+  font-weight: 600;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -115,7 +232,7 @@ label {
 }
 
 .dropdown-button:hover {
-  background-color: var(--color-btn-hover);
+  background-color: var(--color-secondary);
 }
 
 .dropdown-menu {
@@ -130,7 +247,7 @@ label {
   max-height: 250px;
   overflow-y: auto;
   padding: 0.5rem;
-  width: 200px;
+  width: 100%;
 }
 
 .dropdown-item {
@@ -139,7 +256,7 @@ label {
   align-items: center;
   margin-bottom: 0.5rem;
   cursor: pointer;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-family: var(--font-basic);
   border-bottom: 1px solid #ccc;
   padding-bottom: 0.5rem;
@@ -175,5 +292,11 @@ label {
 
 .selected-category {
   font-weight: bold;
+}
+
+.create-item-btn {
+  position: absolute;
+  bottom: 1.5em;
+  right: 4em;
 }
 </style>
