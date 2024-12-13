@@ -24,11 +24,24 @@ const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
       :to="{ name: 'register', query: { from: route.fullPath } }"
       >Register</router-link
     >
-    <LogoutComponent v-else />
+    <div v-else class="logged-in-links">
+      <RouterLink :to="{ name: 'dashboard' }">Dashboard</RouterLink>
+      <LogoutComponent />
+    </div>
   </nav>
 </template>
 
 <style scoped>
+.nav {
+  display: flex;
+  gap: 0.2em;
+}
+
+.logged-in-links {
+  display: flex;
+  gap: 0.2em;
+}
+
 nav a.router-link-exact-active {
   background-color: var(--color-btn);
   color: #fff;
@@ -43,7 +56,6 @@ nav a {
   transition:
     background-color 0.3s,
     color 0.3s;
-  margin-left: 0.2em;
 }
 
 nav a:hover {
@@ -54,5 +66,9 @@ nav a:hover {
 .register-link {
   background-color: #cccc39;
   color: var(--color-basic-text);
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
 }
 </style>

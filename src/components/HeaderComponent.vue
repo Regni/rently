@@ -22,7 +22,7 @@ import Navbar from './Navbar.vue'
   </header>
 </template>
 
-<style>
+<style scoped>
 header {
   background-color: var(--color-primary, #047857);
   border-bottom: 1px solid #fff;
@@ -100,35 +100,6 @@ header {
   transition: background-color 0.3s;
 }
 
-/* Menu Section */
-.menu {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.nav-link {
-  color: white;
-  font-family: var(--font-links);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  text-decoration: none;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-}
-
-.nav-link:hover {
-  background-color: var(--color-btn-hover, #065f46);
-  color: #fff;
-}
-
-.active {
-  background-color: #065f46;
-  color: #fff;
-}
-a:-webkit-any-link {
-  text-decoration: none;
-}
 @media (min-width: 768px) {
   .logo-text {
     display: block; /* Show text on medium screens and above */
