@@ -20,7 +20,7 @@ const handleLogout = async () => {
 </script>
 
 <template>
-  <button class="btn btn-logout" @click="handleLogout">Logout</button>
+  <button class="btn btn-logout" @click="handleLogout">Sign out</button>
 </template>
 
 <style scoped>
