@@ -30,12 +30,12 @@ const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
 
 <style scoped>
 nav a.router-link-exact-active {
-  background-color: #69985f;
+  background-color: var(--color-btn);
   color: #fff;
 }
 
 nav a {
-  color: white;
+  color: #fff;
   font-family: var(--font-links);
   padding: 0.5rem 0.75rem;
   border-radius: 0.375rem;
@@ -47,7 +47,7 @@ nav a {
 }
 
 nav a:hover {
-  background-color: var(--color-btn-hover, #065f46);
+  background-color: var(--color-btn-hover);
   color: #fff;
 }
 

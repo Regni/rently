@@ -12,6 +12,9 @@ import ContactUsView from '@/views/ContactUsView.vue'
 import GeneralRulesView from '@/views/extras/GeneralRulesView.vue'
 import PrivacyView from '@/views/extras/PrivacyView.vue'
 import TermsAndCompatibilityView from '@/views/extras/TermsAndCompatibilityView.vue'
+import DashboardView from '@/views/user/DashboardView.vue'
+import BookingsView from '@/views/user/BookingsView.vue'
+import ListingsView from '@/views/user/ListingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,6 +43,9 @@ const router = createRouter({
       path: '/items',
       name: 'items',
       component: ItemsView,
+      props: (route) => ({
+        query: route.query.query,
+      }),
     },
     {
       path: '/items/:id',
@@ -57,6 +63,28 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: RegisterView,
+    },
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardView,
+      children: [
+        {
+          path: '', // Default child route
+          name: 'dashboard-default',
+          redirect: { name: 'dashboard-listings' }, // Redirect to 'listings'
+        },
+        {
+          path: 'bookings',
+          name: 'dashboard-bookings',
+          component: BookingsView,
+        },
+        {
+          path: 'listings',
+          name: 'dashboard-listings',
+          component: ListingsView,
+        },
+      ],
     },
     {
       path: '/general-rules',
