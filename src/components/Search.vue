@@ -12,7 +12,6 @@ const searchQuery = ref('')
 const searchResults = ref([])
 const hasSearched = ref(false)
 const showNoResult = ref(false)
-const isSearchResultOpen = ref(false)
 const selectedResult = ref(null)
 
 // Truncate Length
@@ -84,7 +83,6 @@ const clearSearch = () => {
   searchResults.value = []
   hasSearched.value = false
   showNoResult.value = false
-  isSearchResultOpen.value = false
 }
 </script>
 
@@ -97,7 +95,6 @@ const clearSearch = () => {
         id="search"
         type="text"
         placeholder="Search"
-        @focus="isSearchResultOpen = true"
         @keydown="handleKeydown"
       />
       <button v-if="searchQuery" class="clear-button" @click="clearSearch">X</button>
@@ -117,7 +114,6 @@ const clearSearch = () => {
               :key="item.id"
               :to="`/items/${item.id}`"
               class="search-result-item"
-              @click="isSearchResultOpen = false"
             >
               <li>
                 <span class="name"> {{ item.name }} </span> -
