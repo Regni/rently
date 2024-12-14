@@ -36,21 +36,22 @@ const dummyData = {
     rentedHistory: ['b303', 'b304', 'b305'],
   },
 }
-
+import { Calendar, DatePicker } from 'v-calendar'
+import 'v-calendar/style.css'
 import { ref } from 'vue'
 const item = ref(dummyData.item)
 const owner = ref(dummyData.owner)
 const heroImg = ref(dummyData.item.images[0])
 const loggedInUser = ref(dummyData.loggedInUser)
-
-const handleHeroImgChange = () => {
-  // heroImg.value =
-}
+const range = ref({
+  start: new Date(2024, 11, 6),
+  end: new Date(2024, 11, 10),
+})
 </script>
 
 <template>
   <section>
-    <div>
+    <div class="main-content-container">
       <!-- title -->
       <!-- img -->
       <div class="big-picture-container">
@@ -66,22 +67,65 @@ const handleHeroImgChange = () => {
           </div>
         </div>
       </div>
-      <h2>{{ item.name }}</h2>
-      <!-- description -->
-      <h3>Description:</h3>
-      <p>
-        {{ item.description }}
-      </p>
-      <!--owner  -->
-      <p><strong>Owner:</strong> {{ owner.firstname }} {{ owner.lastname }}</p>
-      <!-- availble -->
-      <div class="date-container">
-        <span>Start date:<input type="date" /></span><span>End date: <input type="date" /></span>
+      <div class="info-container">
+        <div class="item-user-container">
+          <div class="description-wrapper">
+            <h2>{{ item.name }}</h2>
+
+            <!-- description -->
+
+            <h3>Description:</h3>
+            <p>
+              <!-- {{ item.description }} -->
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam optio, facilis
+              dignissimos iusto nobis explicabo iste itaque possimus ex placeat eaque, nemo
+              praesentium distinctio quod nihil eligendi sapiente. Sapiente beatae sequi magni
+              aperiam modi animi ex, nihil incidunt nesciunt expedita commodi qui tenetur sit eos
+              impedit, delectus adipisci? Facilis voluptatem, magni quasi cupiditate tenetur ducimus
+              non impedit dolores ipsa vitae! Consequatur, quod placeat magnam molestiae esse
+              reiciendis blanditiis a necessitatibus expedita distinctio tenetur, ullam similique
+              dolore nihil voluptatem nobis nulla minus recusandae? Aut labore voluptatum libero
+              quam numquam reiciendis earum quo culpa necessitatibus illo! Inventore odit nostrum,
+              hic vitae blanditiis sit possimus, perferendis quas optio quod autem qui accusantium
+              maiores impedit cupiditate veniam suscipit magni. Sunt doloremque veritatis, molestiae
+              eum dolorem aliquid saepe a laudantium ex facilis voluptatem ut nostrum officiis
+              veniam amet nulla fugiat, illo quod quae accusamus soluta! Iusto facilis quo,
+              quibusdam iste minus neque voluptatum aspernatur, saepe eius sed ducimus in nulla
+              soluta pariatur. Soluta minus incidunt quaerat fugiat fuga doloremque alias dolorum
+              ipsum laudantium animi sunt aspernatur non illum mollitia, labore eius impedit in
+              culpa deleniti itaque eos? Ullam perferendis labore eligendi voluptatum accusamus
+              ipsa? Optio at libero inventore tempore illo natus saepe. Beatae, quaerat nihil
+              minima, mollitia itaque ut quos eum similique amet, quo aspernatur consequuntur
+              commodi atque. Tempora voluptatem modi, corrupti omnis tempore iste laboriosam, culpa
+              eius optio veritatis, nisi a autem itaque eligendi. Nesciunt distinctio ipsam neque ea
+              quam quis, culpa illo inventore corporis quidem corrupti veniam expedita sapiente
+              dolor beatae explicabo officia.
+            </p>
+            <p class="owner-wrapper">
+              <strong>Owner:</strong> {{ owner.firstname }} {{ owner.lastname }}
+            </p>
+          </div>
+          <!--owner  -->
+
+          <!-- availble -->
+        </div>
+        <div class="date-price-container">
+          <DatePicker v-model.range="range" />
+          <span
+            >Start date:<input
+              type="date"
+              v-model="range.start.toISOString().split('T')[0]" /></span
+          ><span
+            >End date: <input type="date" v-model="range.end.toISOString().split('T')[0]"
+          /></span>
+
+          <h1>{{ item.price }} kr per day!!</h1>
+          <button>rent now!</button>
+        </div>
+
+        <!--rent now button creates a Modal with a calender which the user can pick how long they want to rent it-->
       </div>
-      <!--rent now button creates a Modal with a calender which the user can pick how long they want to rent it-->
     </div>
-    <h1>{{ item.price }} kr per day!!</h1>
-    <button>rent now!</button>
 
     <div>
       <h3>More of {{ owner.firstname }} adverts</h3>
@@ -103,9 +147,25 @@ const handleHeroImgChange = () => {
 </template>
 
 <style scoped>
+section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 4px;
+}
+
+.main-content-container {
+  border: 2px solid salmon;
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  width: 100%;
+}
+
 .big-picture-container {
   width: clamp(150px, 80vw, 1000px);
-  height: clamp(100px, 80vh, 600px);
+  height: clamp(100px, 80vh, 700px);
   border: 2px solid var(--color-secondary);
   border-radius: 10px;
   margin: 1rem;
@@ -198,8 +258,32 @@ const handleHeroImgChange = () => {
   height: 100%;
   object-fit: cover;
 }
-.date-container {
+.date-price-container {
   display: flex;
   flex-direction: column;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem 0.3rem;
+  max-width: 30rem;
+  width: 50%;
+  margin: 0 15rem 0 1rem;
+}
+.item-user-container {
+  display: flex;
+  flex-direction: column;
+}
+.owner-wrapper {
+  display: block;
+}
+
+.description-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 1rem 0rem;
 }
 </style>
