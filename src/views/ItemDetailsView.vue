@@ -38,7 +38,7 @@ const dummyData = {
 }
 import { Calendar, DatePicker } from 'v-calendar'
 import 'v-calendar/style.css'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 const item = ref(dummyData.item)
 const owner = ref(dummyData.owner)
 const heroImg = ref(dummyData.item.images[0])
@@ -47,6 +47,8 @@ const range = ref({
   start: new Date(2024, 11, 6),
   end: new Date(2024, 11, 10),
 })
+
+const totalTime = computed(() => (range.value.end - range.value.start) / (1000 * 60 * 60 * 24) + 1)
 </script>
 
 <template>
@@ -71,63 +73,59 @@ const range = ref({
         <div class="item-user-container">
           <div class="description-wrapper">
             <h2>{{ item.name }}</h2>
-
-            <!-- description -->
-
-            <h3>Description:</h3>
-            <p>
-              <!-- {{ item.description }} -->
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Laboriosam optio, facilis
-              dignissimos iusto nobis explicabo iste itaque possimus ex placeat eaque, nemo
-              praesentium distinctio quod nihil eligendi sapiente. Sapiente beatae sequi magni
-              aperiam modi animi ex, nihil incidunt nesciunt expedita commodi qui tenetur sit eos
-              impedit, delectus adipisci? Facilis voluptatem, magni quasi cupiditate tenetur ducimus
-              non impedit dolores ipsa vitae! Consequatur, quod placeat magnam molestiae esse
-              reiciendis blanditiis a necessitatibus expedita distinctio tenetur, ullam similique
-              dolore nihil voluptatem nobis nulla minus recusandae? Aut labore voluptatum libero
-              quam numquam reiciendis earum quo culpa necessitatibus illo! Inventore odit nostrum,
-              hic vitae blanditiis sit possimus, perferendis quas optio quod autem qui accusantium
-              maiores impedit cupiditate veniam suscipit magni. Sunt doloremque veritatis, molestiae
-              eum dolorem aliquid saepe a laudantium ex facilis voluptatem ut nostrum officiis
-              veniam amet nulla fugiat, illo quod quae accusamus soluta! Iusto facilis quo,
-              quibusdam iste minus neque voluptatum aspernatur, saepe eius sed ducimus in nulla
-              soluta pariatur. Soluta minus incidunt quaerat fugiat fuga doloremque alias dolorum
-              ipsum laudantium animi sunt aspernatur non illum mollitia, labore eius impedit in
-              culpa deleniti itaque eos? Ullam perferendis labore eligendi voluptatum accusamus
-              ipsa? Optio at libero inventore tempore illo natus saepe. Beatae, quaerat nihil
-              minima, mollitia itaque ut quos eum similique amet, quo aspernatur consequuntur
-              commodi atque. Tempora voluptatem modi, corrupti omnis tempore iste laboriosam, culpa
-              eius optio veritatis, nisi a autem itaque eligendi. Nesciunt distinctio ipsam neque ea
-              quam quis, culpa illo inventore corporis quidem corrupti veniam expedita sapiente
-              dolor beatae explicabo officia.
-            </p>
             <p class="owner-wrapper">
               <strong>Owner:</strong> {{ owner.firstname }} {{ owner.lastname }}
             </p>
+            <!-- description -->
+            <h3>Description:</h3>
+            <p class="description-text-wrapper">
+              <!-- {{ item.description }} -->
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, sint. Sit quidem ea
+              accusamus voluptatem, delectus quibusdam porro labore quae numquam ipsum repudiandae.
+              Praesentium assumenda quo officia obcaecati, voluptate neque enim quia ipsa corrupti
+              ad necessitatibus laboriosam sint nam eos impedit quibusdam, animi voluptas hic
+              expedita eveniet ullam! Laboriosam odio et accusamus beatae perspiciatis cum, atque
+              voluptates nihil autem delectus reprehenderit tempora ut? Minus quibusdam placeat
+              aperiam molestias voluptatum neque provident ut dolorum illum qui ab, voluptatem
+              officiis voluptates cum nisi reprehenderit aut. Commodi, soluta quo. Voluptates,
+              nesciunt minus commodi dignissimos quibusdam soluta, ipsam dolore voluptate est, in
+              architecto quas. Sequi, quaerat minima, dolorum quasi aspernatur porro quibusdam
+              sapiente molestias illum possimus modi voluptatibus obcaecati repellendus velit aut.
+              Reprehenderit, quod cumque itaque accusantium aperiam labore eius temporibus sed cum,
+              quos odit odio repellat iusto. Ullam quasi a odit, earum nam eum delectus perferendis
+              dignissimos? Pariatur tempore laboriosam ratione fugit velit minus vel porro
+              perferendis officiis, consectetur blanditiis commodi sapiente! Repudiandae molestias
+              quisquam vitae porro, asperiores temporibus reprehenderit at animi maxime cum a ipsa
+              obcaecati! Amet maxime voluptatibus voluptas atque molestiae modi optio fuga?
+              Voluptatem tenetur labore quam. Reprehenderit illo atque temporibus saepe asperiores
+              molestiae! Perspiciatis placeat quaerat sed magni a.
+            </p>
           </div>
+
           <!--owner  -->
 
           <!-- availble -->
         </div>
+
         <div class="date-price-container">
           <DatePicker v-model.range="range" />
-          <span
+          <!-- <span
             >Start date:<input
               type="date"
               v-model="range.start.toISOString().split('T')[0]" /></span
           ><span
             >End date: <input type="date" v-model="range.end.toISOString().split('T')[0]"
-          /></span>
+          /></span> -->
 
-          <h1>{{ item.price }} kr per day!!</h1>
-          <button>rent now!</button>
+          <button class="btn">Rent now for {{ item.price * totalTime }} kr!</button>
+          <!-- <h1>{{ item.price }} kr per day!!</h1> -->
         </div>
 
         <!--rent now button creates a Modal with a calender which the user can pick how long they want to rent it-->
       </div>
     </div>
 
-    <div>
+    <!-- <div>
       <h3>More of {{ owner.firstname }} adverts</h3>
       <div class="advert-card-collection-container">
         <div class="advert-card-container" v-for="(item, index) in owner.ownedItems" :key="index">
@@ -142,7 +140,7 @@ const range = ref({
 
     <div>
       <div>more adverts of same category</div>
-    </div>
+    </div> -->
   </section>
 </template>
 
@@ -154,13 +152,25 @@ section {
 
   gap: 4px;
 }
-
+h2 {
+  font-size: 2.5rem;
+  font-family: var(--font-links);
+  color: var(--color-h2);
+}
+h3 {
+  color: var(--color-h3);
+  font-family: var(--font-basic);
+}
+p {
+  font-family: var(--font-basic);
+  color: var(--color-basic-text);
+}
 .main-content-container {
-  border: 2px solid salmon;
+  /* border: 2px solid salmon; */
   display: flex;
   justify-content: center;
   /* align-items: center; */
-  width: 100%;
+  width: 95%;
 }
 
 .big-picture-container {
@@ -168,7 +178,7 @@ section {
   height: clamp(100px, 80vh, 700px);
   border: 2px solid var(--color-secondary);
   border-radius: 10px;
-  margin: 1rem;
+  margin: 1rem 1rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -261,16 +271,17 @@ section {
 .date-price-container {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
 }
 
 .info-container {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 1rem 0.3rem;
+  padding: 0 0 1rem 0.3rem;
   max-width: 30rem;
-  width: 50%;
-  margin: 0 15rem 0 1rem;
+  width: 60%;
+  margin: 0 4rem 0 0.1rem;
 }
 .item-user-container {
   display: flex;
@@ -278,12 +289,44 @@ section {
 }
 .owner-wrapper {
   display: block;
+  margin-bottom: 0.6rem;
 }
 
 .description-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 1rem 0rem;
+  margin-bottom: 0.6rem;
+}
+.description-text-wrapper {
+  margin-top: 0.6rem;
+  max-height: 200px;
+  overflow: auto;
+}
+
+@media screen and (max-width: 750px) {
+  .main-content-container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem 1rem 1rem;
+  }
+  .big-picture-container {
+    width: 100%;
+    height: clamp(100px, 80vh, 700px);
+  }
+
+  .info-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: none;
+  }
+  .description-wrapper > h2,
+  .owner-wrapper {
+    text-align: center;
+  }
+  .btn {
+    height: 6rem;
+  }
 }
 </style>
