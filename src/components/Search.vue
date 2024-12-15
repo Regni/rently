@@ -93,7 +93,7 @@ const highlightSearchQuery = (text) => {
 </script>
 
 <template>
-  <div class="search-section">
+  <section class="search-section">
     <div class="input-container">
       <input
         v-model="searchQuery"
@@ -109,13 +109,13 @@ const highlightSearchQuery = (text) => {
       <i class="pi pi-search search-icon"></i>
     </button>
 
-    <div
+    <article
       class="search-results"
       :class="{ show: searchResults.length > 0 || showNoResult }"
       @click.stop
     >
-      <template v-if="hasSearched">
-        <template v-if="searchResults.length > 0">
+      <div v-if="hasSearched">
+        <div v-if="searchResults.length > 0">
           <ul>
             <RouterLink
               v-for="item in searchResults"
@@ -124,20 +124,24 @@ const highlightSearchQuery = (text) => {
               class="search-result-item"
             >
               <li>
-                <span v-html="highlightSearchQuery(item.name)"></span> -
-                <span class="description">
-                  {{ truncateDescription(item.description) }}
-                </span>
+                <div>
+                  <span class="name" v-html="highlightSearchQuery(item.name)"></span>
+                </div>
+                <div>
+                  <span class="description">
+                    {{ truncateDescription(item.description) }}
+                  </span>
+                </div>
               </li>
             </RouterLink>
           </ul>
-        </template>
+        </div>
         <p v-else v-if="showNoResult" class="no-results">
           No results found for "{{ searchQuery }}" 😢
         </p>
-      </template>
-    </div>
-  </div>
+      </div>
+    </article>
+  </section>
 </template>
 
 <style scoped>
@@ -253,11 +257,12 @@ a {
 }
 
 .name {
-  font-weight: bold;
+  font-size: 1rem;
 }
 
 .description {
   font-style: italic;
+  font-size: 0.8rem;
 }
 
 .no-results {
