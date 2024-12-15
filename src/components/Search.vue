@@ -13,6 +13,7 @@ const searchResults = ref([])
 const hasSearched = ref(false)
 const showNoResult = ref(false)
 const selectedResult = ref(null)
+const showResults = ref(false)
 
 // Truncate Length
 const truncateLength = 60
@@ -32,6 +33,7 @@ const handleSearch = debounce(() => {
   if (!searchQuery.value.trim()) {
     searchResults.value = [] // If input is empty, clear the results array
     showNoResult.value = false // Hide no result message when input is empty
+    showResults.value = false
     return
   }
 
@@ -44,6 +46,9 @@ const handleSearch = debounce(() => {
 
   // Show no results message
   showNoResult.value = searchResults.value.length === 0 && query.length > 0
+
+  // Show the search results dropdown
+  showResults.value = searchResults.value.length > 0 || showNoResult.value
 
   // Select the first result if found
   selectedResult.value = searchResults.value.length > 0 ? searchResults.value[0] : null
@@ -67,6 +72,7 @@ const navigateToFirstResult = () => {
   if (selectedResult.value) {
     window.location.href = `/items/${selectedResult.value.id}`
   }
+  showResults.value = false
 }
 
 // Search button click handler
@@ -75,6 +81,7 @@ const handleButtonClick = () => {
   if (selectedResult.value) {
     navigateToFirstResult()
   }
+  showResults.value = false
 }
 
 // Clear the search query
@@ -83,6 +90,7 @@ const clearSearch = () => {
   searchResults.value = []
   hasSearched.value = false
   showNoResult.value = false
+  showResults.value = false
 }
 
 // Highlight letters in search query
@@ -109,11 +117,7 @@ const highlightSearchQuery = (text) => {
       <i class="pi pi-search search-icon"></i>
     </button>
 
-    <article
-      class="search-results"
-      :class="{ show: searchResults.length > 0 || showNoResult }"
-      @click.stop
-    >
+    <article class="search-results" :class="{ show: showResults }" @click.stop>
       <div v-if="hasSearched">
         <div v-if="searchResults.length > 0">
           <ul>
@@ -122,6 +126,7 @@ const highlightSearchQuery = (text) => {
               :key="item.id"
               :to="`/items/${item.id}`"
               class="search-result-item"
+              @click="showResults = false"
             >
               <li>
                 <div>
