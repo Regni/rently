@@ -7,7 +7,7 @@ import { debounce } from 'lodash'
 const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
 
-// Reactive states
+// --- Reactive states ---
 const searchQuery = ref('')
 const searchResults = ref([])
 const hasSearched = ref(false)
@@ -16,13 +16,13 @@ const selectedResult = ref(null)
 const showResults = ref(false)
 const maxResults = 8
 
-// Search function
+// --- Search function ---
 const handleSearch = debounce(() => {
   hasSearched.value = true
 
   if (!searchQuery.value.trim()) {
     searchResults.value = [] // If input is empty, clear the results array
-    showNoResult.value = false // Hide no result message when input is empty
+    showNoResult.value = false
     showResults.value = false
     return
   }
@@ -34,24 +34,14 @@ const handleSearch = debounce(() => {
     return item.name.toLowerCase().includes(query)
   })
 
-  showNoResult.value = searchResults.value.length === 0 && query.length > 0 // Show no results message
+  showNoResult.value = searchResults.value.length === 0 && query.length > 0 // Show no results message if no results found
   searchResults.value = searchResults.value.slice(0, maxResults) // Limit to the number of results shown
   showResults.value = searchResults.value.length > 0 || showNoResult.value // Show the search results dropdown
   selectedResult.value = searchResults.value.length > 0 ? searchResults.value[0] : null // Select the first result if found
 }, 300)
 
-// Watch the search query and update the results
+// Wait for search query & update the results
 watch(searchQuery, handleSearch)
-
-// Handle Enter key press
-const handleKeydown = (event) => {
-  if (event.key === 'Enter') {
-    handleSearch()
-    if (selectedResult.value) {
-      navigateToFirstResult()
-    }
-  }
-}
 
 // Navigate to the first search result
 const navigateToFirstResult = () => {
@@ -59,6 +49,16 @@ const navigateToFirstResult = () => {
     window.location.href = `/items/${selectedResult.value.id}`
   }
   showResults.value = false
+}
+
+// --- Event Handlers ---
+const handleKeydown = (event) => {
+  if (event.key === 'Enter') {
+    handleSearch()
+    if (selectedResult.value) {
+      navigateToFirstResult()
+    }
+  }
 }
 
 // Search button click handler
@@ -70,6 +70,36 @@ const handleButtonClick = () => {
   showResults.value = false
 }
 
+// Focus on input
+const handleFocus = () => {
+  if (searchQuery.value.trim()) {
+    showResults.value = true
+  }
+}
+
+// Blur on input
+const handleBlur = (event) => {
+  setTimeout(() => {
+    if (!event.relatedTarget?.classList.contains('search-result-item')) {
+      showResults.value = false
+    }
+  }, 150)
+}
+
+// --- Helper Functions ---
+const highlightSearchQuery = (text) => {
+  const regex = new RegExp(`(${searchQuery.value.trim()})`, 'gi')
+  return text.replace(regex, '<strong>$1</strong>') // Highlight letters in search query
+}
+
+// Format category to string
+const formatCategory = (category) => {
+  if (Array.isArray(category)) {
+    return category.join(', ')
+  }
+  return category
+}
+
 // Clear the search query
 const clearSearch = () => {
   searchQuery.value = ''
@@ -77,20 +107,6 @@ const clearSearch = () => {
   hasSearched.value = false
   showNoResult.value = false
   showResults.value = false
-}
-
-// Highlight letters in search query
-const highlightSearchQuery = (text) => {
-  const regex = new RegExp(`(${searchQuery.value.trim()})`, 'gi')
-  return text.replace(regex, '<strong>$1</strong>')
-}
-
-// Formats category to string
-const formatCategory = (category) => {
-  if (Array.isArray(category)) {
-    return category.join(', ')
-  }
-  return category
 }
 </script>
 
@@ -102,8 +118,10 @@ const formatCategory = (category) => {
         class="search-input"
         id="search"
         type="text"
-        placeholder="Search"
+        placeholder="Search items to rent quickly..."
         @keydown="handleKeydown"
+        @focus="handleFocus"
+        @blur="handleBlur"
       />
       <button v-if="searchQuery" class="clear-button" @click="clearSearch">
         <i class="pi pi-times"></i>
