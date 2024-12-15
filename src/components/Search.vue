@@ -84,6 +84,12 @@ const clearSearch = () => {
   hasSearched.value = false
   showNoResult.value = false
 }
+
+// Highlight letters in search query
+const highlightSearchQuery = (text) => {
+  const regex = new RegExp(`(${searchQuery.value})`, 'gi')
+  return text.replace(regex, '<strong>$1</strong>')
+}
 </script>
 
 <template>
@@ -118,8 +124,10 @@ const clearSearch = () => {
               class="search-result-item"
             >
               <li>
-                <span class="name"> {{ item.name }} </span> -
-                <span class="description"> {{ truncateDescription(item.description) }} </span>
+                <span v-html="highlightSearchQuery(item.name)"></span> -
+                <span class="description">
+                  {{ truncateDescription(item.description) }}
+                </span>
               </li>
             </RouterLink>
           </ul>
