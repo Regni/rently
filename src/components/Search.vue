@@ -14,6 +14,7 @@ const hasSearched = ref(false)
 const showNoResult = ref(false)
 const selectedResult = ref(null)
 const showResults = ref(false)
+const maxResults = 8
 
 // Truncate Length
 const truncateLength = 60
@@ -44,14 +45,10 @@ const handleSearch = debounce(() => {
     return item.name.toLowerCase().includes(query)
   })
 
-  // Show no results message
-  showNoResult.value = searchResults.value.length === 0 && query.length > 0
-
-  // Show the search results dropdown
-  showResults.value = searchResults.value.length > 0 || showNoResult.value
-
-  // Select the first result if found
-  selectedResult.value = searchResults.value.length > 0 ? searchResults.value[0] : null
+  showNoResult.value = searchResults.value.length === 0 && query.length > 0 // Show no results message
+  searchResults.value = searchResults.value.slice(0, maxResults) // Limit to the number of results shown
+  showResults.value = searchResults.value.length > 0 || showNoResult.value // Show the search results dropdown
+  selectedResult.value = searchResults.value.length > 0 ? searchResults.value[0] : null // Select the first result if found
 }, 300)
 
 // Watch the search query and update the results
