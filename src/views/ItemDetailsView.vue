@@ -36,10 +36,17 @@ const dummyData = {
     rentedHistory: ['b303', 'b304', 'b305'],
   },
 }
-import { Calendar, DatePicker } from 'v-calendar'
+import { useItemsStore } from '@/stores/items'
+import { DatePicker } from 'v-calendar'
+import { useRoute } from 'vue-router'
 import 'v-calendar/style.css'
 import { computed, ref } from 'vue'
-const item = ref(dummyData.item)
+const route = useRoute()
+const params = route.params.id
+const itemsStore = useItemsStore()
+const item = computed(() => itemsStore.items.find((findItem) => findItem.id === params))
+
+// const item = ref(dummyData.item)
 const owner = ref(dummyData.owner)
 const heroImg = ref(dummyData.item.images[0])
 const loggedInUser = ref(dummyData.loggedInUser)
@@ -47,7 +54,7 @@ const range = ref({
   start: new Date(2024, 11, 6),
   end: new Date(2024, 11, 10),
 })
-
+//Calculates the time between start date and end date and includes the first day
 const totalTime = computed(() => (range.value.end - range.value.start) / (1000 * 60 * 60 * 24) + 1)
 </script>
 
@@ -326,7 +333,11 @@ p {
     text-align: center;
   }
   .btn {
-    height: 6rem;
+    height: 4.5rem;
+  }
+  .description-text-wrapper {
+    margin-top: 0.6rem;
+    max-height: none;
   }
 }
 </style>
