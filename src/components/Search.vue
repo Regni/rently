@@ -16,17 +16,6 @@ const selectedResult = ref(null)
 const showResults = ref(false)
 const maxResults = 8
 
-// Truncate Length
-const truncateLength = 60
-
-// Truncate description
-const truncateDescription = (description) => {
-  if (description && description.length > truncateLength) {
-    return description.substring(0, truncateLength) + '...'
-  }
-  return description
-}
-
 // Search function
 const handleSearch = debounce(() => {
   hasSearched.value = true
@@ -95,6 +84,14 @@ const highlightSearchQuery = (text) => {
   const regex = new RegExp(`(${searchQuery.value.trim()})`, 'gi')
   return text.replace(regex, '<strong>$1</strong>')
 }
+
+// Formats category to string
+const formatCategory = (category) => {
+  if (Array.isArray(category)) {
+    return category.join(', ')
+  }
+  return category
+}
 </script>
 
 <template>
@@ -130,8 +127,8 @@ const highlightSearchQuery = (text) => {
                   <span class="name" v-html="highlightSearchQuery(item.name)"></span>
                 </div>
                 <div>
-                  <span class="description">
-                    {{ truncateDescription(item.description) }}
+                  <span class="category">
+                    {{ formatCategory(item.category) }}
                   </span>
                 </div>
               </li>
@@ -262,7 +259,7 @@ a {
   font-size: 1rem;
 }
 
-.description {
+.category {
   font-style: italic;
   font-size: 0.8rem;
 }
