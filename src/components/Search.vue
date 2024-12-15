@@ -105,7 +105,9 @@ const formatCategory = (category) => {
         placeholder="Search"
         @keydown="handleKeydown"
       />
-      <button v-if="searchQuery" class="clear-button" @click="clearSearch">X</button>
+      <button v-if="searchQuery" class="clear-button" @click="clearSearch">
+        <i class="pi pi-times"></i>
+      </button>
     </div>
     <button class="search-button" @click.stop.prevent="handleButtonClick">
       <i class="pi pi-search search-icon"></i>
