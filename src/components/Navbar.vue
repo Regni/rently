@@ -57,12 +57,12 @@ nav a:hover {
   display: flex;
   flex-direction: column;
   position: absolute;
+  align-items: flex-end;
   top: 100%;
-  left: 0;
+  right: 0;
   width: 100%;
-  background-color: var(--color-primary, #047857);
-  padding: 1rem 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-primary);
+  padding: 1rem;
   z-index: 1000;
 }
 
@@ -71,7 +71,7 @@ nav a:hover {
   .nav {
     position: absolute;
     top: 70px;
-    left: 0;
+    right: 0;
     width: 150px;
     background-color: var(--color-primary);
     flex-direction: column;
@@ -79,11 +79,16 @@ nav a:hover {
     visibility: hidden;
     opacity: 0;
     padding: 10px;
+    border-radius: 6px;
+    align-items: center;
+    border: 1px solid #fff;
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
   }
 
   .nav-open {
-    transform: translateY(-100%);
-    transform: translateX(400%);
+    transform: translateY(0);
     visibility: visible;
     opacity: 1;
   }
