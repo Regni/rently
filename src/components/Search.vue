@@ -35,7 +35,7 @@ const handleSearch = debounce(() => {
     return
   }
 
-  const query = searchQuery.value.toLowerCase()
+  const query = searchQuery.value.trim().toLowerCase()
 
   // Filter items
   searchResults.value = items.value.filter((item) => {
@@ -43,7 +43,7 @@ const handleSearch = debounce(() => {
   })
 
   // Show no results message
-  showNoResult.value = searchResults.value.length === 0 && searchQuery.value.length > 0
+  showNoResult.value = searchResults.value.length === 0 && query.length > 0
 
   // Select the first result if found
   selectedResult.value = searchResults.value.length > 0 ? searchResults.value[0] : null
@@ -87,7 +87,7 @@ const clearSearch = () => {
 
 // Highlight letters in search query
 const highlightSearchQuery = (text) => {
-  const regex = new RegExp(`(${searchQuery.value})`, 'gi')
+  const regex = new RegExp(`(${searchQuery.value.trim()})`, 'gi')
   return text.replace(regex, '<strong>$1</strong>')
 }
 </script>
