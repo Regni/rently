@@ -99,7 +99,9 @@ const clearSearch = () => {
       />
       <button v-if="searchQuery" class="clear-button" @click="clearSearch">X</button>
     </div>
-    <button class="search-button" @click.stop.prevent="handleButtonClick">Search</button>
+    <button class="search-button" @click.stop.prevent="handleButtonClick">
+      <i class="pi pi-search search-icon"></i>
+    </button>
 
     <div
       class="search-results"
@@ -162,7 +164,7 @@ a {
 
 .clear-button {
   position: absolute;
-  right: 6rem;
+  right: 4rem;
   top: 50%;
   transform: translateY(-50%);
   padding: 0;
@@ -175,7 +177,7 @@ a {
 
 .search-button {
   font-family: var(--font-links);
-  padding: 0.45rem 1rem;
+  padding: 0.6rem 1rem;
   background-color: var(--color-btn);
   height: auto;
   color: #fff;
@@ -183,10 +185,17 @@ a {
   border-radius: 0 5px 5px 0;
   cursor: pointer;
   transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .search-button:hover {
   background-color: var(--color-btn-hover);
+}
+
+.search-icon {
+  font-size: 1rem;
 }
 
 .search-results {
