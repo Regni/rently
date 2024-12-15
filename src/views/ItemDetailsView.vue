@@ -40,13 +40,12 @@ import { useItemsStore } from '@/stores/items'
 import { DatePicker } from 'v-calendar'
 import { useRoute } from 'vue-router'
 import 'v-calendar/style.css'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 const route = useRoute()
-const params = route.params.id
+const itemID = route.params.id
 const itemsStore = useItemsStore()
-const item = computed(() => itemsStore.items.find((findItem) => findItem.id === params))
+const item = computed(() => itemsStore.items.find((findItem) => findItem.id === itemID))
 
-// const item = ref(dummyData.item)
 const owner = ref(dummyData.owner)
 const heroImg = ref(dummyData.item.images[0])
 const loggedInUser = ref(dummyData.loggedInUser)
@@ -56,10 +55,23 @@ const range = ref({
 })
 //Calculates the time between start date and end date and includes the first day
 const totalTime = computed(() => (range.value.end - range.value.start) / (1000 * 60 * 60 * 24) + 1)
+
+const handleDateChange = (e) => {
+  const steve = e.target.value.split('-')
+  range.value = {
+    ...range.value,
+    start: new Date(Number(steve[0]), Number(steve[1] - 1), Number(steve[2])),
+  }
+  console.log(range.value.start)
+}
+watch(range, () => {
+  console.log(range)
+})
 </script>
 
 <template>
-  <section>
+  <div v-if="itemsStore.isLoading"><h1>Loading...</h1></div>
+  <section v-else>
     <div class="main-content-container">
       <!-- title -->
       <!-- img -->
@@ -86,26 +98,7 @@ const totalTime = computed(() => (range.value.end - range.value.start) / (1000 *
             <!-- description -->
             <h3>Description:</h3>
             <p class="description-text-wrapper">
-              <!-- {{ item.description }} -->
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quis, sint. Sit quidem ea
-              accusamus voluptatem, delectus quibusdam porro labore quae numquam ipsum repudiandae.
-              Praesentium assumenda quo officia obcaecati, voluptate neque enim quia ipsa corrupti
-              ad necessitatibus laboriosam sint nam eos impedit quibusdam, animi voluptas hic
-              expedita eveniet ullam! Laboriosam odio et accusamus beatae perspiciatis cum, atque
-              voluptates nihil autem delectus reprehenderit tempora ut? Minus quibusdam placeat
-              aperiam molestias voluptatum neque provident ut dolorum illum qui ab, voluptatem
-              officiis voluptates cum nisi reprehenderit aut. Commodi, soluta quo. Voluptates,
-              nesciunt minus commodi dignissimos quibusdam soluta, ipsam dolore voluptate est, in
-              architecto quas. Sequi, quaerat minima, dolorum quasi aspernatur porro quibusdam
-              sapiente molestias illum possimus modi voluptatibus obcaecati repellendus velit aut.
-              Reprehenderit, quod cumque itaque accusantium aperiam labore eius temporibus sed cum,
-              quos odit odio repellat iusto. Ullam quasi a odit, earum nam eum delectus perferendis
-              dignissimos? Pariatur tempore laboriosam ratione fugit velit minus vel porro
-              perferendis officiis, consectetur blanditiis commodi sapiente! Repudiandae molestias
-              quisquam vitae porro, asperiores temporibus reprehenderit at animi maxime cum a ipsa
-              obcaecati! Amet maxime voluptatibus voluptas atque molestiae modi optio fuga?
-              Voluptatem tenetur labore quam. Reprehenderit illo atque temporibus saepe asperiores
-              molestiae! Perspiciatis placeat quaerat sed magni a.
+              {{ item.description }}
             </p>
           </div>
 
@@ -116,19 +109,23 @@ const totalTime = computed(() => (range.value.end - range.value.start) / (1000 *
 
         <div class="date-price-container">
           <DatePicker v-model.range="range" />
+
+          <!-- THIS IS FOR LATER IMPLEMENTATION SO YOU CAN ADD A DATE AND CALENDER WILL ADJUST -->
           <!-- <span
             >Start date:<input
               type="date"
-              v-model="range.start.toISOString().split('T')[0]" /></span
+              :value="range.start.toISOString().split('T')[0]"
+              @input="handleDateChange" /></span
           ><span
-            >End date: <input type="date" v-model="range.end.toISOString().split('T')[0]"
+            >End date:
+            <input
+              type="date"
+              :value="range.end.toISOString().split('T')[0]"
+              @input="range.value.end = new Date($event.target.value)"
           /></span> -->
 
           <button class="btn">Rent now for {{ item.price * totalTime }} kr!</button>
-          <!-- <h1>{{ item.price }} kr per day!!</h1> -->
         </div>
-
-        <!--rent now button creates a Modal with a calender which the user can pick how long they want to rent it-->
       </div>
     </div>
 
@@ -173,10 +170,8 @@ p {
   color: var(--color-basic-text);
 }
 .main-content-container {
-  /* border: 2px solid salmon; */
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   width: 95%;
 }
 
@@ -285,14 +280,17 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 0 0 1rem 0.3rem;
+  padding: 0 0 0 0.3rem;
   max-width: 30rem;
+  max-height: 700px;
   width: 60%;
   margin: 0 4rem 0 0.1rem;
 }
 .item-user-container {
+  margin: 0.8rem 0;
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 .owner-wrapper {
   display: block;
@@ -306,7 +304,7 @@ p {
 }
 .description-text-wrapper {
   margin-top: 0.6rem;
-  max-height: 200px;
+  max-height: 125px;
   overflow: auto;
 }
 
