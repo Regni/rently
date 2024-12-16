@@ -65,4 +65,21 @@ p {
   font-family: var(--font-basic);
   font-size: 0.9em;
 }
+
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 200px;
+    height: auto;
+  }
+
+  .card h3,
+  p {
+    display: none;
+  }
+}
 </style>

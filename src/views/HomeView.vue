@@ -14,7 +14,7 @@ const limit = ref(10)
 </script>
 
 <template>
-  <!-- HEOR -->
+  <!-- HERO -->
   <HeroComponent
     title="Rently, Simply rent and live"
     subtitle="Search and find whatever you need to rent or rent out. Find what you are looking for quickly and easily."
