@@ -6,6 +6,7 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/stores/users'
 import { useItemsStore } from '@/stores/items'
+import { useToast } from 'vue-toastification'
 import itemCategories from '@/assets/itemCategories'
 import 'primeicons/primeicons.css'
 
@@ -13,6 +14,9 @@ const usersStore = useUsersStore()
 const itemsStore = useItemsStore()
 
 const router = useRouter()
+
+// Vue toastification package for toast notifications
+const toast = useToast()
 
 // ----- REACTIVE VARIABLES -----
 const isDropdownOpen = ref(false)
@@ -30,11 +34,33 @@ const imageUrl = ref('')
 
 // ----- COMPUTED PROPERTIES -----
 // const activeUser = computed(() => usersStore.activeUser || null)
+const itemsStoreError = computed(() => itemsStore.error)
+
 const activeUser = ref({ id: 'testUser' })
 
 // ----- METHODS -----
 // function to handle image upload
 const addImageUrl = () => {
+  //Validate image URL
+  //   const validateImage = async (url) => {
+  //   try {
+  //     const res = await fetch(url, { method: 'HEAD' });
+  //     const contentType = res.headers.get('Content-Type');
+  //     return contentType.startsWith('image/');
+  //   } catch (err) {
+  //     console.error('Invalid URL or not an image', err);
+  //     return false;
+  //   }
+  // };
+
+  // validateImage('https://example.com/image.jpg').then(isValid => {
+  //   if (isValid) {
+  //     console.log('This is a valid image URL');
+  //   } else {
+  //     console.log('Invalid image URL');
+  //   }
+  // });
+
   if (imageUrl.value) {
     newItem.value.images.push(imageUrl.value)
     imageUrl.value = ''
@@ -63,7 +89,11 @@ const handleCreateItem = (event) => {
     images: [],
   }
 
-  console.log('Before router.push')
+  toast.success('Item created successfully!', {
+    toastClassName: 'success-toast',
+    timeout: 2000,
+  })
+
   // Redirect to the Dashboard-listings???
   router.push({ name: 'dashboard-listings' })
 }
@@ -72,6 +102,9 @@ const handleCreateItem = (event) => {
   <section @click="isDropdownOpen = false">
     <div class="create-item-container">
       <h1>Create Item</h1>
+      <div v-if="itemsStoreError" class="error-container">
+        <p class="error-message">{{ itemsStoreError }}</p>
+      </div>
       <form class="create-item-form" @submit.prevent="handleCreateItem">
         <div class="dropdown">
           <label for="category">Choose Item Categories</label>
@@ -322,5 +355,20 @@ form textarea {
   position: absolute;
   bottom: 1.5em;
   right: 4em;
+}
+
+/* Error Handling */
+.error-container {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #ffdddd;
+  border: 1px solid #ff0000;
+  border-radius: 4px;
+}
+.error-message {
+  color: #ff0000;
+  margin: 0.5rem 0;
+  font-family: var(--font-basic);
 }
 </style>
