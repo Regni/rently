@@ -1,7 +1,7 @@
 <script setup>
 import { useItemsStore } from '@/stores/items.js'
 import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute, useRouter, RouterLink } from 'vue-router'
 
 const itemsStore = useItemsStore()
 const items = computed(() => itemsStore.items)
@@ -56,20 +56,22 @@ watch(selectedCategories, (newCategories) => {
 
       <div class="items-grid">
         <div v-for="item in filteredItems" :key="item.id" class="item-card">
-          <div class="image-container">
-            <img class="item-image" :src="item.images[0]" :alt="item.name" />
-            <!-- Fallback to default image if hover image is not provided -->
-            <img
-              class="item-image-hover"
-              :src="item.images[1] || item.images[0]"
-              alt="item.images[1] ? `${item.name} (hover)` : `${item.name} (default)`"
-            />
-            <div class="item-details">
-              <h3 class="item-title">{{ item.name }}</h3>
-              <p><strong>Price:</strong> {{ item.price }} kr</p>
-              <p><strong>Owner:</strong> {{ item.owner }}</p>
+          <RouterLink :to="{ name: 'item-details', params: { id: item.id } }">
+            <div class="image-container">
+              <img class="item-image" :src="item.images[0]" :alt="item.name" />
+              <!-- Fallback to default image if hover image is not provided -->
+              <img
+                class="item-image-hover"
+                :src="item.images[1] || item.images[0]"
+                alt="item.images[1] ? `${item.name} (hover)` : `${item.name} (default)`"
+              />
+              <div class="item-details">
+                <h3 class="item-title">{{ item.name }}</h3>
+                <p><strong>Price:</strong> {{ item.price }} kr</p>
+                <p><strong>Owner:</strong> {{ item.owner }}</p>
+              </div>
             </div>
-          </div>
+          </RouterLink>
         </div>
       </div>
     </div>
