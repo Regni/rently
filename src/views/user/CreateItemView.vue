@@ -1,8 +1,5 @@
-<!--  Inspiration from Hygglo: https://www.hygglo.se/new-item - beeing able to see form, but having to
- login before typing -->
-
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/stores/users'
 import { useItemsStore } from '@/stores/items'
@@ -29,38 +26,67 @@ const newItem = ref({
   category: [],
 })
 
-// variable to hanlde image upload
+// variable to handle image upload
 const imageUrl = ref('')
 
 // ----- COMPUTED PROPERTIES -----
-// const activeUser = computed(() => usersStore.activeUser || null)
+const activeUser = computed(() => usersStore.activeUser || null)
 const itemsStoreError = computed(() => itemsStore.error)
 
-const activeUser = ref({ id: 'testUser' })
+// Form validation
+const formValid = computed(() => {
+  return (
+    newItem.value.name.trim() !== '' &&
+    newItem.value.description.trim() !== '' &&
+    newItem.value.images.length > 0 &&
+    newItem.value.category.length > 0
+  )
+})
+
+// Image lengthvalidation
+const validImageLength = computed(() => {
+  return newItem.value.images.length < 5
+})
 
 // ----- METHODS -----
+//clear error message when user navigates away
+onUnmounted(() => {
+  itemsStore.error = null
+})
+
+// check if image URL is valid
+// TODO - change to Axios!!!!!!!
+const validateImage = async (url) => {
+  try {
+    const res = await fetch(url, { method: 'HEAD' })
+    const contentType = res.headers.get('Content-Type')
+    return contentType.startsWith('image/')
+  } catch (err) {
+    console.error('Invalid URL or not an image', err)
+    return false
+  }
+}
+
 // function to handle image upload
-const addImageUrl = () => {
-  //Validate image URL
-  //   const validateImage = async (url) => {
-  //   try {
-  //     const res = await fetch(url, { method: 'HEAD' });
-  //     const contentType = res.headers.get('Content-Type');
-  //     return contentType.startsWith('image/');
-  //   } catch (err) {
-  //     console.error('Invalid URL or not an image', err);
-  //     return false;
-  //   }
-  // };
+const addImageUrl = async () => {
+  if (!validImageLength.value) {
+    toast.error('You can only add 5 images', {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
+    return
+  }
+  // Validate image URL
+  const isValid = await validateImage(imageUrl.value)
 
-  // validateImage('https://example.com/image.jpg').then(isValid => {
-  //   if (isValid) {
-  //     console.log('This is a valid image URL');
-  //   } else {
-  //     console.log('Invalid image URL');
-  //   }
-  // });
-
+  if (!isValid) {
+    toast.error('Please enter a valid image URL', {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
+    return
+  }
+  // Add image to newItem array and clear imageUrl field
   if (imageUrl.value) {
     newItem.value.images.push(imageUrl.value)
     imageUrl.value = ''
@@ -76,11 +102,20 @@ const removeImage = (index) => {
 const handleCreateItem = (event) => {
   console.log(newItem.value)
 
-  newItem.value.owner = activeUser.value.id
+  if (!formValid.value) {
+    toast.error('Please fill in all fields', {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
+    return
+  }
 
+  // owner is same as active user
+  newItem.value.owner = activeUser.value.id
+  // add item to itemstore
   itemsStore.addItem(newItem.value)
 
-  //clear the form
+  // clear the form
   newItem.value = {
     name: '',
     description: '',
@@ -107,33 +142,53 @@ const handleCreateItem = (event) => {
       </div>
       <form class="create-item-form" @submit.prevent="handleCreateItem">
         <div class="dropdown">
-          <label for="category">Choose Item Categories</label>
-          <button
-            type="button"
-            class="dropdown-button"
-            @click.stop="isDropdownOpen = !isDropdownOpen"
-          >
-            <div>Categories <i class="pi pi-angle-down"></i></div>
-          </button>
-          <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
-            <label v-for="category in itemCategories" :key="category" class="dropdown-item">
-              <input type="checkbox" :value="category" v-model="newItem.category" />
-              <span class="category-option">
-                {{ category }}
-              </span>
-            </label>
+          <div class="dropdown-input-group">
+            <label for="category">Choose Categories:</label>
+            <button
+              type="button"
+              class="dropdown-button"
+              @click.stop="isDropdownOpen = !isDropdownOpen"
+            >
+              <div>Categories <i class="pi pi-angle-down"></i></div>
+            </button>
+            <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
+              <label v-for="category in itemCategories" :key="category" class="dropdown-item">
+                <input type="checkbox" :value="category" v-model="newItem.category" required />
+                <span class="category-option">
+                  {{ category }}
+                </span>
+              </label>
+            </div>
           </div>
         </div>
-        <label for="title">Title</label>
-        <input name="title" type="text" v-model="newItem.name" />
+        <ul v-for="category in newItem.category" class="chosen-categories">
+          <li>{{ category }}</li>
+        </ul>
 
-        <label for="description">Description</label>
-        <textarea name="description" rows="4" cols="50" v-model="newItem.description"></textarea>
+        <label for="title" class="form-title">Title</label>
+        <input required name="title" type="text" maxlength="50" v-model="newItem.name" />
 
-        <label for="images">Images</label>
+        <label for="description">Description (max 400 characters)</label>
+        <textarea
+          required
+          name="description"
+          rows="4"
+          cols="50"
+          maxlength="400"
+          v-model="newItem.description"
+        ></textarea>
+
+        <label for="images">Images (max 5, min 1)</label>
         <div class="add-image-container">
           <input type="url" v-model="imageUrl" placeholder="Add image URL" />
-          <button type="button" @click="addImageUrl" class="btn add-image-btn">+ Add</button>
+          <button
+            type="button"
+            @click="addImageUrl"
+            class="btn add-image-btn"
+            :disabled="!validImageLength"
+          >
+            + Add
+          </button>
         </div>
 
         <div v-if="newItem.images.length > 0">
@@ -148,8 +203,8 @@ const handleCreateItem = (event) => {
           </div>
         </div>
 
-        <label for="price">Price</label>
-        <input name="price" type="number" v-model="newItem.price" />
+        <label for="price">Price per day in SEK</label>
+        <input required name="price" type="number" min="0" v-model="newItem.price" />
 
         <button name="submit" class="btn create-item-btn" type="submit">Create Listing</button>
       </form>
@@ -177,6 +232,7 @@ section {
   margin: 4em;
   padding: 4em;
   position: relative;
+  max-width: 40%;
 }
 
 .create-item-form {
@@ -189,6 +245,7 @@ h1 {
   color: var(--color-h1);
   font-size: 3rem;
   font-weight: 500;
+  margin-bottom: 0.3em;
 }
 
 h2 {
@@ -200,6 +257,7 @@ h2 {
 label {
   font-family: var(--font-links);
   color: var(--color-basic-text);
+  font-weight: bold;
 }
 
 form input,
@@ -210,16 +268,26 @@ form textarea {
   padding: 0.4rem;
 }
 
+.form-title {
+  margin-top: 1em;
+}
+
 /* Category Dropdown Menu */
 .dropdown {
   position: relative;
   display: inline-block;
   margin: 1rem 0;
-  width: 60%;
+}
+
+.dropdown-input-group {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  align-items: center;
 }
 
 .dropdown-button {
-  width: 100%;
+  flex-grow: 1;
   padding: 0.5rem 1rem;
   background-color: #ccc;
   color: var(--color-basic-text);
@@ -250,7 +318,7 @@ form textarea {
   border: 1px solid #ccc;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-height: 250px;
+  max-height: 450px;
   overflow-y: auto;
   padding: 0.5rem;
   width: 100%;
@@ -296,6 +364,12 @@ form textarea {
   display: block;
 }
 
+.chosen-categories {
+  list-style: circle;
+  font-family: var(--font-basic);
+  color: var(--color-basic-text);
+}
+
 /* Image Upload */
 .add-image-container {
   display: flex;
@@ -320,6 +394,13 @@ form textarea {
 
 .add-image-btn:hover {
   background-color: var(--color-secondary);
+}
+
+.add-image-btn[disabled] {
+  cursor: not-allowed;
+}
+.add-image-btn[disabled]:hover {
+  background-color: #ccc;
 }
 
 .image-preview-container {
