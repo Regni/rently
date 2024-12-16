@@ -1,16 +1,28 @@
 <script setup>
 import { useItemsStore } from '@/stores/items'
+import { useUsersStore } from '@/stores/users'
 import { computed } from 'vue'
 
 const itemsStore = useItemsStore()
-const items = computed(() => itemsStore.items)
+const usersStore = useUsersStore()
+
+// Hardcode a specific user for testing
+usersStore.activeUser = {
+  id: 'U001',
+}
+
+const items = computed(() => {
+  const activeUserId = usersStore.activeUser?.id
+  return itemsStore.items.filter((item) => item.owner === activeUserId)
+})
 </script>
 
 <template>
   <section class="listings">
     <h2>My Listings</h2>
     <div class="container">
-      <div v-for="item in items" key="item.id">
+      <p v-if="items.length === 0">You have no active listings.</p>
+      <div v-for="item in items" :key="item.id">
         <router-link :to="{ name: 'item-details', params: { id: item.id } }">
           <div class="item-card">
             <img class="item-image" :src="item.images[0]" :alt="item.name" />

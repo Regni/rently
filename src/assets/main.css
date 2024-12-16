@@ -41,6 +41,10 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 
+h2 {
+  font-weight: 600;
+}
+
 .Vue-Toastification__toast.success-toast {
   background-color: var(--color-btn);
   color: var(--color-btn-text);
