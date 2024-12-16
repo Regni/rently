@@ -3,12 +3,16 @@
 
 <script setup>
 import { computed, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useUsersStore } from '@/stores/users'
 import { useItemsStore } from '@/stores/items'
 import itemCategories from '@/assets/itemCategories'
+import 'primeicons/primeicons.css'
 
 const usersStore = useUsersStore()
 const itemsStore = useItemsStore()
+
+const router = useRouter()
 
 // ----- REACTIVE VARIABLES -----
 const isDropdownOpen = ref(false)
@@ -28,6 +32,21 @@ const imageUrl = ref('')
 // const activeUser = computed(() => usersStore.activeUser || null)
 const activeUser = ref({ id: 'testUser' })
 
+// ----- METHODS -----
+// function to handle image upload
+const addImageUrl = () => {
+  if (imageUrl.value) {
+    newItem.value.images.push(imageUrl.value)
+    imageUrl.value = ''
+  }
+}
+
+// Remove uploaded image
+const removeImage = (index) => {
+  newItem.value.images.splice(index, 1)
+}
+
+// Add a new item
 const handleCreateItem = (event) => {
   console.log(newItem.value)
 
@@ -43,19 +62,10 @@ const handleCreateItem = (event) => {
     category: [],
     images: [],
   }
-}
 
-// ----- METHODS -----
-// function to handle image upload
-const addImageUrl = () => {
-  if (imageUrl.value) {
-    newItem.value.images.push(imageUrl.value)
-    imageUrl.value = ''
-  }
-}
-
-const removeImage = (index) => {
-  newItem.value.images.splice(index, 1)
+  console.log('Before router.push')
+  // Redirect to the Dashboard-listings???
+  router.push({ name: 'dashboard-listings' })
 }
 </script>
 <template>
@@ -63,6 +73,24 @@ const removeImage = (index) => {
     <div class="create-item-container">
       <h1>Create Item</h1>
       <form class="create-item-form" @submit.prevent="handleCreateItem">
+        <div class="dropdown">
+          <label for="category">Choose Item Categories</label>
+          <button
+            type="button"
+            class="dropdown-button"
+            @click.stop="isDropdownOpen = !isDropdownOpen"
+          >
+            <div>Categories <i class="pi pi-angle-down"></i></div>
+          </button>
+          <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
+            <label v-for="category in itemCategories" :key="category" class="dropdown-item">
+              <input type="checkbox" :value="category" v-model="newItem.category" />
+              <span class="category-option">
+                {{ category }}
+              </span>
+            </label>
+          </div>
+        </div>
         <label for="title">Title</label>
         <input name="title" type="text" v-model="newItem.name" />
 
@@ -72,7 +100,7 @@ const removeImage = (index) => {
         <label for="images">Images</label>
         <div class="add-image-container">
           <input type="url" v-model="imageUrl" placeholder="Add image URL" />
-          <button type="button" @click="addImageUrl" class="btn add-image-btn">Add</button>
+          <button type="button" @click="addImageUrl" class="btn add-image-btn">+ Add</button>
         </div>
 
         <div v-if="newItem.images.length > 0">
@@ -90,23 +118,6 @@ const removeImage = (index) => {
         <label for="price">Price</label>
         <input name="price" type="number" v-model="newItem.price" />
 
-        <div class="dropdown">
-          <button
-            type="button"
-            class="dropdown-button"
-            @click.stop="isDropdownOpen = !isDropdownOpen"
-          >
-            Categories
-          </button>
-          <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
-            <label v-for="category in itemCategories" :key="category" class="dropdown-item">
-              <input type="checkbox" v-model="newItem.category" />
-              <span class="category-option">
-                {{ category }}
-              </span>
-            </label>
-          </div>
-        </div>
         <button name="submit" class="btn create-item-btn" type="submit">Create Listing</button>
       </form>
     </div>
@@ -166,62 +177,17 @@ form textarea {
   padding: 0.4rem;
 }
 
-.add-image-container {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
-
-.add-image-container input {
-  flex-grow: 1;
-}
-
-.add-image-btn {
-  display: inline-block;
-}
-
-.image-preview-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1em 0;
-}
-
-.image-preview {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0.5em;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-}
-
-.image-thumbnail {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  margin-bottom: 0.5em;
-}
-
-.remove-btn {
-  padding: 0.2em 0.5em;
-  background-color: #c94022;
-  font-family: var(--font-links);
-}
-
 /* Category Dropdown Menu */
 .dropdown {
   position: relative;
   display: inline-block;
-  margin-bottom: 1rem;
+  margin: 1rem 0;
   width: 60%;
 }
 
 .dropdown-button {
   width: 100%;
   padding: 0.5rem 1rem;
-  font-size: 1rem;
   background-color: #ccc;
   color: var(--color-basic-text);
   font-weight: 600;
@@ -233,6 +199,13 @@ form textarea {
 
 .dropdown-button:hover {
   background-color: var(--color-secondary);
+}
+
+.dropdown-button div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
 }
 
 .dropdown-menu {
@@ -290,8 +263,59 @@ form textarea {
   display: block;
 }
 
-.selected-category {
-  font-weight: bold;
+/* Image Upload */
+.add-image-container {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.add-image-container input {
+  flex-grow: 1;
+}
+
+.add-image-btn {
+  background-color: #ccc;
+  color: var(--color-basic-text);
+  font-weight: 600;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-image-btn:hover {
+  background-color: var(--color-secondary);
+}
+
+.image-preview-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1em 0;
+}
+
+.image-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5em;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.image-thumbnail {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 0.5em;
+}
+
+.remove-btn {
+  padding: 0.2em 0.5em;
+  background-color: #c94022;
+  font-family: var(--font-links);
 }
 
 .create-item-btn {
