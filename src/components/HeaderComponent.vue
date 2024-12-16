@@ -21,7 +21,7 @@ import Search from './Search.vue'
   </header>
 </template>
 
-<style>
+<style scoped>
 header {
   background-color: var(--color-primary, #047857);
   border-bottom: 1px solid #fff;
