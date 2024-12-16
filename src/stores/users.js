@@ -10,7 +10,8 @@ export const useUsersStore = defineStore('users', () => {
   const users = ref(dummyData.users)
   const error = ref(null)
   const isLoading = ref(false)
-  const activeUser = ref({})
+  const activeUser = ref(JSON.parse(localStorage.getItem('activeUser')) || {})
+
   // if you want to use dummy data just comment this line out.
   onMounted(fetchUsers)
 
@@ -20,9 +21,9 @@ export const useUsersStore = defineStore('users', () => {
     try {
       users.value = await jsonBinApi.fetchData(usersURL)
       return users.value
-    } catch (error) {
-      console.error('Error fetching Users', error)
-      error.value = 'Error fetching Users:' + error
+    } catch (err) {
+      console.error('Error fetching Users', err)
+      error.value = 'Error fetching Users:' + err
     } finally {
       isLoading.value = false
     }
@@ -53,10 +54,14 @@ export const useUsersStore = defineStore('users', () => {
       //deconstructing the object to remove the password to hide it.
       const { password, ...newActiveUser } = newUser
       activeUser.value = newActiveUser
+
+      // Save registered user to local storage
+      localStorage.setItem('activeUser', JSON.stringify(activeUser.value))
+
       return activeUser.value
-    } catch (error) {
-      console.error('Error registering User', error)
-      error.value = 'Error registering User: ' + error
+    } catch (err) {
+      console.error('Error registering User', err)
+      error.value = 'Error registering User: ' + err
     } finally {
       isLoading.value = false
     }
@@ -80,10 +85,14 @@ export const useUsersStore = defineStore('users', () => {
       //remove the password field.
       const { password, ...newActiveUser } = updateUser
       activeUser.value = newActiveUser
+
+      // Save updated user to local storage
+      localStorage.setItem('activeUser', JSON.stringify(activeUser.value))
+
       return activeUser.value
-    } catch (error) {
-      console.error('Error updating User', error)
-      error.value = 'Error updating User: ' + error
+    } catch (err) {
+      console.error('Error updating User', err)
+      error.value = 'Error updating User: ' + err
     } finally {
       isLoading.value = false
     }
@@ -101,10 +110,14 @@ export const useUsersStore = defineStore('users', () => {
         usersURL,
         users.value.filter((user) => user.id !== id),
       )
+      if (activeUser.value.id === id) {
+        activeUser.value = null
+        localStorage.removeItem('activeUser')
+      }
       return 'user removed'
-    } catch (error) {
-      console.error('Error deleting User:', error)
-      error.value = 'Error deleting User: ' + error
+    } catch (err) {
+      console.error('Error deleting User:', err)
+      error.value = 'Error deleting User: ' + err
     } finally {
       isLoading.value = false
     }
@@ -124,10 +137,14 @@ export const useUsersStore = defineStore('users', () => {
       //deconstructing the object to remove the password to hide it.
       const { password, ...newActiveUser } = newLoginUser
       activeUser.value = newActiveUser
+
+      // Save logged in user to local storage
+      localStorage.setItem('activeUser', JSON.stringify(activeUser.value))
+
       return activeUser.value
-    } catch (error) {
-      error.value = 'Error in login: ' + error
-      console.error('Login failed: ', error)
+    } catch (err) {
+      error.value = 'Error in login: ' + err
+      console.error('Login failed: ', err)
     } finally {
       isLoading.value = false
     }
@@ -141,9 +158,12 @@ export const useUsersStore = defineStore('users', () => {
         throw new Error('You need to be logged in to perform this action')
       }
       activeUser.value = null
-    } catch (error) {
-      error.value = 'Error in logout: ' + error
-      console.error('Logout failed: ', error)
+
+      // Remove active user from local storage
+      localStorage.removeItem('activeUser')
+    } catch (err) {
+      error.value = 'Error in logout: ' + err
+      console.error('Logout failed: ', err)
     } finally {
       isLoading.value = false
     }

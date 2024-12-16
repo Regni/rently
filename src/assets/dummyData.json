@@ -62,7 +62,7 @@
       "price": 150,
       "category": ["Outdoors", "Camping"],
       "publishedDate": "2023-06-10",
-      "owner": "U003",
+      "owner": "U001",
       "images": ["https://picsum.photos/200/300"],
       "archived": false
     },
