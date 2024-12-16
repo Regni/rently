@@ -1,80 +1,35 @@
 <script setup>
-const dummyData = {
-  item: {
-    id: 'I201',
-    name: 'Mountain Bike',
-    description: 'A high-quality mountain bike suitable for all terrains.',
-    price: 450,
-    category: ['Sports', 'Outdoor'],
-    publishedDate: '2023-06-15',
-    owner: 'U101',
-    renter: 'U201',
-    images: [
-      'https://picsum.photos/600/600',
-      'https://picsum.photos/300/300',
-      'https://picsum.photos/300/200',
-      'https://picsum.photos/400/300',
-    ],
-    archived: false,
-  },
-  owner: {
-    id: 'U101',
-    firstname: 'Alice',
-    lastname: 'Johnson',
-    email: 'alice.johnson@example.com',
-    password: 'securepassword123',
-    ownedItems: ['I201', 'I202'],
-    rentedHistory: ['b301', 'b302'],
-  },
-  loggedInUser: {
-    id: 'U102',
-    firstname: 'Bob',
-    lastname: 'Smith',
-    email: 'bob.smith@example.com',
-    password: 'mypassword456',
-    ownedItems: ['I203'],
-    rentedHistory: ['b303', 'b304', 'b305'],
-  },
-}
 import { useItemsStore } from '@/stores/items'
 import { DatePicker } from 'v-calendar'
 import { useRoute } from 'vue-router'
 import 'v-calendar/style.css'
-import { computed, ref, watch } from 'vue'
-const route = useRoute()
-const itemID = route.params.id
-const itemsStore = useItemsStore()
-const item = computed(() => itemsStore.items.find((findItem) => findItem.id === itemID))
+import { computed, ref } from 'vue'
+import { useUsersStore } from '@/stores/users'
 
-const owner = ref(dummyData.owner)
-const heroImg = ref(dummyData.item.images[0])
-const loggedInUser = ref(dummyData.loggedInUser)
+const route = useRoute()
+const itemsStore = useItemsStore()
+const usersStore = useUsersStore()
+
+const item = computed(() => itemsStore.items.find((findItem) => findItem.id === route.params.id))
+const heroImg = ref(item.value.images[0] || null)
+const owner = computed(() => usersStore.users.find((findUser) => findUser.id === item.value.owner))
+//This will be used later when rent now is implemented
+// const loggedInUser = ref(dummyData.loggedInUser)
+
+//this is for the datepicker to work
 const range = ref({
   start: new Date(2024, 11, 6),
   end: new Date(2024, 11, 10),
 })
 //Calculates the time between start date and end date and includes the first day
 const totalTime = computed(() => (range.value.end - range.value.start) / (1000 * 60 * 60 * 24) + 1)
-
-const handleDateChange = (e) => {
-  const steve = e.target.value.split('-')
-  range.value = {
-    ...range.value,
-    start: new Date(Number(steve[0]), Number(steve[1] - 1), Number(steve[2])),
-  }
-  console.log(range.value.start)
-}
-watch(range, () => {
-  console.log(range)
-})
 </script>
 
 <template>
+  <!-- placeholder for loading component -->
   <div v-if="itemsStore.isLoading"><h1>Loading...</h1></div>
   <section v-else>
     <div class="main-content-container">
-      <!-- title -->
-      <!-- img -->
       <div class="big-picture-container">
         <img class="hero-picture" :src="heroImg" />
         <div class="secondary-img-container">
@@ -109,42 +64,14 @@ watch(range, () => {
 
         <div class="date-price-container">
           <DatePicker v-model.range="range" />
-
-          <!-- THIS IS FOR LATER IMPLEMENTATION SO YOU CAN ADD A DATE AND CALENDER WILL ADJUST -->
-          <!-- <span
-            >Start date:<input
-              type="date"
-              :value="range.start.toISOString().split('T')[0]"
-              @input="handleDateChange" /></span
-          ><span
-            >End date:
-            <input
-              type="date"
-              :value="range.end.toISOString().split('T')[0]"
-              @input="range.value.end = new Date($event.target.value)"
-          /></span> -->
-
+          <!-- no functionality yet - need a modal to confirm? -->
           <button class="btn">Rent now for {{ item.price * totalTime }} kr!</button>
         </div>
       </div>
     </div>
 
-    <!-- <div>
-      <h3>More of {{ owner.firstname }} adverts</h3>
-      <div class="advert-card-collection-container">
-        <div class="advert-card-container" v-for="(item, index) in owner.ownedItems" :key="index">
-          <div class="advert-card-img-wrapper">
-            <img class="advert-card-img" src="https://picsum.photos/400/300" loading="lazy" />
-          </div>
-          <h4>test item</h4>
-          <p>price: 99 kr</p>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <div>more adverts of same category</div>
-    </div> -->
+    <!-- More items of this owner adverts -->
+    <!-- More items of this category -->
   </section>
 </template>
 
