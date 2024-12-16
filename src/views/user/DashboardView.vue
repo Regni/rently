@@ -25,6 +25,7 @@ const toggleView = () => {
     <div class="side-bar">
       <h2>User's Profile</h2>
       <button class="btn" @click="toggleView">{{ buttonText }}</button>
+      <button class="delete-acc">Delete Account</button>
     </div>
     <div class="vl"></div>
     <RouterView />
@@ -43,8 +44,10 @@ const toggleView = () => {
 
 .side-bar {
   width: 20%;
-  height: 90%;
+  height: 90vh;
   align-self: flex-start;
+  display: flex;
+  flex-direction: column;
   padding: 3em 0;
 }
 
@@ -56,6 +59,24 @@ h2 {
 
 .btn {
   margin: 0 30px;
+  width: 12em;
+}
+
+.delete-acc {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: rgb(194, 77, 77);
+  color: var(--color-btn-text);
+  font-family: var(--font-links);
+  width: 12em;
+  margin: 0px 30px;
+  margin-top: auto;
+}
+
+.delete-acc:hover {
+  background-color: rgb(198, 119, 119);
 }
 
 .vl {
