@@ -2,6 +2,7 @@
 import { RouterLink } from 'vue-router'
 import logo from '@/assets/img/logo.jpg'
 import Navbar from './Navbar.vue'
+import Search from './Search.vue'
 </script>
 
 <template>
@@ -12,11 +13,9 @@ import Navbar from './Navbar.vue'
         <span class="logo-text">Rently</span>
       </RouterLink>
     </div>
-    <!-- SEARCH COMPONENT TO BE ADDED -->
-    <div class="search-section">
-      <input class="search-input" id="search" type="text" placeholder="Search" />
-      <button class="search-button">Search</button>
-    </div>
+
+    <!-- SEARCH COMPONENT -->
+    <Search />
 
     <Navbar />
   </header>
@@ -64,42 +63,35 @@ header {
   margin-left: 0.5rem;
 }
 
-/* Search Section */
-.search-section {
+/* Menu Section */
+.menu {
   display: flex;
-  align-items: center;
-  margin-right: 1rem;
+  gap: 0.5rem;
 }
 
-.search-input {
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-right: 0.5rem;
-  height: 10px;
-  width: 500px;
-  font-size: 1rem;
-  color: #333;
-  transition: border-color 0.3s;
-}
-
-.search-input:focus {
-  border-color: #047857;
-  outline: none;
-}
-
-.search-button {
+.nav-link {
+  color: white;
   font-family: var(--font-links);
-  padding: 0.5rem 1rem;
-  background-color: #047857;
-  height: auto;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
 }
 
+.nav-link:hover {
+  background-color: var(--color-btn-hover, #065f46);
+  color: #fff;
+}
+
+.active {
+  background-color: #065f46;
+  color: #fff;
+}
+a:-webkit-any-link {
+  text-decoration: none;
+}
 @media (min-width: 768px) {
   .logo-text {
     display: block; /* Show text on medium screens and above */
