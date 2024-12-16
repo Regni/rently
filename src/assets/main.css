@@ -6,6 +6,15 @@
   box-sizing: border-box;
   margin: 0;
 }
+/*  */
+.vc-container {
+  padding: 1rem;
+  width: 100% !important; /* Adjust to your desired width */
+}
+
+.vc-pane {
+  width: 100% !important;
+}
 
 #app {
   display: flex;
