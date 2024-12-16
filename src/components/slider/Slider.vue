@@ -1,7 +1,6 @@
 <script setup>
-import { defineProps, ref, computed } from 'vue'
+import { defineProps, ref } from 'vue'
 import HomeItem from '@/components/HomeItem.vue'
-import { useItemsStore } from '@/stores/items.js'
 
 const props = defineProps({
   carouselItems: {
@@ -26,12 +25,18 @@ const scrollCarousel = (direction) => {
 
 <template>
   <div class="carousel-wrapper">
+    <h2>Latest Items</h2>
     <!-- Navigation Buttons -->
     <button class="carousel-btn left" @click="scrollCarousel('left')">&lt;</button>
-    <h2>Latest Items</h2>
+
     <!-- Carousel -->
     <div class="carousel" ref="carouselContainer">
-      <HomeItem v-for="item in carouselItems.slice(0, props.limit)" :key="item.id" :item="item" />
+      <HomeItem
+        v-for="item in carouselItems.slice(0, props.limit)"
+        :key="item.id"
+        :item="item"
+        class="carousel-item"
+      />
     </div>
 
     <!-- Navigation Buttons -->
@@ -65,6 +70,7 @@ h2 {
   scroll-behavior: smooth;
   gap: 1rem;
   padding: 1rem 0;
+  width: 100%;
   scrollbar-width: none;
 }
 
@@ -121,5 +127,32 @@ img {
 
 .carousel-btn:hover {
   background-color: rgba(0, 0, 0, 0.8);
+}
+/* Carousel Items */
+.carousel-item {
+  flex: 0 0 calc(33.33% - 1rem); /* 3 items per row on larger screens */
+  max-width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-third, #fff);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.3s;
+}
+
+.carousel-item:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 1024px) {
+  .carousel-item {
+    flex: 0 0 calc(50% - 1rem); /* 2 items per row on tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-item {
+    flex: 0 0 calc(100% - 1rem); /* 1 item per row on smaller screens */
+  }
 }
 </style>
