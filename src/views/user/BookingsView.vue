@@ -9,9 +9,9 @@ const itemsStore = useItemsStore()
 const bookingsStore = useBookingsStore()
 
 // Hardcode a specific user for testing
-usersStore.activeUser = {
-  id: 'U001',
-}
+// usersStore.activeUser = {
+//   id: 'U001',
+// }
 
 // Active bookings (bookings for items the user is currently renting)
 const activeItems = computed(() => {
@@ -117,6 +117,7 @@ h2 {
   margin: 1em;
   color: var(--color-h2);
   margin-bottom: 2em;
+  font-size: 3em;
 }
 
 .item-card {
