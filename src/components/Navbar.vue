@@ -25,7 +25,7 @@ const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
       >Register</router-link
     >
     <div v-else class="logged-in-links">
-      <RouterLink :to="{ name: 'dashboard' }">Dashboard</RouterLink>
+      <RouterLink :to="{ name: 'dashboard-listings' }">Dashboard</RouterLink>
       <LogoutComponent />
     </div>
   </nav>
