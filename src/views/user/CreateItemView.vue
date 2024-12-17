@@ -6,6 +6,7 @@ import { useItemsStore } from '@/stores/items'
 import { useToast } from 'vue-toastification'
 import itemCategories from '@/assets/itemCategories'
 import 'primeicons/primeicons.css'
+import axios from 'axios'
 
 const usersStore = useUsersStore()
 const itemsStore = useItemsStore()
@@ -55,14 +56,14 @@ onUnmounted(() => {
 })
 
 // check if image URL is valid
-// TODO - change to Axios!!!!!!!
 const validateImage = async (url) => {
   try {
-    const res = await fetch(url, { method: 'HEAD' })
-    const contentType = res.headers.get('Content-Type')
+    const res = await axios.head(url)
+    const contentType = res.headers['content-type']
     return contentType.startsWith('image/')
   } catch (err) {
     console.error('Invalid URL or not an image', err)
+    imageUrl.value = ''
     return false
   }
 }
