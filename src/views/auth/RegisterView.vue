@@ -109,8 +109,10 @@ const handleRegister = async () => {
     <div v-else class="form-container">
       <div class="form-header">
         <h1>Create Account</h1>
-        <p>Get access to all of Rently's features and services with a free account.</p>
-        <p>All fields are required.</p>
+        <p>
+          Get access to all of Rently's features and services with a free account. All fields are
+          required.
+        </p>
       </div>
 
       <div v-if="error" class="error-container">
@@ -175,7 +177,7 @@ const handleRegister = async () => {
           </p>
         </div>
 
-        <button class="btn" type="submit" :disabled="isLoading">Register</button>
+        <button class="btn register-btn" type="submit" :disabled="isLoading">Register</button>
       </form>
       <p class="login-redirect">
         Already have an account? <router-link :to="{ name: 'login' }">Login</router-link>
@@ -224,12 +226,19 @@ p {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+}
+
+.form-header p {
+  width: 60%;
 }
 
 .register-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
+  width: 100%;
 }
 
 .form-group {
@@ -237,6 +246,7 @@ p {
   font-family: var(--font-basic);
   position: relative;
   color: var(--color-basic-text);
+  width: 60%;
 }
 
 .input {
@@ -251,6 +261,7 @@ p {
     box-shadow 0.3s ease;
   padding: 1rem;
   transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
 }
 
 .label {
@@ -278,6 +289,10 @@ p {
 .show-password-text {
   font-size: 0.9rem;
   margin-top: 0.2rem;
+}
+
+.register-btn {
+  width: 30%;
 }
 
 .btn:disabled {
@@ -317,5 +332,19 @@ p {
   color: #ff0000;
   margin: 0.5rem 0;
   font-family: var(--font-basic);
+}
+
+@media (max-width: 600px) {
+  .form-group {
+    width: 90%;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .register-btn {
+    width: 50%;
+  }
 }
 </style>

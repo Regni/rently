@@ -29,7 +29,9 @@ const items = computed(() => {
         >
       </div>
     </div>
-    <button class="btn">+ Add New Listing</button>
+    <router-link :to="{ name: 'create-item' }">
+      <button class="btn">+ Add New Listing</button>
+    </router-link>
   </section>
 </template>
 

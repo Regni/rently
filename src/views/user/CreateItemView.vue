@@ -7,6 +7,7 @@ import { useToast } from 'vue-toastification'
 import itemCategories from '@/assets/itemCategories'
 import 'primeicons/primeicons.css'
 import axios from 'axios'
+import LoginModal from '@/components/LoginModal.vue'
 
 const usersStore = useUsersStore()
 const itemsStore = useItemsStore()
@@ -31,9 +32,11 @@ const newItem = ref({
 const imageUrl = ref('')
 
 // ----- COMPUTED PROPERTIES -----
-const activeUser = computed(() => usersStore.activeUser || null)
+// const activeUser = computed(() => usersStore.activeUser || '')
+const activeUserId = computed(() => usersStore.activeUser?.id || '')
 const itemsStoreError = computed(() => itemsStore.error)
 
+console.log('active user:', activeUserId.value)
 // Form validation
 const formValid = computed(() => {
   return (
@@ -112,7 +115,7 @@ const handleCreateItem = (event) => {
   }
 
   // owner is same as active user
-  newItem.value.owner = activeUser.value.id
+  newItem.value.owner = activeUserId.value
   // add item to itemstore
   itemsStore.addItem(newItem.value)
 
@@ -136,6 +139,7 @@ const handleCreateItem = (event) => {
 </script>
 <template>
   <section @click="isDropdownOpen = false">
+    <LoginModal v-if="!activeUserId" />
     <div class="create-item-container">
       <h1>Create Item</h1>
       <div v-if="itemsStoreError" class="error-container">
@@ -213,6 +217,12 @@ const handleCreateItem = (event) => {
   </section>
 </template>
 
+<!-- // To make modal work we need global styling -->
+<style>
+.modal-content {
+  z-index: 1;
+}
+</style>
 <style scoped>
 section {
   display: flex;
@@ -231,9 +241,10 @@ section {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 4em;
-  padding: 4em;
+  padding: 4em 4em 2em;
   position: relative;
-  max-width: 40%;
+  width: clamp(300px, 98%, 600px);
+  z-index: -1;
 }
 
 .create-item-form {
@@ -252,7 +263,6 @@ h1 {
 h2 {
   font-family: var(--font-headings);
   color: var(--color-h2);
-  font-weight: 500;
 }
 
 label {
@@ -434,9 +444,8 @@ form textarea {
 }
 
 .create-item-btn {
-  position: absolute;
-  bottom: 1.5em;
-  right: 4em;
+  align-self: center;
+  margin-top: 3em;
 }
 
 /* Error Handling */
@@ -452,5 +461,25 @@ form textarea {
   color: #ff0000;
   margin: 0.5rem 0;
   font-family: var(--font-basic);
+}
+
+/* --- Media Queries --- */
+@media (max-width: 600px) {
+  .create-item-container {
+    width: 90%;
+    padding: 2em 1em;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .dropdown-button {
+    padding: 0.5rem;
+  }
+
+  .create-item-form {
+    max-width: 98%;
+  }
 }
 </style>
