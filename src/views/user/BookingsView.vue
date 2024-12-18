@@ -11,11 +11,13 @@ const bookingsStore = useBookingsStore()
 // Active bookings (bookings for items the user is currently renting)
 const activeItems = computed(() => {
   const activeUserId = usersStore.activeUser?.id
+  console.log('active user id', activeUserId)
 
   // Filter bookings where the current user is the renter
   const userActiveBookings = bookingsStore.bookings.filter(
     (booking) => booking.renter === activeUserId && new Date(booking.endDate) >= new Date(),
   ) // Only future/current bookings
+  console.log('aktive bokningar', userActiveBookings)
 
   // Map bookings to full item details
   return userActiveBookings.map((booking) =>
