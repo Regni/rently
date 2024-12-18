@@ -14,7 +14,7 @@ const items = computed(() => {
 
 <template>
   <section class="listings">
-    <h2>My Listings</h2>
+    <h1>My Listings</h1>
     <div class="container">
       <p v-if="items.length === 0">You have no active listings.</p>
       <div v-for="item in items" :key="item.id">
@@ -23,7 +23,7 @@ const items = computed(() => {
             <img class="item-image" :src="item.images[0]" :alt="item.name" />
             <div class="item-details">
               <h3 class="item-title">{{ item.name }}</h3>
-              <p><strong>Price:</strong> {{ item.price }} kr</p>
+              <p><strong>Price: </strong> {{ item.price }} kr</p>
             </div>
           </div></router-link
         >
@@ -53,30 +53,15 @@ const items = computed(() => {
   gap: 2rem;
 }
 
-h2 {
+h1 {
   font-family: var(--font-headings);
   margin: 1em;
   color: var(--color-h2);
+  font-size: 3em;
 }
 
-.item-card {
-  background-color: var(--color-third);
-  border: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: space-between;
-  border-radius: 8px;
-  padding: 1.5rem;
-  width: auto;
-  height: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  gap: 1em;
-}
-
-.item-card:hover {
-  opacity: 0.8;
-  cursor: pointer;
+.item-image {
+  margin-bottom: 1rem;
 }
 
 h3 {

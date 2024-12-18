@@ -11,7 +11,7 @@ import 'primeicons/primeicons.css'
   </section>
 </template>
 
-<style>
+<style scoped>
 .not-found-page {
   display: flex;
   flex-direction: column;

@@ -114,6 +114,7 @@ h2 {
   margin: 1em;
   color: var(--color-h2);
   margin-bottom: 2em;
+  font-size: 3em;
 }
 
 .item-card {

@@ -7,7 +7,6 @@ import NotFoundView from '@/views/NotFoundView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import RegisterView from '@/views/auth/RegisterView.vue'
 import CreateItemView from '@/views/user/CreateItemView.vue'
-import Test from '@/views/Test.vue'
 import ContactUsView from '@/views/ContactUsView.vue'
 import GeneralRulesView from '@/views/extras/GeneralRulesView.vue'
 import PrivacyView from '@/views/extras/PrivacyView.vue'
@@ -25,11 +24,6 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-    },
-    {
-      path: '/test',
-      name: 'test',
-      component: Test,
     },
     {
       path: '/about',

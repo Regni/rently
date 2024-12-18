@@ -41,10 +41,40 @@ a:-webkit-any-link {
   text-decoration: none;
 }
 
+h1,
 h2 {
-  font-weight: 600;
+  font-weight: 500;
 }
 
+/* Card styles */
+.item-card {
+  background-color: var(--color-third);
+  border: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: space-between;
+  border-radius: 8px;
+  padding: 1.5rem;
+  width: 350px;
+  height: 400px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  gap: 0.5em;
+  overflow: hidden;
+}
+
+.item-card:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.item-image {
+  width: 100%;
+  height: 80%;
+  object-fit: cover;
+}
+
+/* Toast styles */
 .Vue-Toastification__toast.success-toast {
   background-color: var(--color-btn);
   color: var(--color-btn-text);
