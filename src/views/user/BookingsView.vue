@@ -8,11 +8,6 @@ const usersStore = useUsersStore()
 const itemsStore = useItemsStore()
 const bookingsStore = useBookingsStore()
 
-// Hardcode a specific user for testing
-usersStore.activeUser = {
-  id: 'U001',
-}
-
 // Active bookings (bookings for items the user is currently renting)
 const activeItems = computed(() => {
   const activeUserId = usersStore.activeUser?.id

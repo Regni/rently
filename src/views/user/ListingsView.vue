@@ -6,11 +6,6 @@ import { computed } from 'vue'
 const itemsStore = useItemsStore()
 const usersStore = useUsersStore()
 
-// Hardcode a specific user for testing
-usersStore.activeUser = {
-  id: 'U001',
-}
-
 const items = computed(() => {
   const activeUserId = usersStore.activeUser?.id
   return itemsStore.items.filter((item) => item.owner === activeUserId)
@@ -34,7 +29,9 @@ const items = computed(() => {
         >
       </div>
     </div>
-    <button class="btn">+ Add New Listing</button>
+    <router-link :to="{ name: 'create-item' }">
+      <button class="btn">+ Add New Listing</button>
+    </router-link>
   </section>
 </template>
 

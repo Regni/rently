@@ -16,7 +16,7 @@ const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
     <RouterLink :to="{ name: 'items' }">Items</RouterLink>
     <RouterLink :to="{ name: 'contact-us' }">Contact Us</RouterLink>
     <RouterLink v-if="!activeUserEmail" :to="{ name: 'login', query: { from: route.fullPath } }"
-      >Log in</RouterLink
+      >Login</RouterLink
     >
     <router-link
       class="register-link"
