@@ -52,7 +52,6 @@ const handleLogin = async () => {
     userEmail.value = ''
     userPassword.value = ''
 
-    // alert('Login successful!')
     toast.success('Login successful!', {
       toastClassName: 'success-toast',
       timeout: 2000,
