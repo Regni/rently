@@ -133,7 +133,6 @@ const handleCreateItem = (event) => {
     timeout: 2000,
   })
 
-  // Redirect to the Dashboard-listings???
   router.push({ name: 'dashboard-listings' })
 }
 </script>
@@ -219,8 +218,8 @@ const handleCreateItem = (event) => {
 
 <!-- // To make modal work we need global styling -->
 <style>
-.modal-content {
-  z-index: 1;
+.modal-container {
+  z-index: 2;
 }
 </style>
 <style scoped>
@@ -244,7 +243,7 @@ section {
   padding: 4em 4em 2em;
   position: relative;
   width: clamp(300px, 98%, 600px);
-  z-index: -1;
+  z-index: 1;
 }
 
 .create-item-form {

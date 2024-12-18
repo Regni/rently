@@ -107,13 +107,10 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const usersStore = useUsersStore()
   const { activeUser } = storeToRefs(usersStore)
-  console.log('activeUser', activeUser.value)
 
-  // const activeUser = JSON.parse(localStorage.getItem('activeUser') || null)
-
-  if (to.meta.requiresAuth && !activeUser.value.id) {
+  if (to.meta.requiresAuth && !activeUser.value) {
     next({ name: 'login' })
-  } else if (activeUser.value.id && (to.name === 'login' || to.name === 'register')) {
+  } else if (activeUser.value && (to.name === 'login' || to.name === 'register')) {
     next({ name: 'dashboard' })
   } else {
     next()

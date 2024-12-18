@@ -10,7 +10,7 @@ export const useUsersStore = defineStore('users', () => {
   const users = ref(dummyData.users)
   const error = ref(null)
   const isLoading = ref(false)
-  const activeUser = ref(JSON.parse(localStorage.getItem('activeUser')) || {})
+  const activeUser = ref(JSON.parse(localStorage.getItem('activeUser')) || null)
 
   // if you want to use dummy data just comment this line out.
   onMounted(fetchUsers)
