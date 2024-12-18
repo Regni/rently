@@ -9,7 +9,7 @@ export function useRoutingRedirect() {
     try {
       const fromRoute = route.query.from ? decodeURIComponent(route.query.from.toString()) : null
 
-      if (fromRoute && fromRoute.includes('/item')) {
+      if ((fromRoute && fromRoute.includes('/item')) || fromRoute.includes('/create')) {
         // If user came from any of the routes that has to do with items, redirect them back to that page
         return fromRoute
       }

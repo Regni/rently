@@ -54,7 +54,7 @@ const scrollCarousel = (direction) => {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 30px;
+  margin-top: 4rem;
 }
 
 h2 {

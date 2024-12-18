@@ -51,7 +51,7 @@ const uniqueCategories = computed(() => {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin-top: 2rem;
+  margin: 2rem;
 }
 .category-container {
   display: flex;
