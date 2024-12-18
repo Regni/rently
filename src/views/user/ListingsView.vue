@@ -3,6 +3,8 @@ import { useItemsStore } from '@/stores/items'
 import { useUsersStore } from '@/stores/users'
 import { computed } from 'vue'
 
+//THIS VIEW WAS CREATED BY ANNA-SARA, ELLEN ONLY ADDED THE DELETE ITEM FUNCTIONALITY
+
 const itemsStore = useItemsStore()
 const usersStore = useUsersStore()
 
