@@ -65,10 +65,13 @@ const deleteAccount = async () => {
   try {
     //Prevent account deletion if user are currently renting or renting out items
     if (activeBookings.value.length > 0 || activeRentals.value.length > 0) {
-      toast.error('Account cannot be deleted while you have active bookings or rentals.', {
-        toastClassName: 'error-toast',
-        timeout: 4000,
-      })
+      toast.error(
+        'Account cannot be deleted while you are currently renting or renting out items.',
+        {
+          toastClassName: 'error-toast',
+          timeout: 4000,
+        },
+      )
       return
     }
 
