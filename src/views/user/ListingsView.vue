@@ -3,6 +3,7 @@ import { useItemsStore } from '@/stores/items'
 import { useUsersStore } from '@/stores/users'
 import { computed, onUnmounted } from 'vue'
 import { useToast } from 'vue-toastification'
+//THIS VIEW WAS CREATED BY ANNA-SARA, ELLEN ONLY ADDED THE DELETE ITEM FUNCTIONALITY
 
 // Vue toastification package for toast notifications
 const toast = useToast()
