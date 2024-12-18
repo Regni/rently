@@ -14,6 +14,8 @@ import TermsAndCompatibilityView from '@/views/extras/TermsAndCompatibilityView.
 import DashboardView from '@/views/user/DashboardView.vue'
 import BookingsView from '@/views/user/BookingsView.vue'
 import ListingsView from '@/views/user/ListingsView.vue'
+import { useUsersStore } from '@/stores/users.js'
+import { storeToRefs } from 'pinia'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -46,7 +48,6 @@ const router = createRouter({
       name: 'item-details',
       component: ItemDetailsView,
     },
-    // CreateItemView should be a child of the user's profile page???
     {
       path: '/create',
       name: 'create-item',
@@ -62,11 +63,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView,
+      meta: { requiresAuth: true },
       children: [
         {
           path: '', // Default child route
           name: 'dashboard-default',
-          redirect: { name: 'dashboard-listings' }, // Redirect to 'listings'
+          redirect: '/dashboard/listings', // Redirect to 'listings'
         },
         {
           path: 'bookings',
@@ -102,4 +104,19 @@ const router = createRouter({
   ],
 })
 
+router.beforeEach((to, from, next) => {
+  const usersStore = useUsersStore()
+  const { activeUser } = storeToRefs(usersStore)
+  console.log('activeUser', activeUser.value)
+
+  // const activeUser = JSON.parse(localStorage.getItem('activeUser') || null)
+
+  if (to.meta.requiresAuth && !activeUser.value.id) {
+    next({ name: 'login' })
+  } else if (activeUser.value.id && (to.name === 'login' || to.name === 'register')) {
+    next({ name: 'dashboard' })
+  } else {
+    next()
+  }
+})
 export default router

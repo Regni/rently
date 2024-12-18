@@ -108,7 +108,7 @@ const handleLogin = async () => {
           </p>
         </div>
 
-        <button class="btn" type="submit" :disabled="isLoading">Log in</button>
+        <button class="btn" type="submit" :disabled="isLoading">Login</button>
       </form>
       <p class="register-redirect">
         Don't have an account? <router-link :to="{ name: 'register' }">Register</router-link>
