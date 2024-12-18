@@ -70,10 +70,11 @@ const handleLogin = async () => {
       <p>
         You are already logged in with email <strong>{{ activeUserEmail }}</strong>
       </p>
-      <!-- UNCOMMENT AND ADD RIGHT ROUTE WHEN DASHBOARD IS DONE -->
-      <p>Click <router-link :to="{ name: 'home' }">here</router-link> to go to your profile page</p>
+      <p>
+        Click <router-link :to="{ name: 'dashboard-listings' }">here</router-link> to go to your
+        profile page
+      </p>
     </div>
-    <!-- ADD V-ELSE WHEN DASHBOARD IS DONE -->
     <div v-else class="form-container">
       <div class="form-header">
         <h1>Login</h1>
