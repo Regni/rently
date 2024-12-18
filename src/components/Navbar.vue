@@ -16,7 +16,7 @@ const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
     <RouterLink :to="{ name: 'items' }">Items</RouterLink>
     <RouterLink :to="{ name: 'contact-us' }">Contact Us</RouterLink>
     <RouterLink v-if="!activeUserEmail" :to="{ name: 'login', query: { from: route.fullPath } }"
-      >Log in</RouterLink
+      >Login</RouterLink
     >
     <router-link
       class="register-link"
@@ -25,7 +25,7 @@ const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
       >Register</router-link
     >
     <div v-else class="logged-in-links">
-      <RouterLink :to="{ name: 'dashboard' }">Dashboard</RouterLink>
+      <RouterLink :to="{ name: 'dashboard-listings' }">Dashboard</RouterLink>
       <LogoutComponent />
     </div>
   </nav>

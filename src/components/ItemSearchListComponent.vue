@@ -9,13 +9,17 @@
         <div class="card">
           <h3>Search for Items</h3>
           <p>Find what you're looking for quickly and easily.</p>
-          <button class="btn btn-search">Search for Items</button>
+          <router-link :to="{ name: 'items' }">
+            <button class="btn btn-search">Search for Items</button>
+          </router-link>
         </div>
         <!-- Card 2 -->
         <div class="card">
           <h3>List Your Items</h3>
           <p>Share your items with others and connect.</p>
-          <button class="btn btn-list">List Your Items</button>
+          <router-link :to="{ name: 'create-item' }"
+            ><button class="btn btn-list">List Your Items</button></router-link
+          >
         </div>
       </div>
     </div>
@@ -45,7 +49,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: space-evenly;
+  align-items: center;
   border-radius: 8px;
   padding: 1.5rem;
   width: 300px;
@@ -60,9 +64,10 @@ h3 {
 }
 
 p {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   color: var(--color-basic-text);
   font-family: var(--font-basic);
   font-size: 0.9em;
+  text-align: center;
 }
 </style>

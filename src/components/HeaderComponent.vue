@@ -34,10 +34,6 @@ header {
 }
 
 /* Logo */
-.logo-text {
-  font-family: var(--font-headings);
-}
-
 .logo-section {
   display: flex;
   align-items: center;
@@ -56,10 +52,11 @@ header {
   margin-top: 5px;
 }
 .logo-text {
+  font-family: var(--font-headings);
   display: none;
   color: white;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 500;
   margin-left: 0.5rem;
 }
 

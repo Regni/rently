@@ -37,7 +37,7 @@ watch(selectedCategories, (newCategories) => {
 <template>
   <div class="itemPage-container" @click="isDropdownOpen = false">
     <div class="items-container">
-      <h2 class="itemPage-title">Items</h2>
+      <h1 class="itemPage-title">Items</h1>
 
       <!-- Category Filter Dropdown -->
       <div class="dropdown">
@@ -55,10 +55,10 @@ watch(selectedCategories, (newCategories) => {
       </div>
 
       <div class="items-grid">
-        <div v-for="item in filteredItems" :key="item.id" class="item-card">
+        <div v-for="item in filteredItems" :key="item.id" class="items-card">
           <RouterLink :to="{ name: 'item-details', params: { id: item.id } }">
             <div class="image-container">
-              <img class="item-image" :src="item.images[0]" :alt="item.name" />
+              <img class="items-image" :src="item.images[0]" :alt="item.name" />
               <!-- Fallback to default image if hover image is not provided -->
               <img
                 class="item-image-hover"
@@ -68,6 +68,7 @@ watch(selectedCategories, (newCategories) => {
               <div class="item-details">
                 <h3 class="item-title">{{ item.name }}</h3>
                 <p><strong>Price:</strong> {{ item.price }} kr</p>
+                <!-- maybe change to description? And move above price -->
                 <p><strong>Owner:</strong> {{ item.owner }}</p>
               </div>
             </div>
@@ -87,19 +88,21 @@ watch(selectedCategories, (newCategories) => {
   padding: 0;
 }
 
-h2,
-h3,
-p {
+h1 {
   font-family: var(--font-headings);
   text-align: left;
   color: var(--color-h2);
+  font-size: 3em;
 }
 
 h3 {
-  color: var(--color-h3);
+  text-align: left;
+  color: var(--color-secondary);
+  font-family: var(--font-links);
 }
 
 p {
+  text-align: left;
   font-family: var(--font-basic);
   color: var(--color-basic-text);
 }
@@ -119,8 +122,9 @@ p {
 
 .itemPage-title {
   padding: 1rem;
-  font-size: 2rem;
   align-self: center;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
 }
 
 /* Category Dropdown Menu */
@@ -212,7 +216,7 @@ p {
   justify-items: center;
 }
 
-.item-card {
+.items-card {
   border-radius: 10px;
   text-align: center;
   transition: transform 0.2s;
@@ -223,7 +227,7 @@ p {
   margin-bottom: 1rem;
 }
 
-.item-card:hover {
+.items-card:hover {
   transform: scale(1.025);
 }
 
@@ -235,7 +239,7 @@ p {
   position: relative;
 }
 
-.item-image {
+.items-image {
   width: 100%;
   max-width: 300px;
   height: 450px;
@@ -256,11 +260,11 @@ p {
   transition: opacity 0.3s ease;
 }
 
-.item-card:hover .item-image {
+.items-card:hover .item-image {
   opacity: 0;
 }
 
-.item-card:hover .item-image-hover {
+.items-card:hover .item-image-hover {
   opacity: 1;
 }
 
@@ -281,7 +285,7 @@ p {
     grid-template-columns: repeat(1, 1fr);
   }
 
-  .item-image {
+  .items-image {
     max-width: 350px;
   }
 }
@@ -295,7 +299,7 @@ p {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .item-image {
+  .items-image {
     max-width: 350px;
   }
 }

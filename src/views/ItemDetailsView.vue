@@ -147,7 +147,6 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: center;
-
   gap: 4px;
 }
 h2 {
