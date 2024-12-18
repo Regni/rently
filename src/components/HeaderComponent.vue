@@ -101,4 +101,10 @@ a:-webkit-any-link {
     display: none;
   }
 }
+
+@media (max-width: 1024px) {
+  .search-section {
+    display: none;
+  }
+}
 </style>

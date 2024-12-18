@@ -66,6 +66,8 @@ h2 {
 /* Carousel Container */
 .carousel {
   display: flex;
+  align-items: center;
+  justify-content: center;
   overflow-x: auto;
   scroll-behavior: smooth;
   gap: 1rem;
@@ -76,13 +78,6 @@ h2 {
 
 .carousel::-webkit-scrollbar {
   display: none;
-}
-
-/* Individual Carousel Items */
-.carousel-item {
-  flex: 0 0 auto;
-  position: relative;
-  text-align: center;
 }
 
 /* Image Container */
@@ -130,7 +125,7 @@ img {
 }
 /* Carousel Items */
 .carousel-item {
-  flex: 0 0 calc(33.33% - 1rem); /* 3 items per row on larger screens */
+  flex: 0 0 calc(20% - 1rem); /* 5 items per row on larger screens */
   max-width: 100%;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

@@ -54,7 +54,6 @@ p {
 }
 
 .item-card {
-  margin-top: 1em;
-  margin-bottom: 5em;
+  margin: 0.5rem;
 }
 </style>
