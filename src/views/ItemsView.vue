@@ -27,6 +27,12 @@ const filteredItems = computed(() => {
   )
 })
 
+// Truncate description
+const truncateText = (text, length) => {
+  if (!text) return ''
+  return text.length > length ? text.slice(0, length) + '...' : text
+}
+
 // Update query string whenever `selectedCategories` changes
 watch(selectedCategories, (newCategories) => {
   const query = newCategories.length > 0 ? { category: newCategories.join(',') } : {}
@@ -71,8 +77,7 @@ watch(selectedCategories, (newCategories) => {
               <div class="item-details">
                 <h3 class="item-title">{{ item.name }}</h3>
                 <p><strong>Price:</strong> {{ item.price }} kr</p>
-                <!-- maybe change to description? And move above price -->
-                <p><strong>Owner:</strong> {{ item.owner }}</p>
+                <p><strong>Description:</strong> {{ truncateText(item.description, 80) }}</p>
               </div>
             </div>
           </RouterLink>
@@ -252,6 +257,8 @@ p {
 
 .image-container {
   position: relative;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
 .items-image {
@@ -284,11 +291,18 @@ p {
 }
 
 .item-details {
+  width: 100%;
+  text-align: left;
   margin: 0 auto;
 }
 
 .item-details p {
   margin: 0.5rem 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 4.5em;
 }
 
 @media (max-width: 600px) {

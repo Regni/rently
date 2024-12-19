@@ -1,18 +1,24 @@
 <script setup>
 import { useItemsStore } from '@/stores/items'
 import { DatePicker } from 'v-calendar'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import 'v-calendar/style.css'
 import { computed, ref } from 'vue'
 import { useUsersStore } from '@/stores/users'
+import { useBookingsStore } from '@/stores/bookings'
+import { useToast } from 'vue-toastification'
 
 const route = useRoute()
+const router = useRouter()
 const itemsStore = useItemsStore()
 const usersStore = useUsersStore()
+const bookingsStore = useBookingsStore()
+const toast = useToast()
 
 const item = computed(() => itemsStore.items.find((findItem) => findItem.id === route.params.id))
 const heroImg = ref(item.value.images[0] || null)
 const owner = computed(() => usersStore.users.find((findUser) => findUser.id === item.value.owner))
+
 //This will be used later when rent now is implemented
 // const loggedInUser = ref(dummyData.loggedInUser)
 
@@ -23,6 +29,63 @@ const range = ref({
 })
 //Calculates the time between start date and end date and includes the first day
 const totalTime = computed(() => (range.value.end - range.value.start) / (1000 * 60 * 60 * 24) + 1)
+
+// ---Rent item logic---
+const rentItem = async () => {
+  const activeUser = usersStore.activeUser
+
+  // If the user is not logged in, show an error and redirect them to the login page
+  if (!activeUser?.id) {
+    toast.error('You must be logged in to rent an item.')
+    router.push({ path: '/login', query: { from: route.path } }) // Redirect to login page from current path in the query
+    return
+  }
+
+  if (!item.value) {
+    toast.error('Item not found.')
+    return
+  }
+
+  // Checks if the item is already rented --this is not working yet--
+  const isAlreadyRented = (bookingsStore.bookings || []).some(
+    (booking) =>
+      booking.item === item.value.id &&
+      (!booking.endDate || new Date(booking.endDate) > new Date()),
+  )
+
+  if (isAlreadyRented) {
+    toast.error('This item is already rented.')
+    return
+  }
+
+  try {
+    // Add booking to the bookings store
+    await bookingsStore.addBooking({
+      item: item.value.id,
+      owner: item.value.owner,
+      renter: activeUser.id,
+      startDate: range.value.start.toISOString(),
+      endDate: range.value.end.toISOString(),
+    })
+
+    // Refresh of the bookings store
+    await bookingsStore.fetchBookings()
+
+    // Trying to update the item to reflect rented status
+    const updatedItem = {
+      ...item.value,
+      isRented: true,
+    }
+    await itemsStore.updateItem(updatedItem)
+
+    toast.success(
+      `You have successfully rented "${item.value.name}" for ${item.value.price * totalTime.value} kr!`,
+    )
+  } catch (error) {
+    console.error('Error while renting item:', error)
+    toast.error('Failed to rent the item. Please try again later.')
+  }
+}
 </script>
 
 <template>
@@ -65,7 +128,11 @@ const totalTime = computed(() => (range.value.end - range.value.start) / (1000 *
         <div class="date-price-container">
           <DatePicker v-model.range="range" />
           <!-- no functionality yet - need a modal to confirm? -->
-          <button class="btn">Rent now for {{ item.price * totalTime }} kr!</button>
+          <button class="btn" @click="rentItem" :disabled="isAlreadyRented">
+            {{
+              isAlreadyRented ? 'Item Already Rented' : `Rent now for ${item.price * totalTime} kr!`
+            }}
+          </button>
         </div>
       </div>
     </div>
