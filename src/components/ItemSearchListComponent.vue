@@ -70,4 +70,21 @@ p {
   font-size: 0.9em;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .cards-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card {
+    width: 200px;
+    height: auto;
+  }
+
+  .card h3,
+  p {
+    display: none;
+  }
+}
 </style>

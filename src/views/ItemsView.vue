@@ -44,7 +44,10 @@ watch(selectedCategories, (newCategories) => {
   <div class="itemPage-container" @click="isDropdownOpen = false">
     <div class="items-container">
       <h1 class="itemPage-title">Items</h1>
-
+      <h2 v-if="selectedCategories.length > 0" class="itemPage-selected-categories">
+        Selected: {{ selectedCategories.join(', ') }}
+      </h2>
+      <h2 v-else class="itemPage-selected-categories">All items</h2>
       <!-- Category Filter Dropdown -->
       <div class="dropdown">
         <button class="dropdown-button" @click.stop="isDropdownOpen = !isDropdownOpen">
@@ -100,6 +103,11 @@ h1 {
   font-size: 3em;
 }
 
+h2 {
+  text-align: left;
+  color: var(--color-secondary);
+  font-family: var(--font-links);
+}
 h3 {
   text-align: left;
   color: var(--color-secondary);
@@ -129,7 +137,14 @@ p {
   padding: 1rem;
   align-self: center;
   margin-top: 1.5em;
-  margin-bottom: 1em;
+  margin-bottom: 0;
+}
+
+.itemPage-selected-categories {
+  padding: 1rem;
+  align-self: center;
+  margin-top: 1.5em;
+  margin-bottom: 0;
 }
 
 /* Category Dropdown Menu */

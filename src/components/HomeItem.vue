@@ -14,7 +14,7 @@ const showFullDescription = ref(false)
 const truncatedDescription = computed(() => {
   let description = props.item.description
   if (!showFullDescription.value) {
-    description = description.substring(0, 40) + '...'
+    description = description.substring(0, 35) + '...'
   }
   return description
 })
@@ -27,9 +27,7 @@ const truncatedDescription = computed(() => {
       <div class="card-information">
         <h3 class="card-title">{{ item.name }}</h3>
         <p class="card-description">{{ truncatedDescription }}</p>
-        <div class="card-price-moreInfo">
-          <p><strong>Price: </strong>{{ item.price }} kr</p>
-        </div>
+        <p class="card-price"><strong>Price: </strong>{{ item.price }} kr</p>
       </div>
     </div>
   </RouterLink>
@@ -46,15 +44,11 @@ p {
   color: var(--color-basic-text);
 }
 
-.card-price-moreInfo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-top: 10px;
+.card-price {
+  margin-top: 0.5em;
 }
 
 .item-card {
-  margin-top: 1em;
-  margin-bottom: 5em;
+  margin: 1em 1em 5em;
 }
 </style>

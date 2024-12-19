@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from 'vue-router'
-import logo from '@/assets/img/logo.jpg'
+import logo from '@/assets/img/logo-green.png'
 import Navbar from './Navbar.vue'
 import Search from './Search.vue'
 </script>
@@ -31,6 +31,8 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
+  /* z-index: 1000; */
 }
 
 /* Logo */
@@ -49,7 +51,6 @@ header {
 .logo-img {
   height: 2.5rem;
   width: auto;
-  margin-top: 5px;
 }
 .logo-text {
   font-family: var(--font-headings);
@@ -60,38 +61,18 @@ header {
   margin-left: 0.5rem;
 }
 
-/* Menu Section */
-.menu {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.nav-link {
-  color: white;
-  font-family: var(--font-links);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.375rem;
-  text-decoration: none;
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-}
-
-.nav-link:hover {
-  background-color: var(--color-btn-hover, #065f46);
-  color: #fff;
-}
-
-.active {
-  background-color: #065f46;
-  color: #fff;
-}
-a:-webkit-any-link {
-  text-decoration: none;
-}
 @media (min-width: 768px) {
   .logo-text {
-    display: block; /* Show text on medium screens and above */
+    display: block;
+  }
+}
+
+@media (max-width: 580px) {
+  header {
+    padding: 1em;
+    align-items: start;
+    min-height: 8rem;
+    justify-content: space-between;
   }
 }
 </style>

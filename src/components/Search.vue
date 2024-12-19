@@ -287,4 +287,34 @@ a {
 .no-results {
   cursor: auto;
 }
+
+@media (max-width: 1600px) {
+  .search-section {
+    left: 35%;
+  }
+}
+
+@media (max-width: 1240px) {
+  .search-section {
+    left: 33%;
+  }
+  .search-input {
+    width: 350px;
+  }
+}
+
+@media (max-width: 1068px) {
+  .search-section {
+    left: 50%;
+  }
+}
+
+@media (max-width: 580px) {
+  .search-section {
+    top: 4.2em;
+  }
+  .search-input {
+    width: 300px;
+  }
+}
 </style>
