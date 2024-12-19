@@ -76,8 +76,8 @@ watch(selectedCategories, (newCategories) => {
               />
               <div class="item-details">
                 <h3 class="item-title">{{ item.name }}</h3>
-                <p><strong>Price:</strong> {{ item.price }} kr</p>
                 <p><strong>Description:</strong> {{ truncateText(item.description, 80) }}</p>
+                <p><strong>Price: </strong> {{ item.price }} kr</p>
               </div>
             </div>
           </RouterLink>

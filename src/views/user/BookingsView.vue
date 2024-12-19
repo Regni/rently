@@ -42,7 +42,7 @@ const historyItems = computed(() => {
 </script>
 
 <template>
-  <div class="container">
+  <div class="bookings-container">
     <section class="active-bookings bookings">
       <h2>Active Bookings</h2>
       <div class="item-container">
@@ -80,7 +80,7 @@ const historyItems = computed(() => {
 </template>
 
 <style scoped>
-.container {
+.bookings-container {
   width: 75%;
   display: flex;
   flex-direction: column;

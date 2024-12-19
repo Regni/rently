@@ -43,7 +43,7 @@ const toggleView = () => {
 
 <style scoped>
 .container {
-  max-width: 100%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -54,8 +54,8 @@ const toggleView = () => {
 .side-bar {
   width: 20%;
   height: 90vh;
-  align-self: flex-start;
   display: flex;
+  align-self: flex-end;
   flex-direction: column;
   padding: 3em 0;
 }

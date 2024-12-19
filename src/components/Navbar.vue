@@ -7,7 +7,7 @@ import LogoutComponent from './LogoutComponent.vue'
 const route = useRoute()
 const usersStore = useUsersStore()
 
-const activeUserEmail = computed(() => usersStore.activeUser?.email || '')
+const activeUserEmail = computed(() => usersStore.activeUser?.email)
 import { ref } from 'vue'
 
 const isMenuOpen = ref(false)
@@ -23,25 +23,19 @@ const closeMenu = () => {
 
 <template>
   <!-- menu button for small screens -->
-  <button class="btn" @click="toggleMenu" aria-label="Toggle Menu">Menu</button>
+  <button class="toggle-btn btn" @click="toggleMenu" aria-label="Toggle Menu">Menu</button>
 
   <nav :class="{ nav: true, 'nav-open': isMenuOpen }">
     <RouterLink @click="closeMenu" :to="{ name: 'home' }">Home</RouterLink>
     <RouterLink @click="closeMenu" :to="{ name: 'about' }">About</RouterLink>
     <RouterLink @click="closeMenu" :to="{ name: 'items' }">Items</RouterLink>
     <RouterLink @click="closeMenu" :to="{ name: 'contact-us' }">Contact Us</RouterLink>
-    <RouterLink
-      @click="closeMenu"
-      v-if="!activeUserEmail"
-      :to="{ name: 'login', query: { from: route.fullPath } }"
-      >Log in</RouterLink
-    >
-    <router-link
-      class="register-link"
-      v-if="!activeUserEmail"
-      :to="{ name: 'register', query: { from: route.fullPath } }"
-      >Register</router-link
-    >
+    <div v-if="!activeUserEmail" class="logged-out-links">
+      <RouterLink :to="{ name: 'login', query: { from: route.fullPath } }">Login</RouterLink>
+      <RouterLink class="register-link" :to="{ name: 'register', query: { from: route.fullPath } }"
+        >Register</RouterLink
+      >
+    </div>
     <div v-else class="logged-in-links">
       <RouterLink :to="{ name: 'dashboard-listings' }">Dashboard</RouterLink>
       <LogoutComponent />
@@ -52,15 +46,12 @@ const closeMenu = () => {
 <style scoped>
 .nav {
   display: flex;
-  gap: 1rem;
+  gap: 0.2rem;
   transition: transform 0.3s ease;
 }
-.nav {
-  display: flex;
-  gap: 0.2em;
-}
 
-.logged-in-links {
+.logged-in-links,
+.logged-out-links {
   display: flex;
   gap: 0.2em;
 }
@@ -129,7 +120,7 @@ nav a:hover {
 
 /* Show navigation links on larger screens */
 @media (min-width: 1068px) {
-  .btn {
+  .toggle-btn {
     display: none;
   }
 

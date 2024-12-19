@@ -125,6 +125,7 @@ const handleRegister = async () => {
             minlength="2"
             v-model="newUser.firstName"
             placeholder=" "
+            id="firstName"
           />
           <label for="firstName" class="label">First Name</label>
         </div>
@@ -136,11 +137,19 @@ const handleRegister = async () => {
             minlength="2"
             v-model="newUser.lastName"
             placeholder=" "
+            id="lastName"
           />
           <label for="lastName" class="label">Last Name</label>
         </div>
         <div class="form-group">
-          <input class="input" type="email" required v-model="newUser.email" placeholder=" " />
+          <input
+            class="input"
+            type="email"
+            required
+            v-model="newUser.email"
+            placeholder=" "
+            id="email"
+          />
           <label for="email" class="label">Email</label>
         </div>
         <div class="form-group">
@@ -151,6 +160,7 @@ const handleRegister = async () => {
             minlength="8"
             v-model="newUser.password"
             placeholder=" "
+            id="password"
           />
           <label for="password" class="label">Password</label>
         </div>
@@ -162,6 +172,7 @@ const handleRegister = async () => {
             minlength="8"
             v-model="repeatedPassword"
             placeholder=" "
+            id="repeatedPassword"
           />
           <label for="repeatedPassword" class="label">Repeat Password</label>
           <p class="show-password-text">
