@@ -1,15 +1,16 @@
 <script setup>
 import { useItemsStore } from '@/stores/items'
 import { useUsersStore } from '@/stores/users'
+import { useBookingsStore } from '@/stores/bookings'
 import { computed, onUnmounted } from 'vue'
 import { useToast } from 'vue-toastification'
 //THIS VIEW WAS CREATED BY ANNA-SARA, ELLEN ONLY ADDED THE DELETE ITEM FUNCTIONALITY
 
 // Vue toastification package for toast notifications
 const toast = useToast()
-
 const itemsStore = useItemsStore()
 const usersStore = useUsersStore()
+const bookingsStore = useBookingsStore()
 
 const itemsStoreError = computed(() => itemsStore.error)
 
@@ -23,7 +24,39 @@ onUnmounted(() => {
   itemsStore.error = null
 })
 
+// function to check items rent history and current rental status
+const getItemRentHistory = (id) => {
+  // Filter to get all past rentals (endDate is in the past)
+  const pastRentals = bookingsStore.bookings.filter(
+    (booking) => booking.item === id && new Date(booking.endDate) < Date.now(),
+  )
+  // Check if the item is currently rented out (endDate is in the future or today)
+  const isRentedOut = bookingsStore.bookings.some(
+    (booking) => booking.item === id && new Date(booking.endDate) >= Date.now(),
+  )
+  return {
+    pastRentals,
+    isRentedOut,
+  }
+}
+
 const deleteListing = async (id) => {
+  const itemRentHistory = getItemRentHistory(id)
+  if (itemRentHistory.isRentedOut) {
+    toast.error(`Since this item is rented out it can't be deleted`, {
+      toastClassName: 'error-toast',
+      timeout: 4000,
+    })
+    return
+  }
+
+  if (itemRentHistory.pastRentals.length > 0) {
+    //add a promise all to delete all past rentals history
+    await Promise.all(
+      itemRentHistory.pastRentals.map((booking) => bookingsStore.deleteBooking(booking.id)),
+    )
+  }
+
   await itemsStore.deleteItem(id)
   if (itemsStoreError.value) {
     toast.error(`Could not delete listing: ${itemsStoreError.value} `, {
@@ -38,7 +71,6 @@ const deleteListing = async (id) => {
   })
 }
 </script>
-
 <template>
   <section class="listings">
     <h1>My Listings</h1>
@@ -62,7 +94,6 @@ const deleteListing = async (id) => {
     </router-link>
   </section>
 </template>
-
 <style scoped>
 .listings {
   width: 75%;
@@ -73,39 +104,32 @@ const deleteListing = async (id) => {
   align-items: center;
   padding-top: 48px;
 }
-
 .container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 2rem;
 }
-
 h1 {
   font-family: var(--font-headings);
   margin: 1em;
   color: var(--color-h2);
   font-size: 3em;
 }
-
 .item-image {
   margin-bottom: 1rem;
 }
-
 .card-container {
   position: relative;
 }
-
 h3 {
   font-family: var(--font-links);
   color: var(--color-secondary);
 }
-
 p {
   font-family: var(--font-basic);
   color: var(--color-basic-text);
 }
-
 .deleteListing-btn {
   position: absolute;
   right: 1.5rem;
@@ -118,11 +142,9 @@ p {
   color: var(--color-btn-text);
   font-family: var(--font-links);
 }
-
 .deleteListing-btn:hover {
   background-color: rgb(198, 119, 119);
 }
-
 .btn {
   font-size: 1.2em;
   margin: 1em 0em 2em 0em;
