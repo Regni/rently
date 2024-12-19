@@ -1,9 +1,16 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { useUsersStore } from '@/stores/users'
 
 const route = useRoute()
 const router = useRouter()
+const usersStore = useUsersStore()
+
+// Computed property to determine which user's name to display
+const activeUserName = computed(() => {
+  return usersStore.activeUser?.firstname
+})
 
 // Computed property to determine which button text to display
 const buttonText = computed(() => {
@@ -23,8 +30,10 @@ const toggleView = () => {
 <template>
   <section class="container">
     <div class="side-bar">
-      <h2>User's Profile</h2>
+      <h2>{{ activeUserName }}'s Profile</h2>
       <button class="btn" @click="toggleView">{{ buttonText }}</button>
+      <!-- no functionality yet -->
+      <button class="btn">Account Settings</button>
       <button class="delete-acc">Delete Account</button>
     </div>
     <div class="vl"></div>
@@ -58,7 +67,7 @@ h2 {
 }
 
 .btn {
-  margin: 0 30px;
+  margin: 5px 30px;
   width: 12em;
 }
 
@@ -82,5 +91,45 @@ h2 {
 .vl {
   border-left: 3px solid var(--color-secondary);
   height: 80%;
+}
+
+@media screen and (max-width: 750px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+
+  .side-bar {
+    width: 100%;
+    height: auto;
+    align-self: center;
+    padding: 1em;
+    margin-bottom: 2em;
+    flex-direction: row;
+    padding: 0;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .btn {
+    height: 35px;
+    width: 100%;
+    padding: 0;
+    margin: 5px 0px;
+  }
+
+  .vl {
+    border-top: 3px solid var(--color-secondary);
+    height: 0;
+    width: 80%;
+  }
+
+  .delete-acc {
+    padding: 0;
+    width: 100%;
+    height: 35px;
+    margin: 5px 0px;
+  }
 }
 </style>
