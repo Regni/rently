@@ -32,7 +32,6 @@ const newItem = ref({
 const imageUrl = ref('')
 
 // ----- COMPUTED PROPERTIES -----
-// const activeUser = computed(() => usersStore.activeUser || '')
 const activeUserId = computed(() => usersStore.activeUser?.id || '')
 const itemsStoreError = computed(() => itemsStore.error)
 
@@ -103,7 +102,7 @@ const removeImage = (index) => {
 }
 
 // Add a new item
-const handleCreateItem = (event) => {
+const handleCreateItem = async () => {
   console.log(newItem.value)
 
   if (!formValid.value) {
@@ -117,7 +116,7 @@ const handleCreateItem = (event) => {
   // owner is same as active user
   newItem.value.owner = activeUserId.value
   // add item to itemstore
-  itemsStore.addItem(newItem.value)
+  await itemsStore.addItem(newItem.value)
 
   // clear the form
   newItem.value = {

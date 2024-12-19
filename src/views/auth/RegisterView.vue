@@ -30,9 +30,6 @@ const error = computed(() => usersStore.error)
 const isLoading = computed(() => usersStore.isLoading)
 const activeUserEmail = computed(() => usersStore.activeUser?.email || null)
 
-// Check if passwords match
-const passwordsMatch = computed(() => newUser.value.password === repeatedPassword.value)
-
 // Form validation
 const formValid = computed(() => {
   return (
@@ -86,7 +83,6 @@ const handleRegister = async () => {
     }
     repeatedPassword.value = ''
 
-    // alert('Account created successfully!')
     toast.success('You now have a Rently account! Welcome!', {
       toastClassName: 'success-toast',
       timeout: 3000,
@@ -103,8 +99,10 @@ const handleRegister = async () => {
       <p>
         You are already logged in with email <strong>{{ activeUserEmail }}</strong>
       </p>
-      <!-- UNCOMMENT AND ADD RIGHT ROUTE WHEN DASHBOARD IS DONE -->
-      <p>Click <router-link :to="{ name: 'home' }">here</router-link> to go to your profile page</p>
+      <p>
+        Click <router-link :to="{ name: 'dashboard-listings' }">here</router-link> to go to your
+        profile page
+      </p>
     </div>
     <div v-else class="form-container">
       <div class="form-header">
