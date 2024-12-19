@@ -54,7 +54,7 @@ const scrollCarousel = (direction) => {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 4rem;
+  margin-top: 2em;
 }
 
 h2 {
@@ -70,7 +70,6 @@ h2 {
   justify-content: center;
   overflow-x: auto;
   scroll-behavior: smooth;
-  gap: 1rem;
   padding: 1rem 0;
   width: 100%;
   scrollbar-width: none;
@@ -78,20 +77,6 @@ h2 {
 
 .carousel::-webkit-scrollbar {
   display: none;
-}
-
-/* Image Container */
-.image-container {
-  position: relative;
-  width: 20rem;
-  height: 20rem;
-}
-
-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
 }
 
 /* Navigation Buttons */
@@ -127,11 +112,11 @@ img {
 .carousel-item {
   flex: 0 0 calc(20% - 1rem); /* 5 items per row on larger screens */
   max-width: 100%;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background-color: var(--color-third, #fff);
+  /* text-align: center; */
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-third, #fff); */
   border-radius: 8px;
-  padding: 1rem;
+  /* padding: 1rem; */
   transition: transform 0.3s;
 }
 

@@ -100,7 +100,7 @@ nav a:hover {
 }
 
 /* Hides navigation links on smaller screens by default */
-@media (max-width: 768px) {
+@media (max-width: 1068px) {
   .nav {
     position: absolute;
     top: 70px;
@@ -128,7 +128,7 @@ nav a:hover {
 }
 
 /* Show navigation links on larger screens */
-@media (min-width: 768px) {
+@media (min-width: 1068px) {
   .btn {
     display: none;
   }

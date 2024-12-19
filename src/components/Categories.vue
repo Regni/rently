@@ -22,7 +22,7 @@ const uniqueCategories = computed(() => {
   <!-- CATEGORIES IN DROPDOWN -->
   <section class="categories-container-dropdown">
     <div class="dropdown">
-      <button class="btn" @click.stop="isDropdownOpen = !isDropdownOpen">Selcet Categories</button>
+      <button class="btn" @click.stop="isDropdownOpen = !isDropdownOpen">Select Categories</button>
       <div v-if="isDropdownOpen" class="dropdown-menu" @click.stop>
         <div v-for="category in uniqueCategories" :key="category" class="dropdown-item">
           <RouterLink :to="{ path: '/items', query: { category: category } }">
@@ -61,6 +61,8 @@ const uniqueCategories = computed(() => {
 }
 
 .category-card {
+  display: flex;
+  align-items: center;
   font-family: var(--font-links);
   height: 75px;
   width: 100%;
@@ -76,6 +78,12 @@ const uniqueCategories = computed(() => {
 }
 .dropdown {
   display: none;
+}
+
+@media (max-width: 950px) {
+  .category-card {
+    height: 95px;
+  }
 }
 
 @media (max-width: 768px) {
