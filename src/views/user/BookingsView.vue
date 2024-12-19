@@ -95,7 +95,11 @@ const historyItems = computed(() => {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 48px 0;
+  padding: 30px 0;
+}
+
+.active-bookings {
+  margin-top: 1em;
 }
 
 .item-container {
@@ -109,32 +113,16 @@ const historyItems = computed(() => {
   opacity: 0.7;
 }
 
+.booking-history:hover {
+  opacity: 0.8;
+}
+
 h2 {
   font-family: var(--font-headings);
   margin: 1em;
   color: var(--color-h2);
   margin-bottom: 2em;
   font-size: 3em;
-}
-
-.item-card {
-  background-color: var(--color-third);
-  border: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: space-between;
-  border-radius: 8px;
-  padding: 1.5rem;
-  width: auto;
-  height: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  gap: 1em;
-}
-
-.item-card:hover {
-  opacity: 0.8;
-  cursor: pointer;
 }
 
 h3 {
